@@ -14,40 +14,40 @@ import org.springframework.web.bind.annotation.RestController;
 public class MaintenanceController {
 
 	//Maintenance Items
-	@GetMapping("/maintenance/items/{vehicleid}")
+	@GetMapping("/api/maintenance/items/{vehicleid}")
 	public ResponseEntity<String> getMaintenanceItemsForVehicle(@PathVariable("vehicleid") String vehicleID) {
 		return new ResponseEntity<String>("This was a GET maintenance items for vehicle API call", HttpStatus.OK);
 	}
 	
 	// :vehicles == {vehicles} ???
-	@GetMapping("/maintenance/items/{vehicleid}/{itemid}")
+	@GetMapping("/api/maintenance/items/{vehicleid}/{itemid}")
 	public ResponseEntity<String> getMaintenanceItemsByItemID(@PathVariable("vehicleid") String vehicleID, @PathVariable("itemid") String itemID) {
 		return new ResponseEntity<String>("This was a GET maintenance items by id API call", HttpStatus.OK);
 	}
 	
-	@PostMapping("/maintenance/items/{vehicleid}")
+	@PostMapping("/api/maintenance/items/{vehicleid}")
 	public ResponseEntity<String> addMaintenanceItem(@PathVariable("vehicleid") String vehicleID) {
 		return new ResponseEntity<String>("This was a POST maintenance items API call", HttpStatus.OK);
 	}
 	
-	@PutMapping("/maintenance/items/{vehicleid}/{itemid}")
+	@PutMapping("/api/maintenance/items/{vehicleid}/{itemid}")
 	public ResponseEntity<String> editMaintenanceItem(@PathVariable("vehicleid") String vehicleID, @PathVariable("itemid") String itemID) {
 		return new ResponseEntity<String>("This was a PUT maintenance items API call", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/maintenance/items/{vehicleid}/{itemid}")
+	@DeleteMapping("/api/maintenance/items/{vehicleid}/{itemid}")
 	public ResponseEntity<String> deleteMaintenanceItem(@PathVariable("vehicleid") String vehicleID, @PathVariable("itemid") String itemID) {
 		return new ResponseEntity<String>("This was a POST maintenance items API call", HttpStatus.OK);
 	}
 	
 	//Maintenance Events
-	@GetMapping("/maintenance/events/{vehicleid}")
+	@GetMapping("/api/maintenance/events/{vehicleid}")
 	public ResponseEntity<String> getMaintenanceEventsForVehicle(@PathVariable("vehicleid") String vehicleID) {
 		return new ResponseEntity<String>("This was a GET maintenance events for vehicle API call", HttpStatus.OK);
 	}
 	
 	// :vehicles == {vehicles} ???
-	@GetMapping("/maintenance/events/{vehicleid}/{eventid}")
+	@GetMapping("/api/maintenance/events/{vehicleid}/{eventid}")
 	public ResponseEntity<String> getMaintenanceEventsForEventID(@PathVariable("vehicleid") String vehicleID, @PathVariable("eventid") String eventID) {
 		return new ResponseEntity<String>("This was a GET maintenance events by id API call", HttpStatus.OK);
 	}
@@ -57,12 +57,12 @@ public class MaintenanceController {
 		return new ResponseEntity<String>("This was a POST maintenance events API call", HttpStatus.OK);
 	}
 	
-	@PutMapping("/maintenance/events/{vehicleid}/{eventid}")
+	@PutMapping("/api/maintenance/events/{vehicleid}/{eventid}")
 	public ResponseEntity<String> editMaintenanceEvent(@PathVariable("vehicleid") String vehicleID, @PathVariable("eventid") String eventID) {
 		return new ResponseEntity<String>("This was a PUT maintenance events API call", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/maintenance/events/{vehicleid}/{eventid}")
+	@DeleteMapping("/api/maintenance/events/{vehicleid}/{eventid}")
 	public ResponseEntity<String> deleteMaintenanceEvent(@PathVariable("vehicleid") String vehicleID, @PathVariable("eventid") String eventID) {
 		return new ResponseEntity<String>("This was a POST maintenance events API call", HttpStatus.OK);
 	}

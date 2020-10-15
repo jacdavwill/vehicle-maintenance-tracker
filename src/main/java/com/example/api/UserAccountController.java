@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserAccountController {
 
-	@PostMapping("/user/register")
+	@PostMapping("/api/user/register")
 	public ResponseEntity<String> register() {
 		return new ResponseEntity<String>("This was a POST register API call", HttpStatus.OK);
 	}
 	
-	@PostMapping("/user/login")
+	@PostMapping("/api/user/login")
 	public ResponseEntity<String> login() {
 		return new ResponseEntity<String>("This was a POST login API call", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/user/login")
+	@DeleteMapping("/api/user/login")
 	public ResponseEntity<String> deleteUser() {
 		return new ResponseEntity<String>("This was a DELETE login API call", HttpStatus.OK);
 	}
 	
-	@PostMapping("/user/reset")
+	@PostMapping("/api/user/reset")
 	public ResponseEntity<String> reset() {
 		return new ResponseEntity<String>("This was a POST reset API call", HttpStatus.OK);
 	}
 	
-	@PutMapping("/user")
+	@PutMapping("/api/user")
 	public ResponseEntity<String> updateUser() {
 		return new ResponseEntity<String>("This was a PUT user API call", HttpStatus.OK);
 	}

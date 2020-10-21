@@ -1,0 +1,2 @@
+jason.cannon@gmail.com|jasonPassword|jasonSalt|Jason Cannon|8011234567
+caleb.lewis@gmail.com|calebPassword|calebSalt|Caleb Lewis|8011234567

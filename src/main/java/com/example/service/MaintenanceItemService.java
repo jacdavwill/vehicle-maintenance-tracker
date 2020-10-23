@@ -2,6 +2,6 @@ package com.example.service;
 
 //TODO: Finish services
 //
-public class MaintenanceItemService {
+public class MaintenanceItemService extends Service {
 
 }

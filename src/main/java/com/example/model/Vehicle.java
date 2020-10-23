@@ -1,6 +1,10 @@
 package com.example.model;
 
+import java.util.UUID;
+
 public class Vehicle {
+  private int userId;
+  private String vehicleId;
   private String nickname;
   private String imageURL;
   private String registrationMonth;
@@ -12,9 +16,11 @@ public class Vehicle {
   private String transmissionType;
   private String energyType;
 
-  public Vehicle(String nickname, String imageURL, String registrationMonth,
+  public Vehicle(int userId, String nickname, String imageURL, String registrationMonth,
                  Integer mileage, String make, String model, Integer year,
                  String color, String transmissionType, String energyType) {
+    this.userId = userId;
+    this.vehicleId = UUID.randomUUID().toString();
     this.nickname=nickname;
     this.imageURL=imageURL;
     this.registrationMonth=registrationMonth;
@@ -25,6 +31,30 @@ public class Vehicle {
     this.color=color;
     this.transmissionType=transmissionType;
     this.energyType=energyType;
+  }
+
+  public Vehicle(String nickname, String imageURL, String registrationMonth,
+                 Integer mileage, String make, String model, Integer year,
+                 String color, String transmissionType, String energyType) {
+    this.vehicleId = UUID.randomUUID().toString();
+    this.nickname=nickname;
+    this.imageURL=imageURL;
+    this.registrationMonth=registrationMonth;
+    this.mileage=mileage;
+    this.make=make;
+    this.model=model;
+    this.year=year;
+    this.color=color;
+    this.transmissionType=transmissionType;
+    this.energyType=energyType;
+  }
+
+  public int getUserId() {
+    return this.userId;
+  }
+
+  public String getVehicleId() {
+    return this.vehicleId;
   }
 
   public String getNickname() {
@@ -65,5 +95,49 @@ public class Vehicle {
 
   public String getEnergyType() {
     return energyType;
+  }
+
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
+
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
+
+  public void setImageURL(String imageURL) {
+    this.imageURL = imageURL;
+  }
+
+  public void setRegistrationMonth(String registrationMonth) {
+    this.registrationMonth = registrationMonth;
+  }
+
+  public void setMileage(Integer mileage) {
+    this.mileage = mileage;
+  }
+
+  public void setMake(String make) {
+    this.make = make;
+  }
+
+  public void setModel(String model) {
+    this.model = model;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
+
+  public void setTransmissionType(String transmissionType) {
+    this.transmissionType = transmissionType;
+  }
+
+  public void setEnergyType(String energyType) {
+    this.energyType = energyType;
   }
 }

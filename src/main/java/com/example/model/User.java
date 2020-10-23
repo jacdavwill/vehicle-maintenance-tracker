@@ -10,4 +10,8 @@ public class User {
   private String salt;
   private String displayName;
   private String phone;
+
+  public int getUserId() {
+    return this.userId;
+  }
 }

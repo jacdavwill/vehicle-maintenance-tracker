@@ -1,5 +1,5 @@
 package com.example.service;
 
 //TODO: Finish services
-public class MaintenanceEventService {
+public class MaintenanceEventService extends Service {
 }

@@ -1,7 +1,7 @@
 package com.example.service;
 
 //TODO: Finish Services
-public class UserAccountService {
+public class UserAccountService extends Service {
 
   /**
    * Registers a user in the database if the username is not taken.
@@ -26,11 +26,11 @@ public class UserAccountService {
   }
 
   /**
-   * Deletes/Invalidates authToken from database to prevent future calls
-   * @param authToken
+   * Deletes/Invalidates sessionKey from database to prevent future calls
+   * @param sessionKey
    * @return Success if token was invalidated, error otherwise
    */
-  public String deleteAuthToken(String authToken) {
+  public String deleteSessionKey(String sessionKey) {
     return "";
   }
 
@@ -44,18 +44,18 @@ public class UserAccountService {
   }
 
   /**
-   * Updates account information in database if user has valid resetToken or AuthToken
-   * if AuthToken then updates all info.
+   * Updates account information in database if user has valid resetToken or SessionKey
+   * if SessionKey then updates all info.
    * if ResetToken then just updates password.
    * @param resetToken
-   * @param authToken
+   * @param sessionKey
    * @param email
    * @param password
    * @param displayName
    * @param phoneNumber
    * @return Success, or error message on failure (doesn't exist or invalid token)
    */
-  public String resetPassword(String resetToken, String authToken, String email,
+  public String resetPassword(String resetToken, String sessionKey, String email,
                               String password, String displayName, String phoneNumber) {
     return "";
   }

@@ -10,7 +10,7 @@ public abstract class Service {
    * @param sessionKey token of current session
    * @return int userId
    */
-  protected int getUserFromSessionKey(String sessionKey) { // What does this return? userId? email?
+  protected String getUserFromSessionKey(String sessionKey) { // What does this return? userId? email?
     IAuthDao authDao; // = new AuthDAO; TODO: instantiate interface
     return authDao.retrieveAuth(sessionKey).getUserId();
   }

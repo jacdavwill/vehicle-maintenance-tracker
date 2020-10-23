@@ -3,7 +3,7 @@ package com.example.model;
 import java.util.UUID;
 
 public class Vehicle {
-  private int userId;
+  private String userId;
   private String vehicleId;
   private String nickname;
   private String imageURL;
@@ -16,7 +16,7 @@ public class Vehicle {
   private String transmissionType;
   private String energyType;
 
-  public Vehicle(int userId, String nickname, String imageURL, String registrationMonth,
+  public Vehicle(String userId, String nickname, String imageURL, String registrationMonth,
                  Integer mileage, String make, String model, Integer year,
                  String color, String transmissionType, String energyType) {
     this.userId = userId;
@@ -49,7 +49,7 @@ public class Vehicle {
     this.energyType=energyType;
   }
 
-  public int getUserId() {
+  public String getUserId() {
     return this.userId;
   }
 
@@ -97,7 +97,7 @@ public class Vehicle {
     return energyType;
   }
 
-  public void setUserId(int userId) {
+  public void setUserId(String userId) {
     this.userId = userId;
   }
 

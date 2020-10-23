@@ -20,7 +20,7 @@ public class VehicleService extends Service {
    */
   public List<Vehicle> getAllVehicles(String sessionKey) throws UnauthorizedException {
     this.checkValidSessionKey(sessionKey);
-    int userId = this.getUserFromSessionKey(sessionKey);
+    String userId = this.getUserFromSessionKey(sessionKey);
     IVehicleDao vehicleDao; // = new VehicleDao(); TODO: instantiate interface
     return vehicleDao.retrieveVehicles(userId);
   }
@@ -33,7 +33,7 @@ public class VehicleService extends Service {
    */
   public Vehicle getVehicle(String sessionKey, String vehicleId) throws UnauthorizedException {
     this.checkValidSessionKey(sessionKey);
-    int userId = this.getUserFromSessionKey(sessionKey);
+    String userId = this.getUserFromSessionKey(sessionKey);
     IVehicleDao vehicleDao; // = new VehicleDao(); TODO: instantiate interface
     Vehicle vehicle = vehicleDao.retrieveVehicle(vehicleId);
     if (userId != vehicle.getUserId()) {
@@ -50,7 +50,7 @@ public class VehicleService extends Service {
    */
   public String addVehicle(String sessionKey, Vehicle newVehicle) throws UnauthorizedException {
     this.checkValidSessionKey(sessionKey);
-    int userId = this.getUserFromSessionKey(sessionKey);
+    String userId = this.getUserFromSessionKey(sessionKey);
     newVehicle.setUserId(userId);
     IVehicleDao vehicleDao; // = new VehicleDao(); TODO: instantiate interface
 
@@ -129,6 +129,17 @@ public class VehicleService extends Service {
    * @return success or error message
    */
   public String deleteVehicle(String sessionKey, String vehicleId) {
-    return "";
+    Vehicle vehicle = getVehicle(sessionKey, vehicleId);
+    if (vehicle == null) {
+      return "error";
+    }
+    IVehicleDao vehicleDao; // = new VehicleDao(); TODO: instantiate interface
+    try {
+      vehicleDao.deleteVehicle(vehicle.getVehicleId());
+      return "success";
+    }
+    catch (Exception e) {
+      return "error";
+    }
   }
 }

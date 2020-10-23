@@ -1,28 +1,71 @@
 package com.example.service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+import com.example.dataAccess.IAuthDao;
+import com.example.dataAccess.IUserDao;
+import com.example.exceptions.UnauthorizedException;
+import com.example.model.Auth;
+import com.example.model.User;
+
 //TODO: Finish Services
 public class UserAccountService extends Service {
 
   /**
    * Registers a user in the database if the username is not taken.
+   * 
    * @param email
    * @param password
    * @param displayName
    * @param phoneNumber
-   * @return Auth Token if successful, Error if failed (username taken)
+   * @return sessionKey if successful, Error if failed (username taken)
    */
-  public String register(String email, String password, String displayName, String phoneNumber) {
-    return "";
+  public String register(String email, String password, String displayName, String phoneNumber) throws Exception {
+    String salt = this.getSalt();
+    password = this.getHashedPassword(salt, password);
+    
+    User user = new User(email, password, salt, displayName, phoneNumber);
+
+    IUserDao userDao; // = new UserDao; TODO: Initialize with implemented dao
+    userDao.createUser(user);
+    return this.login(email, password);
+  }
+
+  private String getSalt() {
+    SecureRandom random = new SecureRandom();
+    byte[] salt = new byte[16];
+    random.nextBytes(salt);
+    return new String(salt, StandardCharsets.UTF_8);
+  }
+
+  private String getHashedPassword(String salt, String password) throws Exception {
+    MessageDigest md = MessageDigest.getInstance("SHA-512");
+    md.update(salt.getBytes(StandardCharsets.UTF_8));
+    byte[] hash = md.digest((password + salt).getBytes(StandardCharsets.UTF_8));
+    return new String(hash, StandardCharsets.UTF_8);
   }
 
   /**
    * Checks that the user exists in the database (and matches)
    * @param email
    * @param password
-   * @return Auth Token if successful, Error if failed (incorrect data)
+   * @return sessionKey if successful, Error if failed (incorrect data)
    */
-  public String login(String email, String password) {
-    return "";
+  public String login(String email, String password) throws Exception {
+    IUserDao userDao; // = new UserDao; TODO: Initialize with implemented dao
+    User user = userDao.retrieveUserFromEmail(email);
+
+    if (user == null || !this.getHashedPassword(user.getSalt(), password).equals(user.getPassword())) {
+      throw new UnauthorizedException("Incorrect username or password");
+    }
+
+    Auth auth = new Auth(user.getUserId());
+    IAuthDao authDao; // = new AuthDao; TODO: Initialize with implemented dao
+    authDao.createAuth(auth);
+    return auth.getSessionKey();
   }
 
   /**
@@ -31,7 +74,9 @@ public class UserAccountService extends Service {
    * @return Success if token was invalidated, error otherwise
    */
   public String deleteSessionKey(String sessionKey) {
-    return "";
+    IAuthDao authDao; // = new AuthDao; TODO: Initialize with implemented dao
+    authDao.deleteAuth(sessionKey);
+    return "success";
   }
 
   /**
@@ -39,7 +84,7 @@ public class UserAccountService extends Service {
    * @param email
    * @return
    */
-  public String requestPasswordReset(String email) {
+  public String requestPasswordReset(String email) { //TODO
     return "";
   }
 
@@ -56,7 +101,40 @@ public class UserAccountService extends Service {
    * @return Success, or error message on failure (doesn't exist or invalid token)
    */
   public String resetPassword(String resetToken, String sessionKey, String email,
-                              String password, String displayName, String phoneNumber) {
-    return "";
+                              String password, String displayName, String phoneNumber) throws UnauthorizedException, Exception {
+                                
+    boolean sessionKeyUsed = false;
+    String userId;
+
+    if (resetToken != null && !resetToken.equals("")) {
+      this.checkValidSessionKey(resetToken);
+      userId = this.getUserFromSessionKey(resetToken);
+    } else {
+      this.checkValidSessionKey(sessionKey);
+      userId = this.getUserFromSessionKey(sessionKey);
+      sessionKeyUsed = true;
+    }
+    
+    IUserDao userDao; // = new AuthDao; TODO: Initialize with implemented dao
+    User user = userDao.retrieveUser(userId);
+
+    String salt = this.getSalt();
+    password = this.getHashedPassword(salt, password);
+    user.updatePassword(salt, password);
+
+    if (sessionKeyUsed) {
+      if (email != null && !email.equals("")) {
+        user.setEmail(email);
+      }
+      if (displayName != null && !displayName.equals("")) {
+        user.setDisplayName(displayName);
+      }
+      if (phoneNumber != null && !phoneNumber.equals("")) {
+        user.setPhone(phoneNumber);
+      }
+    }
+
+    userDao.updateUser(user);
+    return "success";
   }
 }

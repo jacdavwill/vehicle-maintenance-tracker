@@ -1,10 +1,17 @@
 package com.example.service;
 
 import com.example.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 //TODO: Implement facade to call and manage services
+@Service
 public class ServiceFacade {
+
+  @Autowired
+  VehicleService vehicleService;
 
   //---------------------------------------------------------------------------
   // User Services
@@ -34,8 +41,8 @@ public class ServiceFacade {
     return null;
   }
 
-  public static Vehicle getVehicle(String sessionKey, String vehicleID) {
-    return null;
+  public Vehicle getVehicle(String sessionKey, String vehicleID) {
+    return this.vehicleService.getVehicle(null, vehicleID);
   }
 
   public static String addVehicle(String sessionKey, Vehicle newVehicle) {

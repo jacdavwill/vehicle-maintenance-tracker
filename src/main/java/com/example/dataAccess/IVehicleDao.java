@@ -7,7 +7,7 @@ import java.util.List;
 public interface IVehicleDao {
   Vehicle retrieveVehicle(int vehicleId);
   void createVehicle(Vehicle newVehicle);
-  void deleteVehicle(int vehicleId);
+  void deleteVehicle(String vehicleId);
   void updateVehicle(Vehicle updatedVehicle);
 
   List<Vehicle> retrieveVehicles(int userId);

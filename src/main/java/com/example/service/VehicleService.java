@@ -1,8 +1,15 @@
 package com.example.service;
+import com.example.dataAccess.VehicleDao;
 import com.example.model.Vehicle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 // TODO: Finish services
+@Service
 public class VehicleService {
+
+  @Autowired
+  VehicleDao vehicleDao;
 
   /**
    * Helper function to search the database for user_id based on authToken
@@ -29,8 +36,8 @@ public class VehicleService {
    * @param vehicleID ID of vehicle to search database for
    * @return vehicle with matching ID, or error if invalid token or not found
    */
-  public String getVehicle(String authToken, String vehicleID) {
-    return "";
+  public Vehicle getVehicle(String authToken, String vehicleID) {
+    return vehicleDao.retrieveVehicle(Integer.parseInt(vehicleID));
   }
 
   /**

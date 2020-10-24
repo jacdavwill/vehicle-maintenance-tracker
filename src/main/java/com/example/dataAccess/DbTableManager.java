@@ -67,10 +67,18 @@ public class DbTableManager {
 
   public static void main(String[] args){
     try {
-      createTables();
+      createDB();
     } catch (SQLException e){
       System.err.println("It's not working:(");
     }
+  }
+
+  static void createDB() throws SQLException {
+    Connection conn = DbConnection.connect("postgres");
+    Statement stmt = conn.createStatement();
+    stmt.executeUpdate(create_database);
+    stmt.close();
+    conn.close();
   }
 
   static void refreshDB() throws SQLException {

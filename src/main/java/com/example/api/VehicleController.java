@@ -2,12 +2,16 @@ package com.example.api;
 
 import com.example.model.Vehicle;
 import com.example.service.ServiceFacade;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class VehicleController {
+
+	@Autowired
+	ServiceFacade facade;
 
 	@GetMapping("/api/vehicles")
 	public ResponseEntity<String> getListOfVehicles(@RequestHeader String sessionKey) {
@@ -17,10 +21,10 @@ public class VehicleController {
 	}
 
 	@GetMapping("/api/vehicles/{vehicleid}")
-	public ResponseEntity<String> getVehicleByID(@RequestHeader String sessionKey, @PathVariable("vehicleid") String vehicleID) {
-		ServiceFacade.getVehicle(sessionKey, vehicleID);
+	public Vehicle getVehicleByID(@RequestHeader String sessionKey, @PathVariable("vehicleid") String vehicleID) {
+		return facade.getVehicle(sessionKey, vehicleID);
 
-		return new ResponseEntity<String>("This was a GET vehicleID API call", HttpStatus.OK);
+//		return new ResponseEntity<String>("This was a GET vehicleID API call", HttpStatus.OK);
 	}
 	
 	@PostMapping("/api/vehicles")

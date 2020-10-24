@@ -27,6 +27,8 @@ public class Vehicle {
     this.energyType=energyType;
   }
 
+  public Vehicle() {}
+
   public String getNickname() {
     return nickname;
   }
@@ -65,5 +67,45 @@ public class Vehicle {
 
   public String getEnergyType() {
     return energyType;
+  }
+
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
+
+  public void setImageURL(String imageURL) {
+    this.imageURL = imageURL;
+  }
+
+  public void setRegistrationMonth(String registrationMonth) {
+    this.registrationMonth = registrationMonth;
+  }
+
+  public void setMileage(Integer mileage) {
+    this.mileage = mileage;
+  }
+
+  public void setMake(String make) {
+    this.make = make;
+  }
+
+  public void setModel(String model) {
+    this.model = model;
+  }
+
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
+
+  public void setTransmissionType(String transmissionType) {
+    this.transmissionType = transmissionType;
+  }
+
+  public void setEnergyType(String energyType) {
+    this.energyType = energyType;
   }
 }

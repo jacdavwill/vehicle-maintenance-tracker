@@ -2,7 +2,6 @@ package com.example.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import com.example.dataAccess.IAuthDao;
@@ -100,7 +99,7 @@ public class UserAccountService extends Service {
    * @param phoneNumber
    * @return Success, or error message on failure (doesn't exist or invalid token)
    */
-  public String resetPassword(String resetToken, String sessionKey, String email,
+  public String updateUser(String resetToken, String sessionKey, String email,
                               String password, String displayName, String phoneNumber) throws UnauthorizedException, Exception {
                                 
     boolean sessionKeyUsed = false;

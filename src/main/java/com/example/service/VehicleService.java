@@ -69,7 +69,7 @@ public class VehicleService extends Service {
    * @param updatedVehicle vehicle object of updated vehicle
    * @return success or error message
    */
-  public String editVehicle(String sessionKey, String vehicleId, Vehicle updatedVehicle) throws UnauthorizedException {
+  public String updateVehicle(String sessionKey, String vehicleId, Vehicle updatedVehicle) throws UnauthorizedException {
     Vehicle oldVehicle = getVehicle(sessionKey, vehicleId);
 
     String nickname = updatedVehicle.getNickname();
@@ -128,7 +128,7 @@ public class VehicleService extends Service {
    * @param vehicleId ID of vehicle to search database for
    * @return success or error message
    */
-  public String deleteVehicle(String sessionKey, String vehicleId) {
+  public String deleteVehicle(String sessionKey, String vehicleId) throws UnauthorizedException {
     Vehicle vehicle = getVehicle(sessionKey, vehicleId);
     if (vehicle == null) {
       return "error";

@@ -34,6 +34,18 @@ public class User {
     return this.salt;
   }
 
+  public String getEmail() {
+    return this.email;
+  }
+
+  public String getDisplayName() {
+    return this.displayName;
+  }
+
+  public String getPhoneNumber() {
+    return this.phone;
+  }
+
   public void setEmail(String email) {
     this.email = email;
   }

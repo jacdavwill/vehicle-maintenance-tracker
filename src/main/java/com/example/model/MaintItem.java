@@ -1,9 +1,12 @@
 package com.example.model;
 
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class MaintItem {
   private int maintItemId;
   private int vehicleId;

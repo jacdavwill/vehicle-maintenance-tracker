@@ -1,6 +1,9 @@
 package com.example.model;
 
+
 public class Vehicle {
+  private Integer vehicleID;
+  private String userID;
   private String nickname;
   private String imageURL;
   private String registrationMonth;
@@ -12,9 +15,11 @@ public class Vehicle {
   private String transmissionType;
   private String energyType;
 
-  public Vehicle(String nickname, String imageURL, String registrationMonth,
+  public Vehicle(Integer vehicleID, String userID, String nickname, String imageURL, String registrationMonth,
                  Integer mileage, String make, String model, Integer year,
                  String color, String transmissionType, String energyType) {
+    this.vehicleID = vehicleID;
+    this.userID = userID;
     this.nickname=nickname;
     this.imageURL=imageURL;
     this.registrationMonth=registrationMonth;
@@ -25,6 +30,14 @@ public class Vehicle {
     this.color=color;
     this.transmissionType=transmissionType;
     this.energyType=energyType;
+  }
+
+  public Integer getVehicleID() {
+    return vehicleID;
+  }
+
+  public String getUserID() {
+    return userID;
   }
 
   public String getNickname() {

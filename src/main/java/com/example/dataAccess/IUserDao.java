@@ -3,8 +3,8 @@ package com.example.dataAccess;
 import com.example.model.User;
 
 public interface IUserDao {
-  User retrieveUser(int userId);
-  void createUser(User newUser);
-  void deleteUser(int userId);
+  User retrieveUser(Integer userId);
+  Integer createUser(User user);
+  void deleteUser(Integer userId);
   void updateUser(User updatedUser);
 }

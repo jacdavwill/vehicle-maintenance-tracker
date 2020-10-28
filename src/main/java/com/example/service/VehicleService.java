@@ -1,8 +1,17 @@
 package com.example.service;
+import com.example.dataAccess.VehicleDao;
 import com.example.model.Vehicle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 // TODO: Finish services
+@Service
 public class VehicleService {
+
+  @Autowired
+  VehicleDao vehicleDao;
 
   /**
    * Helper function to search the database for user_id based on authToken
@@ -19,8 +28,8 @@ public class VehicleService {
    * @param authToken token of current session
    * @return list of vehicles or error if auth token not accepted
    */
-  public String getAllVehicles(String authToken) {
-    return "";
+  public List<Vehicle> getAllVehicles(String authToken) {
+    return vehicleDao.retrieveVehicles(12);
   }
 
   /**
@@ -29,8 +38,8 @@ public class VehicleService {
    * @param vehicleID ID of vehicle to search database for
    * @return vehicle with matching ID, or error if invalid token or not found
    */
-  public String getVehicle(String authToken, String vehicleID) {
-    return "";
+  public Vehicle getVehicle(String authToken, Integer vehicleID) {
+    return vehicleDao.retrieveVehicle(vehicleID);
   }
 
   /**
@@ -39,28 +48,27 @@ public class VehicleService {
    * @param newVehicle vehicle object of new vehicle
    * @return String vehicleID on success, error if invalid
    */
-  public String addVehicle(String authToken, Vehicle newVehicle) {
-    return "";
+  public Integer addVehicle(String authToken, Vehicle newVehicle) {
+    return vehicleDao.createVehicle(newVehicle);
+
   }
 
   /**
    * Updates entry in database with corresponding vehicleID to updatedVehicle
    * @param authToken token of current session
-   * @param vehicleID ID of vehicle to search database for
    * @param updatedVehicle vehicle object of updated vehicle
    * @return success or error message
    */
-  public String editVehicle(String authToken, String vehicleID, Vehicle updatedVehicle) {
-    return "";
+  public void editVehicle(String authToken, Vehicle updatedVehicle) {
+    vehicleDao.updateVehicle(updatedVehicle);
   }
 
   /**
    * Deletes entry in database with corresponding vehicleID
    * @param authToken token of current session
-   * @param vehicleID ID of vehicle to search database for
-   * @return success or error message
+   * @param vehicleId ID of vehicle to search database for
    */
-  public String deleteVehicle(String authToken, String vehicleID) {
-    return "";
+  public void deleteVehicle(String authToken, Integer vehicleId) {
+    vehicleDao.deleteVehicle(vehicleId);
   }
 }

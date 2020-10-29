@@ -82,8 +82,8 @@ public class DbTableManager {
     Connection conn = DbConnection.connect();
     Statement stmt = conn.createStatement();
     stmt.executeUpdate(drop_tables);
-    conn.close();
     stmt.close();
+    conn.close();
     System.out.println("Dropped tables!!");
   }
 

@@ -2,12 +2,17 @@ package com.example.service;
 
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 //TODO: Implement facade to call and manage services
+@Service
 public class ServiceFacade {
 
-  private ServiceFacade() {}
+  @Autowired
+  VehicleService vehicleService;
 
   //---------------------------------------------------------------------------
   // User Services
@@ -35,24 +40,25 @@ public class ServiceFacade {
 
   //---------------------------------------------------------------------------
   // Vehicle Service
-  public static List<Vehicle> getAllVehicles(String sessionKey) throws UnauthorizedException {
-    return new VehicleService().getAllVehicles(sessionKey);
+  public List<Vehicle> getAllVehicles(String sessionKey) {
+
+    return this.vehicleService.getAllVehicles(null);
   }
 
-  public static Vehicle getVehicle(String sessionKey, String vehicleId) throws UnauthorizedException {
-    return new VehicleService().getVehicle(sessionKey, vehicleId);
+  public Vehicle getVehicle(String sessionKey, Integer vehicleId) {
+    return this.vehicleService.getVehicle(null, vehicleId);
   }
 
-  public static String addVehicle(String sessionKey, Vehicle newVehicle) throws UnauthorizedException {
-    return new VehicleService().addVehicle(sessionKey, newVehicle);
+  public Integer addVehicle(String sessionKey, Vehicle vehicle) {
+    return this.vehicleService.addVehicle(null, vehicle);
   }
 
-  public static String updateVehicle(String sessionKey, String vehicleId, Vehicle updatedVehicle) throws UnauthorizedException {
-    return new VehicleService().updateVehicle(sessionKey, vehicleId, updatedVehicle);
+  public void updateVehicle(String sessionKey, Vehicle vehicle) {
+    this.vehicleService.editVehicle(null, vehicle);
   }
 
-  public static String deleteVehicle(String sessionKey, String vehicleId) throws UnauthorizedException {
-    return new VehicleService().deleteVehicle(sessionKey, vehicleId);
+  public void deleteVehicle(String sessionKey, Integer vehicleId) {
+    this.vehicleService.deleteVehicle(null, vehicleId);
   }
 
   //---------------------------------------------------------------------------

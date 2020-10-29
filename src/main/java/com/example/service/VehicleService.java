@@ -1,14 +1,26 @@
 package com.example.service;
-
-import com.example.model.*;
+import com.example.dataAccess.VehicleDao;
+import com.example.model.Vehicle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import com.example.dataAccess.*;
-import com.example.exceptions.UnauthorizedException;
-
 // TODO: Finish services
-public class VehicleService extends Service {
+@Service
+public class VehicleService {
+
+  @Autowired
+  VehicleDao vehicleDao;
+
+  /**
+   * Helper function to search the database for user_id based on authToken
+   * @param authToken token of current session
+   * @return String user_id
+   */
+  private String getUserFromAuthToken(String authToken) {
+    return "";
+  }
 
   /**
    * Searches the database to associate the sessionKey with user_id Searches the

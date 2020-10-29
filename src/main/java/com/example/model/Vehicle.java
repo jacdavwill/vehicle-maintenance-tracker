@@ -1,12 +1,15 @@
 package com.example.model;
 
-import java.util.UUID;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode
 public class Vehicle {
-  private String userId;
-  private String vehicleId;
+  private Integer vehicleId;
+  private Integer userId;
   private String nickname;
-  private String imageURL;
+  private String imageUrl;
   private String registrationMonth;
   private Integer mileage;
   private String make;
@@ -16,29 +19,12 @@ public class Vehicle {
   private String transmissionType;
   private String energyType;
 
-  public Vehicle(String userId, String nickname, String imageURL, String registrationMonth,
+  public Vehicle(Integer userId, String nickname, String imageUrl, String registrationMonth,
                  Integer mileage, String make, String model, Integer year,
                  String color, String transmissionType, String energyType) {
     this.userId = userId;
-    this.vehicleId = UUID.randomUUID().toString();
     this.nickname=nickname;
-    this.imageURL=imageURL;
-    this.registrationMonth=registrationMonth;
-    this.mileage=mileage;
-    this.make=make;
-    this.model=model;
-    this.year=year;
-    this.color=color;
-    this.transmissionType=transmissionType;
-    this.energyType=energyType;
-  }
-
-  public Vehicle(String nickname, String imageURL, String registrationMonth,
-                 Integer mileage, String make, String model, Integer year,
-                 String color, String transmissionType, String energyType) {
-    this.vehicleId = UUID.randomUUID().toString();
-    this.nickname=nickname;
-    this.imageURL=imageURL;
+    this.imageUrl = imageUrl;
     this.registrationMonth=registrationMonth;
     this.mileage=mileage;
     this.make=make;
@@ -56,13 +42,14 @@ public class Vehicle {
   public String getVehicleId() {
     return this.vehicleId;
   }
+  public Vehicle() {}
 
   public String getNickname() {
     return nickname;
   }
 
-  public String getImageURL() {
-    return imageURL;
+  public String getImageUrl() {
+    return imageUrl;
   }
 
   public String getRegistrationMonth() {
@@ -105,8 +92,8 @@ public class Vehicle {
     this.nickname = nickname;
   }
 
-  public void setImageURL(String imageURL) {
-    this.imageURL = imageURL;
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 
   public void setRegistrationMonth(String registrationMonth) {

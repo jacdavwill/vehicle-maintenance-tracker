@@ -4,9 +4,9 @@ import com.example.model.Vehicle;
 import java.util.List;
 
 public interface IVehicleDao {
-  Vehicle retrieveVehicle(String vehicleId);
-  void createVehicle(Vehicle newVehicle);
-  void deleteVehicle(String vehicleId);
+  Vehicle retrieveVehicle(int vehicleId);
+  Integer createVehicle(Vehicle newVehicle);
+  void deleteVehicle(int vehicleId);
   void updateVehicle(Vehicle updatedVehicle);
 
   List<Vehicle> retrieveVehicles(int userId);

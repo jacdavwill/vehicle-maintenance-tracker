@@ -14,27 +14,38 @@ public class ServiceFacade {
   @Autowired
   VehicleService vehicleService;
 
+  UserAccountService userService;
+  MaintenanceItemService maintItemService;
+  MaintenanceEventService maintEventService;
+  NotificationService notificationService;
+
+  public ServiceFacade() {
+    userService = new UserAccountService();
+    maintItemService = new MaintenanceItemService();
+    maintEventService = new MaintenanceEventService();
+    notificationService = new NotificationService();
+  }
+
   //---------------------------------------------------------------------------
   // User Services
   public static String register(User user) throws Exception {
-    return new UserAccountService()
-      .register(user.getEmail(), user.getPassword(), user.getDisplayName(), user.getPhoneNumber());
+    return userService.register(user.getEmail(), user.getPassword(), user.getDisplayName(), user.getPhoneNumber());
   }
 
   public static String login(User user) throws Exception {
-    return new UserAccountService().login(user.getEmail(), user.getPassword());
+    return userService.login(user.getEmail(), user.getPassword());
   }
 
   public static void invalidateAuthToken(String sessionKey) {
-    new UserAccountService().deleteSessionKey(sessionKey);
+    userService.deleteSessionKey(sessionKey);
   }
 
   public static String requestReset(String email) {
-    return new UserAccountService().requestPasswordReset(email);
+    return userService.requestPasswordReset(email);
   }
 
   public static String updateUser(String token, User user) { // TODO: split token into resetToken and sessionKey
-    return new UserAccountService().updateUser(resetToken, sessionKey, user.getEmail(), 
+    return userService.updateUser(resetToken, sessionKey, user.getEmail(), 
       user.getPassword(), user.getDisplayName(), user.getPhoneNumber());
   }
 
@@ -64,59 +75,59 @@ public class ServiceFacade {
   //---------------------------------------------------------------------------
   // Item Services
   public static List<MaintItem> getAllItems(String sessionKey, String vehicleID) {
-    return new MaintenanceItemService().getAllItems(sessionKey, vehicleID);
+    return maintItemService.getAllItems(sessionKey, vehicleID);
   }
 
   public static MaintItem getItem(String sessionKey, String vehicleID, String itemID) {
-    return new MaintenanceItemService().getItem(sessionKey, vehicleID, itemID);
+    return maintItemService.getItem(sessionKey, vehicleID, itemID);
   }
 
   public static String addItem(String sessionKey, String vehicleID, MaintItem newItem) {
-    return new MaintenanceItemService().addItem(sessionKey, vehicleID, newItem);
+    return maintItemService.addItem(sessionKey, vehicleID, newItem);
   }
 
   public static String updateItem(String sessionKey, String vehicleID, String itemID, MaintItem newItem) {
-    return new MaintenanceItemService().updateItem(sessionKey, vehicleID, itemID, newItem);
+    return maintItemService.updateItem(sessionKey, vehicleID, itemID, newItem);
   }
 
   public static String deleteItem(String sessionKey, String vehicleID, String itemID) {
-    return new MaintenanceItemService().deleteItem(sessionKey, vehicleID, itemID);
+    return maintItemService.deleteItem(sessionKey, vehicleID, itemID);
   }
 
   //---------------------------------------------------------------------------
   // Event services
   public static List<MaintEvent> getAllEvents(String sessionKey, String vehicleID) {
-    return new MaintenanceEventService().getAllEvents(sessionKey, vehicleID);
+    return maintEventService.getAllEvents(sessionKey, vehicleID);
   }
 
   public static MaintEvent getEvent(String sessionKey, String vehicleID, String eventID) {
-    return new MaintenanceEventService().getEvent(sessionKey, vehicleID, eventID);
+    return maintEventService.getEvent(sessionKey, vehicleID, eventID);
   }
 
   public static String addEvent(String sessionKey, String vehicleID, MaintEvent newEvent) {
-    return new MaintenanceEventService().addEvent(sessionKey, vehicleID, newEvent);
+    return maintEventService.addEvent(sessionKey, vehicleID, newEvent);
   }
 
   public static String updateEvent(String sessionKey, String vehicleID, String eventID, MaintEvent newEvent) {
-    return new MaintenanceEventService().updateEvent(sessionKey, vehicleID, eventID, newEvent);
+    return maintEventService.updateEvent(sessionKey, vehicleID, eventID, newEvent);
   }
 
   public static String deleteEvent(String sessionKey, String vehicleID, String eventID) {
-    return new MaintenanceEventService().deleteEvent(sessionKey, vehicleID, eventID);
+    return maintEventService.deleteEvent(sessionKey, vehicleID, eventID);
   }
 
   //---------------------------------------------------------------------------
   // Notification services
   public static List<Notification> getAllNotifications(String sessionKey, String vehicleID) {
-    return new NotificationService().getAllNotifications(sessionKey, vehicleID);
+    return notificationService.getAllNotifications(sessionKey, vehicleID);
   }
 
   public static Notification getNotification(String sessionKey, String vehicleID, String notificationID) {
-    return new NotificationService().getNotification(sessionKey, vehicleID, notificationID);
+    return notificationService.getNotification(sessionKey, vehicleID, notificationID);
   }
 
   public static String deleteNotification(String sessionKey, String vehicleID, String notificationID) {
-    return new NotificationService().deleteNotification(sessionKey, vehicleID, notificationID);
+    return notificationService.deleteNotification(sessionKey, vehicleID, notificationID);
   }
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.example.dataAccess.IMaintItemDao;
 import com.example.dataAccess.IVehicleDao;
+import com.example.dataAccess.VehicleDao;
 import com.example.exceptions.NotFoundException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.*;
@@ -30,10 +31,10 @@ public class MaintenanceItemService extends com.example.service.Service {
         throws NotFoundException, UnauthorizedException {
 
         this.checkValidSessionKey(sessionKey);
-        String userId = this.getUserFromSessionKey(sessionKey);
+        Integer userId = this.getUserFromSessionKey(sessionKey);
 
-        IVehicleDao vehicleDao; // = new VehicleDao(); TODO: instantiate interface
-        Vehicle vehicle = vehicleDao.retrieveVehicle(vehicleId);
+        IVehicleDao vehicleDao = new VehicleDao();
+        Vehicle vehicle = vehicleDao.retrieveVehicle(Integer.parseInt(vehicleId));
         if (vehicle == null) {
             throw new NotFoundException("Vehicle not found");
         }
@@ -46,7 +47,7 @@ public class MaintenanceItemService extends com.example.service.Service {
         throws NotFoundException, UnauthorizedException {
         
         this.checkAuthorization(sessionKey, vehicleId);
-        IMaintItemDao maintItemDao; // = new MaintItemDao(); TODO: instantiate interface
+        IMaintItemDao maintItemDao; // = new MaintItemDao(); // TODO: instantiate interface
         return maintItemDao.retrieveMaintItems(vehicleId);
     }
     

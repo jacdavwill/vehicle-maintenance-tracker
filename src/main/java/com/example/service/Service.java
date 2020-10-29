@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.dataAccess.IAuthDao;
+import com.example.dataAccess.*;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
 
@@ -10,13 +10,13 @@ public abstract class Service {
    * @param sessionKey token of current session
    * @return int userId
    */
-  protected String getUserFromSessionKey(String sessionKey) { // What does this return? userId? email?
-    IAuthDao authDao; // = new AuthDAO; TODO: instantiate interface
+  protected Integer getUserFromSessionKey(String sessionKey) { // What does this return? userId? email?
+    IAuthDao authDao = new AuthDao();
     return authDao.retrieveAuth(sessionKey).getUserId();
   }
 
   protected void checkValidSessionKey(String sessionKey) throws UnauthorizedException {
-    IAuthDao authDao; // = new AuthDAO; TODO
+    IAuthDao authDao = new AuthDao();
     Auth auth = authDao.retrieveAuth(sessionKey);
     if (auth != null) { // TODO: update this to do time checking and expiry of sessionKeys
       throw new UnauthorizedException("Invalid sessionKey");

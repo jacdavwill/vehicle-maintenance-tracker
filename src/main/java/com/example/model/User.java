@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class User {
-  private String userId;
+  private Integer userId;
   private String email;
   private String password;
   private String salt;
@@ -14,7 +14,6 @@ public class User {
   private String phone;
 
   public User(String email, String password, String salt, String displayName, String phone) {
-    this.userId = UUID.randomUUID().toString();
     this.email = email;
     this.password = password;
     this.salt = salt;
@@ -22,7 +21,16 @@ public class User {
     this.phone = phone;
   }
 
-  public String getUserId() {
+  public User(Integer userId, String email, String password, String salt, String displayName, String phone) {
+    this.userId = userId;
+    this.email = email;
+    this.password = password;
+    this.salt = salt;
+    this.displayName = displayName;
+    this.phone = phone;
+  }
+
+  public Integer getUserId() {
     return this.userId;
   }
 

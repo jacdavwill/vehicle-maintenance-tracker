@@ -8,29 +8,29 @@ import lombok.Data;
 @Data
 public class Auth {
   
-  private String userId;
+  private Integer userId;
   private String sessionKey;
   private Date createTime;
 
-  Auth(String userId, String sessionKey, Date createTime) {
+  Auth(Integer userId, String sessionKey, Date createTime) {
     this.userId = userId;
     this.sessionKey = sessionKey;
     this.createTime = createTime;
   }
 
-  Auth(String userId, String sessionKey) {
+  Auth(Integer userId, String sessionKey) {
     this.userId = userId;
     this.sessionKey = sessionKey;
     this.createTime = new Date(System.currentTimeMillis());
   }
 
-  public Auth(String userId) {
+  public Auth(Integer userId) {
     this.userId = userId;
     this.sessionKey = UUID.randomUUID().toString();
     this.createTime = new Date(System.currentTimeMillis());
   }
 
-  public String getUserId() {
+  public Integer getUserId() {
     return this.userId;
   }
 

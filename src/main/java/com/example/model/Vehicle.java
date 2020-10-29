@@ -35,11 +35,11 @@ public class Vehicle {
     this.energyType=energyType;
   }
 
-  public String getUserId() {
+  public Integer getUserId() {
     return this.userId;
   }
 
-  public String getVehicleId() {
+  public Integer getVehicleId() {
     return this.vehicleId;
   }
   public Vehicle() {}
@@ -84,7 +84,7 @@ public class Vehicle {
     return energyType;
   }
 
-  public void setUserId(String userId) {
+  public void setUserId(Integer userId) {
     this.userId = userId;
   }
 

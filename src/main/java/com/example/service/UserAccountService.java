@@ -2,10 +2,14 @@ package com.example.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import com.example.dataAccess.AuthDao;
 import com.example.dataAccess.IAuthDao;
 import com.example.dataAccess.IUserDao;
+import com.example.dataAccess.UserDao;
+import com.example.exceptions.InternalServiceException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
 import com.example.model.User;
@@ -25,10 +29,10 @@ public class UserAccountService extends Service {
   public String register(String email, String password, String displayName, String phoneNumber) throws Exception {
     String salt = this.getSalt();
     password = this.getHashedPassword(salt, password);
-    
+
     User user = new User(email, password, salt, displayName, phoneNumber);
 
-    IUserDao userDao; // = new UserDao; TODO: Initialize with implemented dao
+    IUserDao userDao = new UserDao();
     userDao.createUser(user);
     return this.login(email, password);
   }
@@ -40,8 +44,13 @@ public class UserAccountService extends Service {
     return new String(salt, StandardCharsets.UTF_8);
   }
 
-  private String getHashedPassword(String salt, String password) throws Exception {
-    MessageDigest md = MessageDigest.getInstance("SHA-512");
+  private String getHashedPassword(String salt, String password) throws InternalServiceException {
+    MessageDigest md;
+    try {
+      md = MessageDigest.getInstance("SHA-512");
+    } catch (NoSuchAlgorithmException e) {
+      throw new InternalServiceException();
+    }
     md.update(salt.getBytes(StandardCharsets.UTF_8));
     byte[] hash = md.digest((password + salt).getBytes(StandardCharsets.UTF_8));
     return new String(hash, StandardCharsets.UTF_8);
@@ -54,7 +63,7 @@ public class UserAccountService extends Service {
    * @return sessionKey if successful, Error if failed (incorrect data)
    */
   public String login(String email, String password) throws Exception {
-    IUserDao userDao; // = new UserDao; TODO: Initialize with implemented dao
+    IUserDao userDao = new UserDao();
     User user = userDao.retrieveUserFromEmail(email);
 
     if (user == null || !this.getHashedPassword(user.getSalt(), password).equals(user.getPassword())) {
@@ -62,7 +71,7 @@ public class UserAccountService extends Service {
     }
 
     Auth auth = new Auth(user.getUserId());
-    IAuthDao authDao; // = new AuthDao; TODO: Initialize with implemented dao
+    IAuthDao authDao = new AuthDao();
     authDao.createAuth(auth);
     return auth.getSessionKey();
   }
@@ -73,7 +82,7 @@ public class UserAccountService extends Service {
    * @return Success if token was invalidated, error otherwise
    */
   public String deleteSessionKey(String sessionKey) {
-    IAuthDao authDao; // = new AuthDao; TODO: Initialize with implemented dao
+    IAuthDao authDao = new AuthDao();
     authDao.deleteAuth(sessionKey);
     return "success";
   }
@@ -100,10 +109,11 @@ public class UserAccountService extends Service {
    * @return Success, or error message on failure (doesn't exist or invalid token)
    */
   public String updateUser(String resetToken, String sessionKey, String email,
-                              String password, String displayName, String phoneNumber) throws UnauthorizedException, Exception {
+                              String password, String displayName, String phoneNumber)
+                                throws UnauthorizedException, InternalServiceException {
                                 
     boolean sessionKeyUsed = false;
-    String userId;
+    Integer userId;
 
     if (resetToken != null && !resetToken.equals("")) {
       this.checkValidSessionKey(resetToken);
@@ -114,7 +124,7 @@ public class UserAccountService extends Service {
       sessionKeyUsed = true;
     }
     
-    IUserDao userDao; // = new AuthDao; TODO: Initialize with implemented dao
+    IUserDao userDao = new UserDao();
     User user = userDao.retrieveUser(userId);
 
     String salt = this.getSalt();

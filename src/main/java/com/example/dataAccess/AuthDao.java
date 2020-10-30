@@ -26,12 +26,18 @@ public class AuthDao implements IAuthDao {
     }
 
     @Override
+    public Auth retrieveAuth(String sessionKey) {
+        String GET_AUTH = "SELECT * FROM auth WHERE session_key = ?";
+        return jdbc.queryForObject(GET_AUTH, new Object[]{sessionKey}, new BeanPropertyRowMapper<>(Auth.class));
+    }
+
+    @Override
     public String createAuth(Auth auth) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String INSERT_AUTH = "INSERT INTO auth VALUES (:userId, :sessionKey, :createTime)";
+        String INSERT_AUTH = "INSERT INTO auth VALUES (:userId, :authToken, :createTime)";
         parameterJdbc.update(INSERT_AUTH, new BeanPropertySqlParameterSource(auth), keyHolder);
-        if (keyHolder.getKeys() != null && keyHolder.getKeys().containsKey("session_key")) {
-            return (String) keyHolder.getKeys().get("session_key");
+        if (keyHolder.getKeys() != null && keyHolder.getKeys().containsKey("auth_token")) {
+            return (String) keyHolder.getKeys().get("auth_token");
         }
         return null;
 //        throw new Exception("Error creating vehicle");
@@ -44,8 +50,14 @@ public class AuthDao implements IAuthDao {
     }
 
     @Override
+    public void deleteAuth(String sessionKey) {
+        String DELETE_AUTH = "DELETE FROM auth WHERE session_key = ?";
+        jdbc.update(DELETE_AUTH, sessionKey);
+    }
+
+    @Override
     public void updateAuth(Auth updatedAuth) {
-        String UPDATE_AUTH = "UPDATE auth SET session_key = :sessionKey, created_time = :createdTime" +
+        String UPDATE_AUTH = "UPDATE auth SET auth_token = :authToken, created_time = :createdTime" +
                 "WHERE user_id = :userId";
         parameterJdbc.update(UPDATE_AUTH, new BeanPropertySqlParameterSource(updatedAuth));
     }

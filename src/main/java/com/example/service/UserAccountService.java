@@ -64,7 +64,7 @@ public class UserAccountService extends Service {
    */
   public String login(String email, String password) throws Exception {
     IUserDao userDao = new UserDao();
-    User user = userDao.retrieveUserFromEmail(email);
+    User user = userDao.retrieveUser(email);
 
     if (user == null || !this.getHashedPassword(user.getSalt(), password).equals(user.getPassword())) {
       throw new UnauthorizedException("Incorrect username or password");

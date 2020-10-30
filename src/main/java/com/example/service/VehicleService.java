@@ -123,7 +123,7 @@ public class VehicleService extends com.example.service.Service {
       oldVehicle.setColor(color);
     }
     String transmissionType = updatedVehicle.getTransmissionType();
-    if (this.isFieldSet(transmissionType) {
+    if (this.isFieldSet(transmissionType)) {
       oldVehicle.setTransmissionType(transmissionType);
     }
     String energyType = updatedVehicle.getEnergyType();

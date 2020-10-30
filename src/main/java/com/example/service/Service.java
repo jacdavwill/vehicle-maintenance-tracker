@@ -10,7 +10,7 @@ public abstract class Service {
    * @param sessionKey token of current session
    * @return int userId
    */
-  protected Integer getUserFromSessionKey(String sessionKey) { // What does this return? userId? email?
+  protected Integer getUserFromSessionKey(String sessionKey) {
     IAuthDao authDao = new AuthDao();
     return authDao.retrieveAuth(sessionKey).getUserId();
   }
@@ -18,8 +18,13 @@ public abstract class Service {
   protected void checkValidSessionKey(String sessionKey) throws UnauthorizedException {
     IAuthDao authDao = new AuthDao();
     Auth auth = authDao.retrieveAuth(sessionKey);
-    if (auth != null) { // TODO: update this to do time checking and expiry of sessionKeys
+    if (auth != null && !isExpired(auth)) {
       throw new UnauthorizedException("Invalid sessionKey");
     }
+  }
+
+  private boolean isExpired(Auth auth) {
+    // TODO: update this to do time checking and expiry of sessionKeys
+    return false;
   }
 }

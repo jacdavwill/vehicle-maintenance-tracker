@@ -26,6 +26,12 @@ public class UserDao implements IUserDao {
     }
 
     @Override
+    public User retrieveUser(String email) {
+        String GET_USER = "SELECT * FROM users WHERE email = ?";
+        return jdbc.queryForObject(GET_USER, new Object[]{email}, new BeanPropertyRowMapper<>(User.class));
+    }
+
+    @Override
     public Integer createUser(User user) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         String INSERT_USER = "INSERT INTO users (email, password, salt, display_name, phone) " +

@@ -10,13 +10,13 @@ public class DbTableManager {
 
   private static final String create_auth = "CREATE TABLE IF NOT EXISTS auth (" +
       "user_id INT PRIMARY KEY REFERENCES users(user_id), " +
-      "session_key VARCHAR(25), " +
+      "auth_token VARCHAR(25), " +
       "create_time DATE" +
       ");";
 
   private static final String create_user = "CREATE TABLE IF NOT EXISTS users (" +
       "user_id SERIAL PRIMARY KEY, " +
-      "email VARCHAR(50), " +
+      "email VARCHAR(50) UNIQUE, " +
       "password VARCHAR(50), " +
       "salt VARCHAR(25), " +
       "display_name VARCHAR(25), " +
@@ -67,7 +67,7 @@ public class DbTableManager {
 
   public static void main(String[] args){
     try {
-      createTables();
+      refreshDB();
     } catch (SQLException e){
       System.err.println("It's not working:(");
     }

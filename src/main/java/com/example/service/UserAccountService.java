@@ -24,7 +24,7 @@ public class UserAccountService extends Service {
    * @param password
    * @param displayName
    * @param phoneNumber
-   * @return sessionKey if successful, Error if failed (username taken)
+   * @return authToken if successful, Error if failed (username taken)
    */
   public String register(String email, String password, String displayName, String phoneNumber) throws Exception {
     String salt = this.getSalt();
@@ -60,7 +60,7 @@ public class UserAccountService extends Service {
    * Checks that the user exists in the database (and matches)
    * @param email
    * @param password
-   * @return sessionKey if successful, Error if failed (incorrect data)
+   * @return authToken if successful, Error if failed (incorrect data)
    */
   public String login(String email, String password) throws Exception {
     IUserDao userDao = new UserDao();
@@ -73,17 +73,17 @@ public class UserAccountService extends Service {
     Auth auth = new Auth(user.getUserId());
     IAuthDao authDao = new AuthDao();
     authDao.createAuth(auth);
-    return auth.getSessionKey();
+    return auth.getAuthToken();
   }
 
   /**
-   * Deletes/Invalidates sessionKey from database to prevent future calls
-   * @param sessionKey
+   * Deletes/Invalidates authToken from database to prevent future calls
+   * @param authToken
    * @return Success if token was invalidated, error otherwise
    */
-  public String deleteSessionKey(String sessionKey) {
+  public String deleteAuthToken(String authToken) {
     IAuthDao authDao = new AuthDao();
-    authDao.deleteAuth(sessionKey);
+    authDao.deleteAuth(authToken);
     return "success";
   }
 
@@ -97,31 +97,31 @@ public class UserAccountService extends Service {
   }
 
   /**
-   * Updates account information in database if user has valid resetToken or SessionKey
-   * if SessionKey then updates all info.
+   * Updates account information in database if user has valid resetToken or AuthToken
+   * if AuthToken then updates all info.
    * if ResetToken then just updates password.
    * @param resetToken
-   * @param sessionKey
+   * @param authToken
    * @param email
    * @param password
    * @param displayName
    * @param phoneNumber
    * @return Success, or error message on failure (doesn't exist or invalid token)
    */
-  public String updateUser(String resetToken, String sessionKey, String email,
+  public String updateUser(String resetToken, String authToken, String email,
                               String password, String displayName, String phoneNumber)
                                 throws UnauthorizedException, InternalServiceException {
                                 
-    boolean sessionKeyUsed = false;
+    boolean authTokenUsed = false;
     Integer userId;
 
     if (resetToken != null && !resetToken.equals("")) {
-      this.checkValidSessionKey(resetToken);
-      userId = this.getUserFromSessionKey(resetToken);
+      this.checkValidAuthToken(resetToken);
+      userId = this.getUserFromAuthToken(resetToken);
     } else {
-      this.checkValidSessionKey(sessionKey);
-      userId = this.getUserFromSessionKey(sessionKey);
-      sessionKeyUsed = true;
+      this.checkValidAuthToken(authToken);
+      userId = this.getUserFromAuthToken(authToken);
+      authTokenUsed = true;
     }
     
     IUserDao userDao = new UserDao();
@@ -131,7 +131,7 @@ public class UserAccountService extends Service {
     password = this.getHashedPassword(salt, password);
     user.updatePassword(salt, password);
 
-    if (sessionKeyUsed) {
+    if (authTokenUsed) {
       if (email != null && !email.equals("")) {
         user.setEmail(email);
       }

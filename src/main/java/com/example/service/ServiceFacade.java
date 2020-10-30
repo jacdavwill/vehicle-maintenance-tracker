@@ -37,15 +37,15 @@ public class ServiceFacade {
   }
 
   public static void invalidateAuthToken(String authToken) {
-    userService.deleteSessionKey(authToken);
+    userService.deleteAuthToken(authToken);
   }
 
   public static String requestReset(String email) {
     return userService.requestPasswordReset(email);
   }
 
-  public static String updateUser(String token, User user) { // TODO: split token into resetToken and sessionKey
-    return userService.updateUser(resetToken, sessionKey, user.getEmail(), 
+  public static String updateUser(String token, User user) { // TODO: split token into resetToken and authToken
+    return userService.updateUser(resetToken, authToken, user.getEmail(), 
       user.getPassword(), user.getDisplayName(), user.getPhoneNumber());
   }
 

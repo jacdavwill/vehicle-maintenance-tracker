@@ -27,11 +27,11 @@ public class MaintenanceItemService extends com.example.service.Service {
         System.out.println("This is a test!!");
     }
 
-    private void checkAuthorization(String sessionKey, String vehicleId) 
+    private void checkAuthorization(String authToken, String vehicleId) 
         throws NotFoundException, UnauthorizedException {
 
-        this.checkValidSessionKey(sessionKey);
-        Integer userId = this.getUserFromSessionKey(sessionKey);
+        this.checkValidAuthToken(authToken);
+        Integer userId = this.getUserFromAuthToken(authToken);
 
         IVehicleDao vehicleDao = new VehicleDao();
         Vehicle vehicle = vehicleDao.retrieveVehicle(Integer.parseInt(vehicleId));
@@ -43,45 +43,45 @@ public class MaintenanceItemService extends com.example.service.Service {
         }
     }
 
-    public List<MaintItem> getAllItems(String sessionKey, String vehicleId)
+    public List<MaintItem> getAllItems(String authToken, String vehicleId)
         throws NotFoundException, UnauthorizedException {
         
-        this.checkAuthorization(sessionKey, vehicleId);
+        this.checkAuthorization(authToken, vehicleId);
         IMaintItemDao maintItemDao; // = new MaintItemDao(); // TODO: instantiate interface
         return maintItemDao.retrieveMaintItems(vehicleId);
     }
     
-    public MaintItem getItem(String sessionKey, String vehicleId, String itemId) 
+    public MaintItem getItem(String authToken, String vehicleId, String itemId) 
         throws NotFoundException, UnauthorizedException {
 
-        this.checkAuthorization(sessionKey, vehicleId);
+        this.checkAuthorization(authToken, vehicleId);
         IMaintItemDao maintItemDao; // = new MaintItemDao(); TODO: instantiate interface
         return maintItemDao.retrieveMaintItems(itemId);
     }
     
-    public String addItem(String sessionKey, String vehicleId, MaintItem newItem)
+    public String addItem(String authToken, String vehicleId, MaintItem newItem)
         throws NotFoundException, UnauthorizedException {
 
-        this.checkAuthorization(sessionKey, vehicleId);
+        this.checkAuthorization(authToken, vehicleId);
         IMaintItemDao maintItemDao; // = new MaintItemDao(); TODO: instantiate interface
         maintItemDao.createMaintItem(newItem);
         return "success";
     }
     
-    public String updateItem(String sessionKey, String vehicleId, String itemId, MaintItem updatedItem)
+    public String updateItem(String authToken, String vehicleId, String itemId, MaintItem updatedItem)
         throws NotFoundException, UnauthorizedException {
             
-        this.checkAuthorization(sessionKey, vehicleId);
+        this.checkAuthorization(authToken, vehicleId);
         IMaintItemDao maintItemDao; // = new MaintItemDao(); TODO: instantiate interface
         updatedItem.setId(itemId);
         maintItemDao.updateMaintItem(updatedItem);
         return "success";
     }
     
-    public String deleteItem(String sessionKey, String vehicleId, String itemId)
+    public String deleteItem(String authToken, String vehicleId, String itemId)
         throws NotFoundException, UnauthorizedException {
             
-        this.checkAuthorization(sessionKey, vehicleId);
+        this.checkAuthorization(authToken, vehicleId);
         IMaintItemDao maintItemDao; // = new MaintItemDao(); TODO: instantiate interface
         maintItemDao.deleteMaintItem(itemId);
         return "success";

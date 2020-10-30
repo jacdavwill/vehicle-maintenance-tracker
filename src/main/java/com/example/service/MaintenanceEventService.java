@@ -7,23 +7,23 @@ import java.util.List;
 //TODO: Finish services
 public class MaintenanceEventService extends Service {
 
-    public List<MaintEvent> getAllEvents(String sessionKey, String vehicleID) {
+    public List<MaintEvent> getAllEvents(String authToken, String vehicleID) {
         return null;
       }
     
-      public MaintEvent getEvent(String sessionKey, String vehicleID, String eventID) {
+      public MaintEvent getEvent(String authToken, String vehicleID, String eventID) {
         return null;
       }
     
-      public String addEvent(String sessionKey, String vehicleID, MaintEvent newEvent) {
+      public String addEvent(String authToken, String vehicleID, MaintEvent newEvent) {
         return null;
       }
     
-      public String updateEvent(String sessionKey, String vehicleID, String eventID, MaintEvent newEvent) {
+      public String updateEvent(String authToken, String vehicleID, String eventID, MaintEvent newEvent) {
         return null;
       }
     
-      public String deleteEvent(String sessionKey, String vehicleID, String eventID) {
+      public String deleteEvent(String authToken, String vehicleID, String eventID) {
         return null;
       }
 

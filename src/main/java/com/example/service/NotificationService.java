@@ -6,15 +6,15 @@ import com.example.model.*;
 
 public class NotificationService extends Service{ //TODO: implement method bodies
 
-    public List<Notification> getAllNotifications(String sessionKey, String vehicleID) {
+    public List<Notification> getAllNotifications(String authToken, String vehicleID) {
         return null;
       }
     
-      public Notification getNotification(String sessionKey, String vehicleID, String notificationID) {
+      public Notification getNotification(String authToken, String vehicleID, String notificationID) {
         return null;
       }
     
-      public String deleteNotification(String sessionKey, String vehicleID, String notificationID) {
+      public String deleteNotification(String authToken, String vehicleID, String notificationID) {
         return null;
       }
 }

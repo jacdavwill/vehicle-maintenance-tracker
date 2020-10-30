@@ -26,9 +26,9 @@ public class AuthDao implements IAuthDao {
     }
 
     @Override
-    public Auth retrieveAuth(String sessionKey) {
+    public Auth retrieveAuth(String authToken) {
         String GET_AUTH = "SELECT * FROM auth WHERE session_key = ?";
-        return jdbc.queryForObject(GET_AUTH, new Object[]{sessionKey}, new BeanPropertyRowMapper<>(Auth.class));
+        return jdbc.queryForObject(GET_AUTH, new Object[]{authToken}, new BeanPropertyRowMapper<>(Auth.class));
     }
 
     @Override
@@ -50,9 +50,9 @@ public class AuthDao implements IAuthDao {
     }
 
     @Override
-    public void deleteAuth(String sessionKey) {
+    public void deleteAuth(String authToken) {
         String DELETE_AUTH = "DELETE FROM auth WHERE session_key = ?";
-        jdbc.update(DELETE_AUTH, sessionKey);
+        jdbc.update(DELETE_AUTH, authToken);
     }
 
     @Override

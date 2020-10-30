@@ -12,21 +12,21 @@ public class Auth {
   private String authToken;
   private Date createTime;
 
-  Auth(Integer userId, String sessionKey, Date createTime) {
+  Auth(Integer userId, String authToken, Date createTime) {
     this.userId = userId;
-    this.sessionKey = sessionKey;
+    this.authToken = authToken;
     this.createTime = createTime;
   }
 
-  Auth(Integer userId, String sessionKey) {
+  Auth(Integer userId, String authToken) {
     this.userId = userId;
-    this.sessionKey = sessionKey;
+    this.authToken = authToken;
     this.createTime = new Date(System.currentTimeMillis());
   }
 
   public Auth(Integer userId) {
     this.userId = userId;
-    this.sessionKey = UUID.randomUUID().toString();
+    this.authToken = UUID.randomUUID().toString();
     this.createTime = new Date(System.currentTimeMillis());
   }
 
@@ -34,8 +34,8 @@ public class Auth {
     return this.userId;
   }
 
-  public String getSessionKey() {
-    return sessionKey;
+  public String getAuthToken() {
+    return authToken;
   }
 
   public Date getCreateTime() {

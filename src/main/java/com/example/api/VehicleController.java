@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class VehicleController {
 
@@ -14,39 +16,39 @@ public class VehicleController {
 	ServiceFacade facade;
 
 	@GetMapping("/api/vehicles")
-	public ResponseEntity<String> getListOfVehicles(@RequestHeader String sessionKey) {
-		ServiceFacade.getAllVehicles(sessionKey);
+	public List<Vehicle> getListOfVehicles(@RequestHeader String sessionKey) {
+		return facade.getAllVehicles(sessionKey);
 
-		return new ResponseEntity<String>("This was a GET vehicles API call", HttpStatus.OK);
+//		return new ResponseEntity<String>("This was a GET vehicles API call", HttpStatus.OK);
 	}
 
-	@GetMapping("/api/vehicles/{vehicleid}")
-	public Vehicle getVehicleByID(@RequestHeader String sessionKey, @PathVariable("vehicleid") String vehicleID) {
-		return facade.getVehicle(sessionKey, vehicleID);
+	@GetMapping("/api/vehicles/{vehicleId}")
+	public Vehicle getVehicleByID(@RequestHeader String sessionKey, @PathVariable("vehicleId") Integer vehicleId) {
+		return facade.getVehicle(sessionKey, vehicleId);
 
 //		return new ResponseEntity<String>("This was a GET vehicleID API call", HttpStatus.OK);
 	}
 	
 	@PostMapping("/api/vehicles")
-	public ResponseEntity<String> addVehicle(@RequestHeader String sessionKey, @RequestBody Vehicle vehicle) {
-		ServiceFacade.addVehicle(sessionKey, vehicle);
+	public Vehicle addVehicle(@RequestHeader String sessionKey, @RequestBody Vehicle vehicle) {
+		Integer vehicleId = facade.addVehicle(sessionKey, vehicle);
+		vehicle.setVehicleId(vehicleId);
 
-		return new ResponseEntity<String>("This was a POST addVehicle API call", HttpStatus.OK);
+		return vehicle;
 	}
 	
-	@PutMapping("/api/vehicles/{vehicleid}")
-	public ResponseEntity<String> editVehicle(@RequestHeader String sessionKey, @PathVariable("vehicleid") String vehicleID,
-											  @RequestBody Vehicle vehicle) {
-		ServiceFacade.updateVehicle(sessionKey, vehicleID, vehicle);
+	@PutMapping("/api/vehicles")
+	public ResponseEntity<String> editVehicle(@RequestHeader String sessionKey, @RequestBody Vehicle vehicle) {
+		facade.updateVehicle(sessionKey, vehicle);
 
 		return new ResponseEntity<String>("This was a PUT editVehicle API call", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/api/vehicles/{vehicleid}")
-	public ResponseEntity<String> deleteVehicle(@RequestHeader String sessionKey, @PathVariable("vehicleid") String vehicleID) {
-		ServiceFacade.deleteVehicle(sessionKey, vehicleID);
+	@DeleteMapping("/api/vehicles/{vehicleId}")
+	public ResponseEntity<String> deleteVehicle(@RequestHeader String sessionKey, @PathVariable("vehicleId") Integer vehicleId) {
+		facade.deleteVehicle(sessionKey, vehicleId);
 
-		return new ResponseEntity<String>("This was a POST register API call", HttpStatus.OK);
+		return new ResponseEntity<String>("Vehicle deleted successfully", HttpStatus.OK);
 	}
 	
 }

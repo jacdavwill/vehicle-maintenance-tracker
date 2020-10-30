@@ -1,8 +1,15 @@
 package com.example.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode
 public class Vehicle {
+  private Integer vehicleId;
+  private Integer userId;
   private String nickname;
-  private String imageURL;
+  private String imageUrl;
   private String registrationMonth;
   private Integer mileage;
   private String make;
@@ -12,11 +19,12 @@ public class Vehicle {
   private String transmissionType;
   private String energyType;
 
-  public Vehicle(String nickname, String imageURL, String registrationMonth,
+  public Vehicle(Integer userId, String nickname, String imageUrl, String registrationMonth,
                  Integer mileage, String make, String model, Integer year,
                  String color, String transmissionType, String energyType) {
+    this.userId = userId;
     this.nickname=nickname;
-    this.imageURL=imageURL;
+    this.imageUrl = imageUrl;
     this.registrationMonth=registrationMonth;
     this.mileage=mileage;
     this.make=make;
@@ -33,8 +41,8 @@ public class Vehicle {
     return nickname;
   }
 
-  public String getImageURL() {
-    return imageURL;
+  public String getImageUrl() {
+    return imageUrl;
   }
 
   public String getRegistrationMonth() {
@@ -73,8 +81,8 @@ public class Vehicle {
     this.nickname = nickname;
   }
 
-  public void setImageURL(String imageURL) {
-    this.imageURL = imageURL;
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 
   public void setRegistrationMonth(String registrationMonth) {
@@ -107,5 +115,21 @@ public class Vehicle {
 
   public void setEnergyType(String energyType) {
     this.energyType = energyType;
+  }
+
+  public Integer getVehicleId() {
+    return vehicleId;
+  }
+
+  public void setVehicleId(Integer vehicleId) {
+    this.vehicleId = vehicleId;
+  }
+
+  public Integer getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Integer userId) {
+    this.userId = userId;
   }
 }

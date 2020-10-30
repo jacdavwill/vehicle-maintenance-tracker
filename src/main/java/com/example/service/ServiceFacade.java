@@ -37,24 +37,25 @@ public class ServiceFacade {
 
   //---------------------------------------------------------------------------
   // Vehicle Service
-  public static List<Vehicle> getAllVehicles(String sessionKey) {
-    return null;
+  public List<Vehicle> getAllVehicles(String sessionKey) {
+
+    return this.vehicleService.getAllVehicles(null);
   }
 
-  public Vehicle getVehicle(String sessionKey, String vehicleID) {
-    return this.vehicleService.getVehicle(null, vehicleID);
+  public Vehicle getVehicle(String sessionKey, Integer vehicleId) {
+    return this.vehicleService.getVehicle(null, vehicleId);
   }
 
-  public static String addVehicle(String sessionKey, Vehicle newVehicle) {
-    return null;
+  public Integer addVehicle(String sessionKey, Vehicle vehicle) {
+    return this.vehicleService.addVehicle(null, vehicle);
   }
 
-  public static String updateVehicle(String sessionKey, String vehicleID, Vehicle newVehicle) {
-    return null;
+  public void updateVehicle(String sessionKey, Vehicle vehicle) {
+    this.vehicleService.editVehicle(null, vehicle);
   }
 
-  public static String deleteVehicle(String sessionKey, String vehicleID) {
-    return null;
+  public void deleteVehicle(String sessionKey, Integer vehicleId) {
+    this.vehicleService.deleteVehicle(null, vehicleId);
   }
 
   //---------------------------------------------------------------------------

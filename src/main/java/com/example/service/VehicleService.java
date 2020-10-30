@@ -36,19 +36,14 @@ public class VehicleService extends com.example.service.Service {
    * @param vehicleId ID of vehicle to search database for
    * @return vehicle with matching ID, or error if invalid token or not found
    */
-  public Vehicle getVehicle(String authToken, String vehicleId) throws UnauthorizedException, InternalServiceException {
+  public Vehicle getVehicle(String authToken, Integer vehicleId) throws UnauthorizedException {
     this.checkValidAuthToken(authToken);
     Integer userId = this.getUserFromAuthToken(authToken);
-    try {
-      Vehicle vehicle = vehicleDao.retrieveVehicle(Integer.parseInt(vehicleId));
-      if (!vehicle.getUserId().equals(userId)) {
-        throw new UnauthorizedException();
-      }
-      return vehicle;
-
-    } catch(NumberFormatException e) {
-        throw new InternalServiceException();
+    Vehicle vehicle = vehicleDao.retrieveVehicle(vehicleId);
+    if (!vehicle.getUserId().equals(userId)) {
+      throw new UnauthorizedException();
     }
+    return vehicle;
   }
 
   /**
@@ -57,13 +52,13 @@ public class VehicleService extends com.example.service.Service {
    * @param newVehicle vehicle object of new vehicle
    * @return String vehicleId on success, error if invalid
    */
-  public String addVehicle(String authToken, Vehicle newVehicle) throws UnauthorizedException {
+  public Integer addVehicle(String authToken, Vehicle newVehicle) throws UnauthorizedException {
     this.checkValidAuthToken(authToken);
     Integer userId = this.getUserFromAuthToken(authToken);
     newVehicle.setUserId(userId);
 
     vehicleDao.createVehicle(newVehicle);
-    return Integer.toString(newVehicle.getVehicleId());
+    return newVehicle.getVehicleId();
   }
 
   /**
@@ -75,10 +70,10 @@ public class VehicleService extends com.example.service.Service {
    * @return success or error message
    * @throws InternalServiceException
    */
-  public String updateVehicle(String authToken, String vehicleId, Vehicle updatedVehicle)
-      throws UnauthorizedException, InternalServiceException {
+  public String updateVehicle(String authToken, Integer vehicleId, Vehicle updatedVehicle)
+      throws UnauthorizedException {
 
-    Vehicle oldVehicle = getVehicle(authToken, vehicleId);
+    Vehicle oldVehicle = this.getVehicle(authToken, vehicleId);
 
     String nickname = updatedVehicle.getNickname();
     if (this.isFieldSet(nickname)) {
@@ -137,9 +132,9 @@ public class VehicleService extends com.example.service.Service {
    * @return success or error message
    * @throws InternalServiceException
    */
-  public String deleteVehicle(String authToken, String vehicleId)
-      throws UnauthorizedException, InternalServiceException {
-    Vehicle vehicle = getVehicle(authToken, vehicleId);
+  public String deleteVehicle(String authToken, Integer vehicleId)
+      throws UnauthorizedException {
+    Vehicle vehicle = this.getVehicle(authToken, vehicleId);
 
     if (vehicle == null) {
       return "error";

@@ -88,6 +88,10 @@ public class Vehicle {
     this.userId = userId;
   }
 
+  public void setVehicleId(Integer vehicleId) {
+    this.vehicleId = vehicleId;
+  }
+
   public void setNickname(String nickname) {
     this.nickname = nickname;
   }

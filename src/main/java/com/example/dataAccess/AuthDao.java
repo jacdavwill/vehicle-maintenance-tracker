@@ -34,10 +34,10 @@ public class AuthDao implements IAuthDao {
     @Override
     public String createAuth(Auth auth) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String INSERT_AUTH = "INSERT INTO auth VALUES (:userId, :sessionKey, :createTime)";
+        String INSERT_AUTH = "INSERT INTO auth VALUES (:userId, :authToken, :createTime)";
         parameterJdbc.update(INSERT_AUTH, new BeanPropertySqlParameterSource(auth), keyHolder);
-        if (keyHolder.getKeys() != null && keyHolder.getKeys().containsKey("session_key")) {
-            return (String) keyHolder.getKeys().get("session_key");
+        if (keyHolder.getKeys() != null && keyHolder.getKeys().containsKey("auth_token")) {
+            return (String) keyHolder.getKeys().get("auth_token");
         }
         return null;
 //        throw new Exception("Error creating vehicle");
@@ -57,7 +57,7 @@ public class AuthDao implements IAuthDao {
 
     @Override
     public void updateAuth(Auth updatedAuth) {
-        String UPDATE_AUTH = "UPDATE auth SET session_key = :sessionKey, created_time = :createdTime" +
+        String UPDATE_AUTH = "UPDATE auth SET auth_token = :authToken, created_time = :createdTime" +
                 "WHERE user_id = :userId";
         parameterJdbc.update(UPDATE_AUTH, new BeanPropertySqlParameterSource(updatedAuth));
     }

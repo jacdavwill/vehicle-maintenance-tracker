@@ -9,7 +9,7 @@ import lombok.Data;
 public class Auth {
   
   private Integer userId;
-  private String sessionKey;
+  private String authToken;
   private Date createTime;
 
   Auth(Integer userId, String sessionKey, Date createTime) {

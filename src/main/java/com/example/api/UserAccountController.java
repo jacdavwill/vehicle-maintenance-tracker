@@ -26,8 +26,8 @@ public class UserAccountController {
 	}
 	
 	@DeleteMapping("/api/user/login")
-	public ResponseEntity<String> logout(@RequestHeader String sessionKey) {
-		ServiceFacade.invalidateAuthToken(sessionKey);
+	public ResponseEntity<String> logout(@RequestHeader String authToken) {
+		ServiceFacade.invalidateAuthToken(authToken);
 
 		return new ResponseEntity<String>("This was a DELETE login API call", HttpStatus.OK);
 	}

@@ -36,8 +36,8 @@ public class ServiceFacade {
     return userService.login(user.getEmail(), user.getPassword());
   }
 
-  public static void invalidateAuthToken(String sessionKey) {
-    userService.deleteSessionKey(sessionKey);
+  public static void invalidateAuthToken(String authToken) {
+    userService.deleteSessionKey(authToken);
   }
 
   public static String requestReset(String email) {
@@ -51,83 +51,83 @@ public class ServiceFacade {
 
   //---------------------------------------------------------------------------
   // Vehicle Service
-  public List<Vehicle> getAllVehicles(String sessionKey) {
+  public List<Vehicle> getAllVehicles(String authToken) {
 
     return this.vehicleService.getAllVehicles(null);
   }
 
-  public Vehicle getVehicle(String sessionKey, Integer vehicleId) {
+  public Vehicle getVehicle(String authToken, Integer vehicleId) {
     return this.vehicleService.getVehicle(null, vehicleId);
   }
 
-  public Integer addVehicle(String sessionKey, Vehicle vehicle) {
+  public Integer addVehicle(String authToken, Vehicle vehicle) {
     return this.vehicleService.addVehicle(null, vehicle);
   }
 
-  public void updateVehicle(String sessionKey, Vehicle vehicle) {
+  public void updateVehicle(String authToken, Vehicle vehicle) {
     this.vehicleService.editVehicle(null, vehicle);
   }
 
-  public void deleteVehicle(String sessionKey, Integer vehicleId) {
+  public void deleteVehicle(String authToken, Integer vehicleId) {
     this.vehicleService.deleteVehicle(null, vehicleId);
   }
 
   //---------------------------------------------------------------------------
   // Item Services
-  public static List<MaintItem> getAllItems(String sessionKey, String vehicleID) {
-    return maintItemService.getAllItems(sessionKey, vehicleID);
+  public static List<MaintItem> getAllItems(String authToken, String vehicleID) {
+    return maintItemService.getAllItems(authToken, vehicleID);
   }
 
-  public static MaintItem getItem(String sessionKey, String vehicleID, String itemID) {
-    return maintItemService.getItem(sessionKey, vehicleID, itemID);
+  public static MaintItem getItem(String authToken, String vehicleID, String itemID) {
+    return maintItemService.getItem(authToken, vehicleID, itemID);
   }
 
-  public static String addItem(String sessionKey, String vehicleID, MaintItem newItem) {
-    return maintItemService.addItem(sessionKey, vehicleID, newItem);
+  public static String addItem(String authToken, String vehicleID, MaintItem newItem) {
+    return maintItemService.addItem(authToken, vehicleID, newItem);
   }
 
-  public static String updateItem(String sessionKey, String vehicleID, String itemID, MaintItem newItem) {
-    return maintItemService.updateItem(sessionKey, vehicleID, itemID, newItem);
+  public static String updateItem(String authToken, String vehicleID, String itemID, MaintItem newItem) {
+    return maintItemService.updateItem(authToken, vehicleID, itemID, newItem);
   }
 
-  public static String deleteItem(String sessionKey, String vehicleID, String itemID) {
-    return maintItemService.deleteItem(sessionKey, vehicleID, itemID);
+  public static String deleteItem(String authToken, String vehicleID, String itemID) {
+    return maintItemService.deleteItem(authToken, vehicleID, itemID);
   }
 
   //---------------------------------------------------------------------------
   // Event services
-  public static List<MaintEvent> getAllEvents(String sessionKey, String vehicleID) {
-    return maintEventService.getAllEvents(sessionKey, vehicleID);
+  public static List<MaintEvent> getAllEvents(String authToken, String vehicleID) {
+    return maintEventService.getAllEvents(authToken, vehicleID);
   }
 
-  public static MaintEvent getEvent(String sessionKey, String vehicleID, String eventID) {
-    return maintEventService.getEvent(sessionKey, vehicleID, eventID);
+  public static MaintEvent getEvent(String authToken, String vehicleID, String eventID) {
+    return maintEventService.getEvent(authToken, vehicleID, eventID);
   }
 
-  public static String addEvent(String sessionKey, String vehicleID, MaintEvent newEvent) {
-    return maintEventService.addEvent(sessionKey, vehicleID, newEvent);
+  public static String addEvent(String authToken, String vehicleID, MaintEvent newEvent) {
+    return maintEventService.addEvent(authToken, vehicleID, newEvent);
   }
 
-  public static String updateEvent(String sessionKey, String vehicleID, String eventID, MaintEvent newEvent) {
-    return maintEventService.updateEvent(sessionKey, vehicleID, eventID, newEvent);
+  public static String updateEvent(String authToken, String vehicleID, String eventID, MaintEvent newEvent) {
+    return maintEventService.updateEvent(authToken, vehicleID, eventID, newEvent);
   }
 
-  public static String deleteEvent(String sessionKey, String vehicleID, String eventID) {
-    return maintEventService.deleteEvent(sessionKey, vehicleID, eventID);
+  public static String deleteEvent(String authToken, String vehicleID, String eventID) {
+    return maintEventService.deleteEvent(authToken, vehicleID, eventID);
   }
 
   //---------------------------------------------------------------------------
   // Notification services
-  public static List<Notification> getAllNotifications(String sessionKey, String vehicleID) {
-    return notificationService.getAllNotifications(sessionKey, vehicleID);
+  public static List<Notification> getAllNotifications(String authToken, String vehicleID) {
+    return notificationService.getAllNotifications(authToken, vehicleID);
   }
 
-  public static Notification getNotification(String sessionKey, String vehicleID, String notificationID) {
-    return notificationService.getNotification(sessionKey, vehicleID, notificationID);
+  public static Notification getNotification(String authToken, String vehicleID, String notificationID) {
+    return notificationService.getNotification(authToken, vehicleID, notificationID);
   }
 
-  public static String deleteNotification(String sessionKey, String vehicleID, String notificationID) {
-    return notificationService.deleteNotification(sessionKey, vehicleID, notificationID);
+  public static String deleteNotification(String authToken, String vehicleID, String notificationID) {
+    return notificationService.deleteNotification(authToken, vehicleID, notificationID);
   }
 
 }

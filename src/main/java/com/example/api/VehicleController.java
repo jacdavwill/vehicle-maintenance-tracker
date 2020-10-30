@@ -16,37 +16,37 @@ public class VehicleController {
 	ServiceFacade facade;
 
 	@GetMapping("/api/vehicles")
-	public List<Vehicle> getListOfVehicles(@RequestHeader String sessionKey) {
-		return facade.getAllVehicles(sessionKey);
+	public List<Vehicle> getListOfVehicles(@RequestHeader String authToken) {
+		return facade.getAllVehicles(authToken);
 
 //		return new ResponseEntity<String>("This was a GET vehicles API call", HttpStatus.OK);
 	}
 
 	@GetMapping("/api/vehicles/{vehicleId}")
-	public Vehicle getVehicleByID(@RequestHeader String sessionKey, @PathVariable("vehicleId") Integer vehicleId) {
-		return facade.getVehicle(sessionKey, vehicleId);
+	public Vehicle getVehicleByID(@RequestHeader String authToken, @PathVariable("vehicleId") Integer vehicleId) {
+		return facade.getVehicle(authToken, vehicleId);
 
 //		return new ResponseEntity<String>("This was a GET vehicleID API call", HttpStatus.OK);
 	}
 	
 	@PostMapping("/api/vehicles")
-	public Vehicle addVehicle(@RequestHeader String sessionKey, @RequestBody Vehicle vehicle) {
-		Integer vehicleId = facade.addVehicle(sessionKey, vehicle);
+	public Vehicle addVehicle(@RequestHeader String authToken, @RequestBody Vehicle vehicle) {
+		Integer vehicleId = facade.addVehicle(authToken, vehicle);
 		vehicle.setVehicleId(vehicleId);
 
 		return vehicle;
 	}
 	
 	@PutMapping("/api/vehicles")
-	public ResponseEntity<String> editVehicle(@RequestHeader String sessionKey, @RequestBody Vehicle vehicle) {
-		facade.updateVehicle(sessionKey, vehicle);
+	public ResponseEntity<String> editVehicle(@RequestHeader String authToken, @RequestBody Vehicle vehicle) {
+		facade.updateVehicle(authToken, vehicle);
 
 		return new ResponseEntity<String>("This was a PUT editVehicle API call", HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/api/vehicles/{vehicleId}")
-	public ResponseEntity<String> deleteVehicle(@RequestHeader String sessionKey, @PathVariable("vehicleId") Integer vehicleId) {
-		facade.deleteVehicle(sessionKey, vehicleId);
+	public ResponseEntity<String> deleteVehicle(@RequestHeader String authToken, @PathVariable("vehicleId") Integer vehicleId) {
+		facade.deleteVehicle(authToken, vehicleId);
 
 		return new ResponseEntity<String>("Vehicle deleted successfully", HttpStatus.OK);
 	}

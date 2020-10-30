@@ -32,7 +32,7 @@ public class DummyDataGenerator {
   }
 
   private static String buildCreateAuthsStatementFromFile(String filename) throws Exception {
-    String initialString = "INSERT INTO auth (user_id, session_key, create_time) VALUES \n\t";
+    String initialString = "INSERT INTO auth (user_id, auth_token, create_time) VALUES \n\t";
     return buildCreateStatementFromFile(initialString, 3, filename);
   }
 
@@ -66,15 +66,19 @@ public class DummyDataGenerator {
   public static void main(String[] args){
     try {
 //      DbTableManager.refreshDB();
-//      String createUsers = buildCreateUsersStatementFromFile("src/main/resources/dummyUsers.txt");
-//      String createVehicles = buildCreateVehiclesStatementFromFile("src/main/resources/dummyVehicles.txt");
-//      String createAuths = buildCreateAuthsStatementFromFile("src/main/resources/dummyAuths.txt");
-//      String createMaintItems = buildCreateMaintItemsStatementFromFile("src/main/resources/dummyMaintItems.txt");
-//      String createMaintEvents = buildCreateMaintEventsStatementFromFile("src/main/resources/dummyMaintEvents.txt");
+      String createUsers = buildCreateUsersStatementFromFile("src/main/resources/dummyUsers.txt");
+      String createVehicles = buildCreateVehiclesStatementFromFile("src/main/resources/dummyVehicles.txt");
+      String createAuths = buildCreateAuthsStatementFromFile("src/main/resources/dummyAuths.txt");
+      String createMaintItems = buildCreateMaintItemsStatementFromFile("src/main/resources/dummyMaintItems.txt");
+      String createMaintEvents = buildCreateMaintEventsStatementFromFile("src/main/resources/dummyMaintEvents.txt");
       String createNotifications = buildCreateNotificationsStatementFromFile("src/main/resources/dummyNotifications.txt");
 
-      System.out.println(createNotifications);
       Statement stmt = DbConnection.connect().createStatement();
+      stmt.executeUpdate(createUsers);
+      stmt.executeUpdate(createVehicles);
+      stmt.executeUpdate(createAuths);
+      stmt.executeUpdate(createMaintItems);
+      stmt.executeUpdate(createMaintEvents);
       stmt.executeUpdate(createNotifications);
     } catch (Exception e){
       System.out.println("Problem! " + e.getMessage());

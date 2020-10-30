@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class Auth {
   private int userId;
-  private String sessionKey;
+  private String authToken;
   private Date createTime;
 }

@@ -66,7 +66,7 @@ public class MaintenanceController {
 														@PathVariable("itemid") String itemID) {
 		ServiceFacade.deleteItem(sessionKey, vehicleID, itemID);
 
-		return new ResponseEntity<String>("This was a POST maintenance items API call", HttpStatus.OK);
+		return new ResponseEntity<String>("This was a DELETE maintenance items API call", HttpStatus.OK);
 	}
 
 	//---------------------------------------------------------------------
@@ -113,7 +113,7 @@ public class MaintenanceController {
 														 @PathVariable("eventid") String eventID) {
 		ServiceFacade.deleteEvent(sessionKey, vehicleID, eventID);
 
-		return new ResponseEntity<String>("This was a POST maintenance events API call", HttpStatus.OK);
+		return new ResponseEntity<String>("This was a DELETE maintenance events API call", HttpStatus.OK);
 	}
 	
 }

@@ -9,11 +9,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MaintItem {
-  private Integer maintItemId;
-  private Integer vehicleId;
-  private Integer frequencyMonths;
-  private Integer frequencyMiles;
+  private int maintItemId;
+  private int vehicleId;
+  private int frequencyMonths;
+  private int frequencyMiles;
   private String description;
   private Date lastCompletedDate;
-  private Integer lastCompletedMileage;
+  private int lastCompletedMileage;
+
+  public MaintItem(int maintItemId, int vehicleId, int freqMonths, 
+    int freqMiles, String description, Date lastCompletedDate, 
+    int lastCompletedMileage) {
+      
+      this.maintItemId = maintItemId;
+      this.vehicleId = vehicleId;
+      this.frequencyMonths = freqMonths;
+      this.frequencyMiles = freqMiles;
+      this.description = description;
+      this.lastCompletedDate = lastCompletedDate;
+      this.lastCompletedMileage = lastCompletedMileage;      
+	}
 }

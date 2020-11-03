@@ -10,10 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Vehicle {
-  private Integer vehicleID;
-  private Integer userID;
+  private Integer vehicleId;
+  private Integer userId;
   private String nickname;
-  private String imageURL;
+  private String imageUrl;
   private String registrationMonth;
   private Integer mileage;
   private String make;

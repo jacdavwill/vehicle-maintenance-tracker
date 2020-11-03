@@ -32,7 +32,7 @@ class VehicleDaoTest {
     private Integer userId;
 
     Vehicle generateVehicle() {
-        return new Vehicle(userId, "LadyBug", "http://google.com", "NOV",
+        return new Vehicle(1, 1, "LadyBug", "http://google.com", "NOV",
                 138473, "Hyundai", "Accent", 2007, "Maroon", "Automatic", "Gas");
     }
 

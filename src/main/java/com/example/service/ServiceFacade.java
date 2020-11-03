@@ -118,7 +118,7 @@ public class ServiceFacade {
     return null;
   }
 
-  public Notification getNotification(String authToken, String vehicleID, String notificationID) {
+  public Notification getNotification(String authToken, Integer vehicleID, Integer notificationID) {
     return this.notificationService.getNotification(authToken, notificationID);
   }
 

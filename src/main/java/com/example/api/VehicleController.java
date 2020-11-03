@@ -49,7 +49,7 @@ public class VehicleController {
 	@PutMapping("/api/vehicles/{vehicleid}")
 	public ResponseEntity<String> editVehicle(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 											  @RequestBody Vehicle vehicle) {
-		serviceFacade.updateVehicle(authToken, vehicleID, vehicle);
+		serviceFacade.updateVehicle(authToken, vehicle);
 
 		return new ResponseEntity<String>("This was a PUT editVehicle API call", HttpStatus.OK);
 	}

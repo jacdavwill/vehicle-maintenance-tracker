@@ -1,110 +1,125 @@
 package com.example.service;
 
 import com.example.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 //TODO: Implement facade to call and manage services
+@Service
 public class ServiceFacade {
+
+  @Autowired
+  VehicleService vehicleService;
+  @Autowired
+  MaintenanceEventService maintenanceEventService;
+  @Autowired
+  MaintenanceItemService maintenanceItemService;
+  @Autowired
+  UserAccountService userAccountService;
+
+
 
   //---------------------------------------------------------------------------
   // User Services
-  public static Auth register(User user) {
+  public Auth register(User user) {
     return null;
   }
 
-  public static Auth login(User user) {
+  public Auth login(User user) {
     return null;
   }
 
-  public static void invalidateAuthToken(String sessionKey) {
+  public void invalidateAuthToken(String authToken) {
     return;
   }
 
-  public static String requestReset(String email) {
+  public String requestReset(String email) {
     return null;
   }
 
-  public static String updateUser(String token, User user) {
+  public String updateUser(String token, User user) {
     return null;
   }
 
   //---------------------------------------------------------------------------
   // Vehicle Service
-  public static List<Vehicle> getAllVehicles(String sessionKey) {
+  public List<Vehicle> getAllVehicles(String authToken) {
     return null;
   }
 
-  public static Vehicle getVehicle(String sessionKey, String vehicleID) {
+  public Vehicle getVehicle(String authToken, Integer vehicleID) {
     return null;
   }
 
-  public static String addVehicle(String sessionKey, Vehicle newVehicle) {
+  public String addVehicle(String authToken, Vehicle newVehicle) {
     return null;
   }
 
-  public static String updateVehicle(String sessionKey, String vehicleID, Vehicle newVehicle) {
+  public String updateVehicle(String authToken, Integer vehicleID, Vehicle newVehicle) {
     return null;
   }
 
-  public static String deleteVehicle(String sessionKey, String vehicleID) {
+  public String deleteVehicle(String authToken, Integer vehicleID) {
     return null;
   }
 
   //---------------------------------------------------------------------------
   // Item Services
-  public static List<MaintItem> getAllItems(String sessionKey, String vehicleID) {
+  public List<MaintItem> getAllItems(String authToken, Integer vehicleID) {
     return null;
   }
 
-  public static MaintItem getItem(String sessionKey, String vehicleID, String itemID) {
+  public MaintItem getItem(String authToken, Integer vehicleID, Integer itemID) {
     return null;
   }
 
-  public static String addItem(String sessionKey, String vehicleID, MaintItem newItem) {
+  public String addItem(String authToken, Integer vehicleID, MaintItem newItem) {
     return null;
   }
 
-  public static String updateItem(String sessionKey, String vehicleID, String itemID, MaintItem newItem) {
+  public String updateItem(String authToken, Integer vehicleID, Integer itemID, MaintItem newItem) {
     return null;
   }
 
-  public static String deleteItem(String sessionKey, String vehicleID, String itemID) {
+  public String deleteItem(String authToken, Integer vehicleID, Integer itemID) {
     return null;
   }
 
   //---------------------------------------------------------------------------
   // Event services
-  public static List<MaintEvent> getAllEvents(String sessionKey, String vehicleID) {
+  public List<MaintEvent> getAllEvents(String authToken, Integer vehicleID) {
     return null;
   }
 
-  public static MaintEvent getEvent(String sessionKey, String vehicleID, String eventID) {
+  public MaintEvent getEvent(String authToken, Integer vehicleID, Integer eventID) {
     return null;
   }
 
-  public static String addEvent(String sessionKey, String vehicleID, MaintEvent newEvent) {
+  public String addEvent(String authToken, Integer vehicleID, MaintEvent newEvent) {
     return null;
   }
 
-  public static String updateEvent(String sessionKey, String vehicleID, String eventID, MaintEvent newEvent) {
+  public String updateEvent(String authToken, Integer vehicleID, Integer eventID, MaintEvent newEvent) {
     return null;
   }
 
-  public static String deleteEvent(String sessionKey, String vehicleID, String eventID) {
+  public String deleteEvent(String authToken, Integer vehicleID, Integer eventID) {
     return null;
   }
 
   //---------------------------------------------------------------------------
   // Notification services
-  public static List<Notification> getAllNotifications(String sessionKey, String vehicleID) {
+  public List<Notification> getAllNotifications(String authToken, Integer vehicleID) {
     return null;
   }
 
-  public static Notification getNotification(String sessionKey, String vehicleID, String notificationID) {
+  public Notification getNotification(String authToken, Integer vehicleID, Integer notificationID) {
     return null;
   }
 
-  public static String deleteNotification(String sessionKey, String vehicleID, String notificationID) {
+  public String deleteNotification(String authToken, Integer vehicleID, Integer notificationID) {
     return null;
   }
 

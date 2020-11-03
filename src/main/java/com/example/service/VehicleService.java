@@ -1,7 +1,9 @@
 package com.example.service;
 import com.example.model.Vehicle;
+import org.springframework.stereotype.Service;
 
 // TODO: Finish services
+@Service
 public class VehicleService {
 
   /**

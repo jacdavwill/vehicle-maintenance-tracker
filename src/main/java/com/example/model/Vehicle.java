@@ -1,9 +1,17 @@
 package com.example.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Data
+@AllArgsConstructor
+@Getter
+@Setter
 public class Vehicle {
   private Integer vehicleID;
-  private String userID;
+  private Integer userID;
   private String nickname;
   private String imageURL;
   private String registrationMonth;
@@ -14,69 +22,4 @@ public class Vehicle {
   private String color;
   private String transmissionType;
   private String energyType;
-
-  public Vehicle(Integer vehicleID, String userID, String nickname, String imageURL, String registrationMonth,
-                 Integer mileage, String make, String model, Integer year,
-                 String color, String transmissionType, String energyType) {
-    this.vehicleID = vehicleID;
-    this.userID = userID;
-    this.nickname=nickname;
-    this.imageURL=imageURL;
-    this.registrationMonth=registrationMonth;
-    this.mileage=mileage;
-    this.make=make;
-    this.model=model;
-    this.year=year;
-    this.color=color;
-    this.transmissionType=transmissionType;
-    this.energyType=energyType;
-  }
-
-  public Integer getVehicleID() {
-    return vehicleID;
-  }
-
-  public String getUserID() {
-    return userID;
-  }
-
-  public String getNickname() {
-    return nickname;
-  }
-
-  public String getImageURL() {
-    return imageURL;
-  }
-
-  public String getRegistrationMonth() {
-    return registrationMonth;
-  }
-
-  public Integer getMileage() {
-    return mileage;
-  }
-
-  public String getMake() {
-    return make;
-  }
-
-  public String getModel() {
-    return model;
-  }
-
-  public Integer getYear() {
-    return year;
-  }
-
-  public String getColor() {
-    return color;
-  }
-
-  public String getTransmissionType() {
-    return transmissionType;
-  }
-
-  public String getEnergyType() {
-    return energyType;
-  }
 }

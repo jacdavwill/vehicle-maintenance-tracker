@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Auth {
   private int userId;
-  private String sessionKey;
+  private String authToken;
   private Date createTime;
 }

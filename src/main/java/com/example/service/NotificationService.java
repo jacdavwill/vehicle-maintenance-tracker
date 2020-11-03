@@ -11,7 +11,7 @@ public class NotificationService {
   @Autowired
   INotificationDao notificationDao;
 
-  public Notification getNotification(String authToken, String notificationId){
-    return notificationDao.retrieveNotification(Integer.parseInt(notificationId));
+  public Notification getNotification(String authToken, Integer notificationId){
+    return notificationDao.retrieveNotification(notificationId);
   }
 }

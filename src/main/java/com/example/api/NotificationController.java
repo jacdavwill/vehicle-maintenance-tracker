@@ -7,29 +7,38 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 public class NotificationController {
-
   @Autowired
   ServiceFacade serviceFacade;
 
-  @GetMapping("/api/notifications/{vehicleid}")
-  public ResponseEntity<String> getNotifications(@RequestHeader String authToken, @PathVariable("vehicleid") String vehicleID) {
-    ServiceFacade.getAllNotifications(authToken, vehicleID);
+  Notification notification1 = new Notification(1, 1, false, "Finished");
+  Notification notification2 = new Notification(2, 2, true, "Not Done");
 
-    return new ResponseEntity<String>("This was a GET notification API call", HttpStatus.OK);
+
+  @GetMapping("/api/notifications/{vehicleid}")
+  public ResponseEntity<ArrayList<Notification>> getNotifications(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID) {
+    serviceFacade.getAllNotifications(authToken, vehicleID);
+
+    ArrayList<Notification> notifications = new ArrayList<>();
+    notifications.add(notification1);
+    notifications.add(notification2);
+
+    return new ResponseEntity<ArrayList<Notification>>(notifications, HttpStatus.OK);
   }
 
   @GetMapping("/api/notifications/{vehicleid}/{notificationid}")
-  public Notification getNotificationByID(@RequestHeader String authToken, @PathVariable("vehicleid") String vehicleID, @PathVariable("notificationid") String notificationID) {
-    return new Notification(1, 1, false, "This is a fake Notification");
-    //    return serviceFacade.getNotification(authToken, vehicleID, notificationID);
-//    return new ResponseEntity<String>("This was a GET notification by ID API call", HttpStatus.OK);
+  public ResponseEntity<Notification> getNotificationByID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID, @PathVariable("notificationid") Integer notificationID) {
+    serviceFacade.getNotification(authToken, vehicleID, notificationID);
+
+    return new ResponseEntity<Notification>(notification1, HttpStatus.OK);
   }
 
   @DeleteMapping("/api/notifications/{vehicleid}/{notificationid}")
-  public ResponseEntity<String> deleteNotification(@RequestHeader String authToken, @PathVariable("vehicleid") String vehicleID, @PathVariable("notificationid") String notificationID) {
-    ServiceFacade.deleteNotification(authToken, vehicleID, notificationID);
+  public ResponseEntity<String> deleteNotification(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID, @PathVariable("notificationid") Integer notificationID) {
+    serviceFacade.deleteNotification(authToken, vehicleID, notificationID);
 
     return new ResponseEntity<String>("This was a DELETE notification by ID API call", HttpStatus.OK);
   }

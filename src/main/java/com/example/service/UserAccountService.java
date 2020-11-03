@@ -1,6 +1,9 @@
 package com.example.service;
 
+import org.springframework.stereotype.Service;
+
 //TODO: Finish Services
+@Service
 public class UserAccountService {
 
   /**

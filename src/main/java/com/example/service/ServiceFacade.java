@@ -14,26 +14,34 @@ public class ServiceFacade {
   VehicleService vehicleService;
   @Autowired
   NotificationService notificationService;
+  @Autowired
+  MaintenanceEventService maintenanceEventService;
+  @Autowired
+  MaintenanceItemService maintenanceItemService;
+  @Autowired
+  UserAccountService userAccountService;
+
+
 
   //---------------------------------------------------------------------------
   // User Services
-  public static Auth register(User user) {
+  public Auth register(User user) {
     return null;
   }
 
-  public static Auth login(User user) {
+  public Auth login(User user) {
     return null;
   }
 
-  public static void invalidateAuthToken(String authToken) {
+  public void invalidateAuthToken(String authToken) {
     return;
   }
 
-  public static String requestReset(String email) {
+  public String requestReset(String email) {
     return null;
   }
 
-  public static String updateUser(String token, User user) {
+  public String updateUser(String token, User user) {
     return null;
   }
 
@@ -62,59 +70,59 @@ public class ServiceFacade {
 
   //---------------------------------------------------------------------------
   // Item Services
-  public static List<MaintItem> getAllItems(String authToken, String vehicleID) {
+  public List<MaintItem> getAllItems(String authToken, Integer vehicleID) {
     return null;
   }
 
-  public static MaintItem getItem(String authToken, String vehicleID, String itemID) {
+  public MaintItem getItem(String authToken, Integer vehicleID, Integer itemID) {
     return null;
   }
 
-  public static String addItem(String authToken, String vehicleID, MaintItem newItem) {
+  public String addItem(String authToken, Integer vehicleID, MaintItem newItem) {
     return null;
   }
 
-  public static String updateItem(String authToken, String vehicleID, String itemID, MaintItem newItem) {
+  public String updateItem(String authToken, Integer vehicleID, Integer itemID, MaintItem newItem) {
     return null;
   }
 
-  public static String deleteItem(String authToken, String vehicleID, String itemID) {
+  public String deleteItem(String authToken, Integer vehicleID, Integer itemID) {
     return null;
   }
 
   //---------------------------------------------------------------------------
   // Event services
-  public static List<MaintEvent> getAllEvents(String authToken, String vehicleID) {
+  public List<MaintEvent> getAllEvents(String authToken, Integer vehicleID) {
     return null;
   }
 
-  public static MaintEvent getEvent(String authToken, String vehicleID, String eventID) {
+  public MaintEvent getEvent(String authToken, Integer vehicleID, Integer eventID) {
     return null;
   }
 
-  public static String addEvent(String authToken, String vehicleID, MaintEvent newEvent) {
+  public String addEvent(String authToken, Integer vehicleID, MaintEvent newEvent) {
     return null;
   }
 
-  public static String updateEvent(String authToken, String vehicleID, String eventID, MaintEvent newEvent) {
+  public String updateEvent(String authToken, Integer vehicleID, Integer eventID, MaintEvent newEvent) {
     return null;
   }
 
-  public static String deleteEvent(String authToken, String vehicleID, String eventID) {
+  public String deleteEvent(String authToken, Integer vehicleID, Integer eventID) {
     return null;
   }
 
   //---------------------------------------------------------------------------
   // Notification services
-  public static List<Notification> getAllNotifications(String authToken, String vehicleID) {
+  public List<Notification> getAllNotifications(String authToken, Integer vehicleID) {
     return null;
   }
 
-  public Notification getNotification(String authToken, String vehicleID, String notificationID) {
+  public Notification getNotification(String authToken, Integer vehicleID, Integer notificationID) {
     return this.notificationService.getNotification(authToken, notificationID);
   }
 
-  public static String deleteNotification(String authToken, String vehicleID, String notificationID) {
+  public String deleteNotification(String authToken, Integer vehicleID, Integer notificationID) {
     return null;
   }
 

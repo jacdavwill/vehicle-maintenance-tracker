@@ -12,6 +12,8 @@ public class ServiceFacade {
 
   @Autowired
   VehicleService vehicleService;
+  @Autowired
+  NotificationService notificationService;
 
   //---------------------------------------------------------------------------
   // User Services
@@ -108,8 +110,8 @@ public class ServiceFacade {
     return null;
   }
 
-  public static Notification getNotification(String authToken, String vehicleID, String notificationID) {
-    return null;
+  public Notification getNotification(String authToken, String vehicleID, String notificationID) {
+    return this.notificationService.getNotification(authToken, notificationID);
   }
 
   public static String deleteNotification(String authToken, String vehicleID, String notificationID) {

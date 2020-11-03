@@ -13,6 +13,8 @@ public class ServiceFacade {
   @Autowired
   VehicleService vehicleService;
   @Autowired
+  NotificationService notificationService;
+  @Autowired
   MaintenanceEventService maintenanceEventService;
   @Autowired
   MaintenanceItemService maintenanceItemService;
@@ -46,23 +48,24 @@ public class ServiceFacade {
   //---------------------------------------------------------------------------
   // Vehicle Service
   public List<Vehicle> getAllVehicles(String authToken) {
-    return null;
+
+    return this.vehicleService.getAllVehicles(null);
   }
 
-  public Vehicle getVehicle(String authToken, Integer vehicleID) {
-    return null;
+  public Vehicle getVehicle(String authToken, Integer vehicleId) {
+    return this.vehicleService.getVehicle(null, vehicleId);
   }
 
-  public String addVehicle(String authToken, Vehicle newVehicle) {
-    return null;
+  public Integer addVehicle(String authToken, Vehicle vehicle) {
+    return this.vehicleService.addVehicle(null, vehicle);
   }
 
-  public String updateVehicle(String authToken, Integer vehicleID, Vehicle newVehicle) {
-    return null;
+  public void updateVehicle(String authToken, Vehicle vehicle) {
+    this.vehicleService.editVehicle(null, vehicle);
   }
 
-  public String deleteVehicle(String authToken, Integer vehicleID) {
-    return null;
+  public void deleteVehicle(String authToken, Integer vehicleId) {
+    this.vehicleService.deleteVehicle(null, vehicleId);
   }
 
   //---------------------------------------------------------------------------
@@ -115,8 +118,8 @@ public class ServiceFacade {
     return null;
   }
 
-  public Notification getNotification(String authToken, Integer vehicleID, Integer notificationID) {
-    return null;
+  public Notification getNotification(String authToken, String vehicleID, String notificationID) {
+    return this.notificationService.getNotification(authToken, notificationID);
   }
 
   public String deleteNotification(String authToken, Integer vehicleID, Integer notificationID) {

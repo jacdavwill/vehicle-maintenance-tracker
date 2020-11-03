@@ -1,18 +1,19 @@
 package com.example.model;
 
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MaintItem {
-  private int maintItemId;
-  private int vehicleId;
-  private int frequencyMonths;
-  private int frequencyMiles;
+  private Integer maintItemId;
+  private Integer vehicleId;
+  private Integer frequencyMonths;
+  private Integer frequencyMiles;
   private String description;
   private Date lastCompletedDate;
-  private int lastCompletedMileage;
+  private Integer lastCompletedMileage;
 }

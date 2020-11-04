@@ -6,11 +6,13 @@ import com.example.model.MaintEvent;
 import com.example.vehiclemaintenancetracker.VehicleMaintenanceTrackerApplication;
 import java.util.Date;
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+@Log4j2
 @SpringBootTest
 @ContextConfiguration(classes= VehicleMaintenanceTrackerApplication.class)
 class MaintEventDaoTest {
@@ -21,7 +23,7 @@ class MaintEventDaoTest {
   @Test
   void retrieveMaintEvent() {
     MaintEvent maintEvent = maintEventDao.retrieveMaintEvent(1);
-    System.out.println("MaintEvent description: " + maintEvent.getDescription());
+    log.info("MaintEvent description: " + maintEvent.getDescription());
   }
 
   @Test
@@ -29,7 +31,7 @@ class MaintEventDaoTest {
     //TODO: need to make sure this maint item exists in db
     MaintEvent maintEvent = new MaintEvent(null, 1, new Date(), 38293, "Pocatello", "Pep Boys", "replaced my tires");
     int maintEventId = maintEventDao.createMaintEvent(maintEvent);
-    System.out.println("MaintEvent id: " +  maintEventId);
+    log.info("MaintEvent id: " +  maintEventId);
   }
 
   @Test
@@ -46,6 +48,6 @@ class MaintEventDaoTest {
   @Test
   void retrieveMaintEvents() {
     List<MaintEvent> maintEvents = maintEventDao.retrieveMaintEvents(1);
-    System.out.println("Number of maintEvents: " + maintEvents.size());
+    log.info("Number of maintEvents: " + maintEvents.size());
   }
 }

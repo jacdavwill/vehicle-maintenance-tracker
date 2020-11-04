@@ -3,7 +3,9 @@ package com.example.dataAccess;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class DbTableManager {
   private static final String drop_tables = "DROP TABLE IF EXISTS auth, users, vehicle, maint_item, maint_event, notification CASCADE;";
   private static final String create_database = "CREATE DATABASE vehicle_maintenance;";
@@ -69,15 +71,15 @@ public class DbTableManager {
 //    try {
 //      refreshDB();
 //    } catch (SQLException e){
-//      System.err.println("It's not working:(");
+//      log.error("It's not working:(");
 //    }
-    System.out.println(create_database);
-    System.out.println(create_user);
-    System.out.println(create_auth);
-    System.out.println(create_vehicle);
-    System.out.println(create_maint_item);
-    System.out.println(create_maint_event);
-    System.out.println(create_notification);
+    log.info(create_database);
+    log.info(create_user);
+    log.info(create_auth);
+    log.info(create_vehicle);
+    log.info(create_maint_item);
+    log.info(create_maint_event);
+    log.info(create_notification);
 
 
   }
@@ -101,7 +103,7 @@ public class DbTableManager {
     stmt.executeUpdate(drop_tables);
     stmt.close();
     conn.close();
-    System.out.println("Dropped tables!!");
+    log.info("Dropped tables!!");
   }
 
   private static void createTables() throws SQLException {
@@ -115,6 +117,6 @@ public class DbTableManager {
     stmt.executeUpdate(create_notification);
     stmt.close();
     conn.close();
-    System.out.println("Updated tables!!");
+    log.info("Updated tables!!");
   }
 }

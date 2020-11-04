@@ -3,7 +3,9 @@ package com.example.dataAccess;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class DbConnection {
 
   private static final String url = "jdbc:postgresql:vehicle-maintenance-tracker";
@@ -20,9 +22,9 @@ public class DbConnection {
     Connection conn = null;
     try{
       conn = DriverManager.getConnection(url + databaseName, user, password);
-      System.out.println("Connected successfully!");
+      log.info("Connected successfully!");
     } catch(SQLException e){
-      System.err.println(e.getMessage());
+      log.error("Something went wrong!", e);
       throw new SQLException("Couldn't connect to database!!");
     }
     return conn;

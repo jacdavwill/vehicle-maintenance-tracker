@@ -68,20 +68,11 @@ public class DbTableManager {
       ");";
 
   public static void main(String[] args){
-//    try {
-//      refreshDB();
-//    } catch (SQLException e){
-//      log.error("It's not working:(");
-//    }
-    log.info(create_database);
-    log.info(create_user);
-    log.info(create_auth);
-    log.info(create_vehicle);
-    log.info(create_maint_item);
-    log.info(create_maint_event);
-    log.info(create_notification);
-
-
+    try {
+      refreshDB();
+    } catch (SQLException e){
+      log.error("It's not working:(", e);
+    }
   }
 
   static void createDB() throws SQLException {

@@ -1,6 +1,5 @@
 package com.example.api;
 
-
 import com.example.exceptions.InternalServiceException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserAccountController {
@@ -22,17 +23,22 @@ public class UserAccountController {
 	Auth authToken = new Auth(1, "80213a79-ba1a-4f8e-a2f8-968cb7972d19", Date.from(Instant.now()));
 
 	@PostMapping("/api/user/register")
-	public ResponseEntity<Auth> register(@RequestBody User user) {
+	public ResponseEntity<Map> register(@RequestBody User user) {
 		try {
-			serviceFacade.register(user);
-			return new ResponseEntity<Auth>(authToken, HttpStatus.OK);
+			String authToken = serviceFacade.register(user);
+			HashMap<String, String> result = new HashMap<>();
+    		result.put("authorization", authToken);
+    		return new ResponseEntity<>(result, HttpStatus.OK);
 
 		} catch (InternalServiceException e) {
-			//return new ResponseEntity<Auth>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			return null;
+			HashMap<String, String> result = new HashMap<>();
+    		result.put("error", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+
 		} catch (UnauthorizedException e) {
-			//return new ResponseEntity<Auth>(null, HttpStatus.UNAUTHORIZED);
-			return null;
+			HashMap<String, String> result = new HashMap<>();
+    		result.put("error", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
 		}
 
 	}

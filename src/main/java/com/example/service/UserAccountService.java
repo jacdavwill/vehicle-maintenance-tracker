@@ -5,20 +5,27 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import javax.xml.bind.DatatypeConverter;
+
 import com.example.dataAccess.AuthDao;
-import com.example.dataAccess.IAuthDao;
-import com.example.dataAccess.IUserDao;
 import com.example.dataAccess.UserDao;
+import com.example.exceptions.AlreadyExistsException;
 import com.example.exceptions.InternalServiceException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
 import com.example.model.User;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 //TODO: Finish Services
 @Service
 public class UserAccountService extends com.example.service.Service {
+
+  @Autowired
+  private UserDao userDao;
+  @Autowired
+  private AuthDao authDao;
 
   /**
    * Registers a user in the database if the username is not taken.
@@ -30,37 +37,57 @@ public class UserAccountService extends com.example.service.Service {
    * @return Auth Token if successful, Error if failed (username taken)
    * @throws InternalServiceException
    * @throws UnauthorizedException
+   * @throws AlreadyExistsException
    */
   public String register(String email, String password, String displayName, String phoneNumber)
-      throws InternalServiceException, UnauthorizedException {
+      throws InternalServiceException, UnauthorizedException, AlreadyExistsException {
+
+    User user = userDao.retrieveUser(email);
+    if (user != null) {
+      throw new AlreadyExistsException("Email already in use");
+    }
         
     String salt = this.getSalt();
-    password = this.getHashedPassword(salt, password);
+    String hashedPassword = this.getHashedPassword(salt, password);
 
-    User user = new User(email, password, salt, displayName, phoneNumber);
-
-    IUserDao userDao = new UserDao();
+    user = new User(email, hashedPassword, salt, displayName, phoneNumber);
     userDao.createUser(user);
     return this.login(email, password);
   }
 
   private String getSalt() {
     SecureRandom random = new SecureRandom();
-    byte[] salt = new byte[16];
-    random.nextBytes(salt);
-    return new String(salt, StandardCharsets.UTF_8);
+
+    String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    String lower = upper.toLowerCase();
+    String digits = "0123456789";
+    String special = "~!@#$%^&*()_-+=?/>.<,|}]{[";
+    String specialAlphaNumeric = upper + lower + digits + special;
+
+    StringBuilder salt = new StringBuilder();
+    int saltLen = 20;
+    for (int i = 0; i < saltLen; i++) {
+      int index = random.nextInt() % specialAlphaNumeric.length();
+      if (index < 0) {
+        index += specialAlphaNumeric.length();
+      }
+      char c = specialAlphaNumeric.charAt(index);
+      salt.append(c);
+    }
+
+    return salt.toString();
   }
 
   private String getHashedPassword(String salt, String password) throws InternalServiceException {
     MessageDigest md;
     try {
-      md = MessageDigest.getInstance("SHA-512");
+      md = MessageDigest.getInstance("MD5");
     } catch (NoSuchAlgorithmException e) {
       throw new InternalServiceException();
     }
-    md.update(salt.getBytes(StandardCharsets.UTF_8));
-    byte[] hash = md.digest((password + salt).getBytes(StandardCharsets.UTF_8));
-    return new String(hash, StandardCharsets.UTF_8);
+    md.update((password + salt).getBytes(StandardCharsets.UTF_8));
+    byte[] hash = md.digest();
+    return DatatypeConverter.printHexBinary(hash);
   }
 
   /**
@@ -73,15 +100,18 @@ public class UserAccountService extends com.example.service.Service {
    * @throws InternalServiceException
    */
   public String login(String email, String password) throws InternalServiceException, UnauthorizedException {
-    IUserDao userDao = new UserDao();
     User user = userDao.retrieveUser(email);
 
     if (user == null || !this.getHashedPassword(user.getSalt(), password).equals(user.getPassword())) {
       throw new UnauthorizedException("Incorrect username or password");
     }
 
-    Auth auth = new Auth(user.getUserId());
-    IAuthDao authDao = new AuthDao();
+    Auth auth = authDao.retrieveAuth(user.getUserId());
+    if (auth != null) {
+      authDao.deleteAuth(user.getUserId());
+    }
+
+    auth = new Auth(user.getUserId(), this.getSalt());
     authDao.createAuth(auth);
     return auth.getAuthToken();
   }
@@ -92,7 +122,6 @@ public class UserAccountService extends com.example.service.Service {
    * @return Success if token was invalidated, error otherwise
    */
   public String deleteAuthToken(String authToken) {
-    IAuthDao authDao = new AuthDao();
     authDao.deleteAuth(authToken);
     return "success";
   }
@@ -137,7 +166,6 @@ public class UserAccountService extends com.example.service.Service {
       authTokenUsed = true;
     }
     
-    IUserDao userDao = new UserDao();
     User user = userDao.retrieveUser(userId);
 
     String salt = this.getSalt();

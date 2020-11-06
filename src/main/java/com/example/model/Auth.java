@@ -11,9 +11,11 @@ import lombok.Setter;
 @Data
 @AllArgsConstructor
 public class Auth {
-  private int userId;
-  private String authToken;
-  private Date createTime;
+  public int userId;
+  public String authToken;
+  public Date createTime;
+
+  public Auth() {}
 
   public Auth(Integer userId, String authToken, Date createTime) {
     this.userId = userId;

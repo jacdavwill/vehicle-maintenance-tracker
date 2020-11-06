@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.exceptions.AlreadyExistsException;
 import com.example.exceptions.InternalServiceException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.*;
@@ -25,7 +26,7 @@ public class ServiceFacade {
 
   // ---------------------------------------------------------------------------
   // User Services
-  public String register(User user) throws InternalServiceException, UnauthorizedException {
+  public String register(User user) throws InternalServiceException, UnauthorizedException, AlreadyExistsException {
     return userService.register(user.getEmail(), user.getPassword(), user.getDisplayName(), user.getPhoneNumber());
   }
 

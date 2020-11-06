@@ -1,5 +1,6 @@
 package com.example.api;
 
+import com.example.exceptions.AlreadyExistsException;
 import com.example.exceptions.InternalServiceException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
@@ -27,7 +28,7 @@ public class UserAccountController {
 		try {
 			String authToken = serviceFacade.register(user);
 			HashMap<String, String> result = new HashMap<>();
-    		result.put("authorization", authToken);
+    		result.put("authToken", authToken);
     		return new ResponseEntity<>(result, HttpStatus.OK);
 
 		} catch (InternalServiceException e) {
@@ -35,6 +36,34 @@ public class UserAccountController {
     		result.put("error", e.getMessage());
 			return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
 
+		} catch (AlreadyExistsException e) {
+			HashMap<String, String> result = new HashMap<>();
+    		result.put("error", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+		} catch (UnauthorizedException e) {
+			HashMap<String, String> result = new HashMap<>();
+    		result.put("error", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
+		}
+
+		
+
+	}
+	
+	@PostMapping("/api/user/login")
+	public ResponseEntity<Map> login(@RequestBody User user) {
+		try {
+			String authToken = serviceFacade.login(user);
+			HashMap<String, String> result = new HashMap<>();
+    		result.put("authToken", authToken);
+    		return new ResponseEntity<>(result, HttpStatus.OK);
+
+		} catch (InternalServiceException e) {
+			HashMap<String, String> result = new HashMap<>();
+    		result.put("error", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+		
 		} catch (UnauthorizedException e) {
 			HashMap<String, String> result = new HashMap<>();
     		result.put("error", e.getMessage());
@@ -43,27 +72,10 @@ public class UserAccountController {
 
 	}
 	
-	@PostMapping("/api/user/login")
-	public ResponseEntity<Auth> login(@RequestBody User user) {
-		try {
-			serviceFacade.login(user);
-			return new ResponseEntity<Auth>(authToken, HttpStatus.OK);
-
-		} catch (InternalServiceException e) {
-			//return new ResponseEntity<Auth>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			return null;
-		} catch (UnauthorizedException e) {
-			//return new ResponseEntity<Auth>(null, HttpStatus.UNAUTHORIZED);
-			return null;
-		}
-
-	}
-	
 	@DeleteMapping("/api/user/login")
 	public ResponseEntity<String> logout(@RequestHeader String authToken) {
 		serviceFacade.invalidateAuthToken(authToken);
-
-		return new ResponseEntity<String>("This was a DELETE login API call", HttpStatus.OK);
+		return new ResponseEntity<String>("", HttpStatus.OK);
 	}
 	
 	@PostMapping("/api/user/reset")

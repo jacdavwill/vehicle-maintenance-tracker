@@ -2,6 +2,7 @@ package com.example.dataAccess;
 
 import com.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -28,7 +29,11 @@ public class UserDao implements IUserDao {
     @Override
     public User retrieveUser(String email) {
         String GET_USER = "SELECT * FROM users WHERE email = ?";
-        return jdbc.queryForObject(GET_USER, new Object[]{email}, new BeanPropertyRowMapper<>(User.class));
+        try {
+            return jdbc.queryForObject(GET_USER, new Object[]{email}, new BeanPropertyRowMapper<>(User.class));
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

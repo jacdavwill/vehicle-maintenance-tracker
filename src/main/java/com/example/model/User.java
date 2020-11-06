@@ -31,4 +31,4 @@ public class User {
     this.salt = salt;
     this.password = password;
   }
-}[]
+}

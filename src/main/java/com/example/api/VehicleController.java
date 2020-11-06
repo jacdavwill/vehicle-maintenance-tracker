@@ -11,18 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
 public class VehicleController {
 	@Autowired
 	ServiceFacade serviceFacade;
-
-	Vehicle vehicle1 = new Vehicle(1, 1, "Mystery Machine", "https://rb.gy/sdbape", "Oct", 245320, "Dodge", "A100",
-			1964, "Green", "Automatic", "Gas");
-	Vehicle vehicle2 = new Vehicle(2, 1, "Silver Bullet", "https://rb.gy/jkweqr", "Jan", 102911, "Toyota", "Corolla",
-			2007, "Silver", "Automatic", "Gas");
 
 	@GetMapping("/api/vehicles")
 	public ResponseEntity<List<Vehicle>> getListOfVehicles(@RequestHeader String authToken) {

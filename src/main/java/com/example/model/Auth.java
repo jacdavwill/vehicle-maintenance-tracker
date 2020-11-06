@@ -18,7 +18,7 @@ public class Auth {
 
   public Auth() {}
 
-  public Auth(Integer userId, String authToken) {
+  public Auth(int userId, String authToken) {
     this.userId = userId;
     this.authToken = authToken;
     this.createTime = new Date(System.currentTimeMillis()); // TODO: Change to correct date format

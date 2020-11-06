@@ -27,7 +27,7 @@ public class ServiceFacade {
   // ---------------------------------------------------------------------------
   // User Services
   public String register(User user) throws InternalServiceException, UnauthorizedException, AlreadyExistsException {
-    return userService.register(user.getEmail(), user.getPassword(), user.getDisplayName(), user.getPhoneNumber());
+    return userService.register(user.getEmail(), user.getPassword(), user.getDisplayName(), user.getPhone());
   }
 
   public String login(User user) throws InternalServiceException, UnauthorizedException {
@@ -45,7 +45,7 @@ public class ServiceFacade {
   public String updateUser(String resetToken, String authToken, User user)
       throws UnauthorizedException, InternalServiceException {
     return userService.updateUser(resetToken, authToken, user.getEmail(), user.getPassword(), user.getDisplayName(),
-        user.getPhoneNumber());
+        user.getPhone());
   }
 
   //---------------------------------------------------------------------------

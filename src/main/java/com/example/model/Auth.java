@@ -10,6 +10,8 @@ import lombok.Setter;
 
 @Data
 @AllArgsConstructor
+@Getter
+@Setter
 public class Auth {
   public int userId;
   public String authToken;
@@ -17,34 +19,10 @@ public class Auth {
 
   public Auth() {}
 
-  public Auth(Integer userId, String authToken, Date createTime) {
-    this.userId = userId;
-    this.authToken = authToken;
-    this.createTime = createTime;
-  }
-
   public Auth(Integer userId, String authToken) {
     this.userId = userId;
     this.authToken = authToken;
     this.createTime = new Date(System.currentTimeMillis()); // TODO: Change to correct date format
-  }
-
-  public Auth(Integer userId) {
-    this.userId = userId;
-    this.authToken = UUID.randomUUID().toString();
-    this.createTime = new Date(System.currentTimeMillis());
-  }
-
-  public Integer getUserId() {
-    return this.userId;
-  }
-
-  public String getAuthToken() {
-    return authToken;
-  }
-
-  public Date getCreateTime() {
-    return createTime;
   }
 
 }

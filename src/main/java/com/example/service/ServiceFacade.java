@@ -56,7 +56,7 @@ public class ServiceFacade {
   }
 
   public Integer addVehicle(String authToken, Vehicle vehicle) throws UnauthorizedException {
-    return this.vehicleService.addVehicle(null, vehicle);
+    return this.vehicleService.addVehicle(authToken, vehicle);
   }
 
   public void updateVehicle(String authToken, int vehicleId, Vehicle vehicle)
@@ -65,7 +65,7 @@ public class ServiceFacade {
   }
 
   public void deleteVehicle(String authToken, Integer vehicleId) throws UnauthorizedException, NotFoundException {
-    this.vehicleService.deleteVehicle(null, vehicleId);
+    this.vehicleService.deleteVehicle(authToken, vehicleId);
   }
 
   //---------------------------------------------------------------------------

@@ -4,21 +4,25 @@ import com.example.dataAccess.*;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public abstract class Service {
+  
+  @Autowired
+  private AuthDao authDao;
+  
     /**
    * Helper function to search the database for user_id based on authToken
    * @param authToken token of current session
    * @return int userId
    */
   protected int getUserFromAuthToken(String authToken) {
-    IAuthDao authDao = new AuthDao();
     return authDao.retrieveAuth(authToken).getUserId();
   }
 
   protected void checkValidAuthToken(String authToken) throws UnauthorizedException {
-    IAuthDao authDao = new AuthDao();
     Auth auth = authDao.retrieveAuth(authToken);
-    if (auth != null && !isExpired(auth)) {
+    if (auth == null || isExpired(auth)) {
       throw new UnauthorizedException("Invalid authToken");
     }
   }

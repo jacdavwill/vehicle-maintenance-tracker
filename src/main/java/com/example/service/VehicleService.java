@@ -64,9 +64,7 @@ public class VehicleService extends com.example.service.Service {
     int userId = this.getUserFromAuthToken(authToken);
     newVehicle.setUserId(userId);
 
-    vehicleDao.createVehicle(newVehicle);
-    return newVehicle.getVehicleId();
-
+    return vehicleDao.createVehicle(newVehicle);
   }
 
   /**

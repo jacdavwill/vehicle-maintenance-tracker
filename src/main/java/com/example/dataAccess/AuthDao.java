@@ -2,6 +2,7 @@ package com.example.dataAccess;
 
 import com.example.model.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -22,13 +23,21 @@ public class AuthDao implements IAuthDao {
     @Override
     public Auth retrieveAuth(Integer userId) {
         String GET_AUTH = "SELECT * FROM auth WHERE user_id = ?";
-        return jdbc.queryForObject(GET_AUTH, new Object[]{userId}, new BeanPropertyRowMapper<>(Auth.class));
+        try {
+            return jdbc.queryForObject(GET_AUTH, new Object[]{userId}, new BeanPropertyRowMapper<>(Auth.class));
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
-    public Auth retrieveAuth(String sessionKey) {
-        String GET_AUTH = "SELECT * FROM auth WHERE session_key = ?";
-        return jdbc.queryForObject(GET_AUTH, new Object[]{sessionKey}, new BeanPropertyRowMapper<>(Auth.class));
+    public Auth retrieveAuth(String authToken) {
+        String GET_AUTH = "SELECT * FROM auth WHERE auth_token = ?";
+        try {
+            return jdbc.queryForObject(GET_AUTH, new Object[]{authToken}, new BeanPropertyRowMapper<>(Auth.class));
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -50,9 +59,9 @@ public class AuthDao implements IAuthDao {
     }
 
     @Override
-    public void deleteAuth(String sessionKey) {
-        String DELETE_AUTH = "DELETE FROM auth WHERE session_key = ?";
-        jdbc.update(DELETE_AUTH, sessionKey);
+    public void deleteAuth(String authToken) {
+        String DELETE_AUTH = "DELETE FROM auth WHERE auth_token = ?";
+        jdbc.update(DELETE_AUTH, authToken);
     }
 
     @Override

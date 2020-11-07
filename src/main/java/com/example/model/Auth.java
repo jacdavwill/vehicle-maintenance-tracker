@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +10,19 @@ import lombok.Setter;
 
 @Data
 @AllArgsConstructor
+@Getter
+@Setter
 public class Auth {
-  private int userId;
-  private String authToken;
-  private Date createTime;
+  public int userId;
+  public String authToken;
+  public Date createTime;
+
+  public Auth() {}
+
+  public Auth(Integer userId, String authToken) {
+    this.userId = userId;
+    this.authToken = authToken;
+    this.createTime = new Date(System.currentTimeMillis()); // TODO: Change to correct date format
+  }
+
 }

@@ -1,14 +1,14 @@
 package com.example.exceptions;
 
-public class InternalServiceException extends Exception {
+public class AlreadyExistsException extends Exception {
     private static final long serialVersionUID = 1L;
     private String message;
     
-    public InternalServiceException(String message) {
+    public AlreadyExistsException(String message) {
         this.message = message;
     }
 
-    public InternalServiceException() {
+    public AlreadyExistsException() {
         this.message = "";
     }
 

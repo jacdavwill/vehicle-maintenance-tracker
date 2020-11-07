@@ -1,7 +1,10 @@
 package com.example.service;
 
 import com.example.exceptions.NotFoundException;
+import com.example.exceptions.AlreadyExistsException;
+import com.example.exceptions.InternalServiceException;
 import com.example.exceptions.UnauthorizedException;
+
 import com.example.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,28 +24,30 @@ public class ServiceFacade {
   @Autowired
   MaintenanceItemService maintenanceItemService;
   @Autowired
-  UserAccountService userAccountService;
+  UserAccountService userService;
 
   // ---------------------------------------------------------------------------
   // User Services
-  public Auth register(User user) {
-    return null;
+  public String register(User user) throws InternalServiceException, UnauthorizedException, AlreadyExistsException {
+    return userService.register(user.getEmail(), user.getPassword(), user.getDisplayName(), user.getPhone());
   }
 
-  public Auth login(User user) {
-    return null;
+  public String login(User user) throws InternalServiceException, UnauthorizedException {
+    return userService.login(user.getEmail(), user.getPassword());
   }
 
   public void invalidateAuthToken(String authToken) {
-    return;
+    userService.deleteAuthToken(authToken);
   }
 
   public String requestReset(String email) {
-    return null;
+    return userService.requestPasswordReset(email);
   }
 
-  public String updateUser(String token, User user) {
-    return null;
+  public String updateUser(String resetToken, String authToken, User user)
+      throws UnauthorizedException, InternalServiceException {
+    return userService.updateUser(resetToken, authToken, user.getEmail(), user.getPassword(), user.getDisplayName(),
+        user.getPhone());
   }
 
   // ---------------------------------------------------------------------------

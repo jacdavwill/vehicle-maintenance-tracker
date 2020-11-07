@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class Auth {
   public Date createTime;
 
   public Auth() {}
-
+  
   public Auth(int userId, String authToken) {
     this.userId = userId;
     this.authToken = authToken;
@@ -27,5 +28,3 @@ public class Auth {
   public int getUserId() { // TODO: This shouldn't be neccessary. Not sure why lombok isn't working for me
     return this.userId;
   }
-
-}

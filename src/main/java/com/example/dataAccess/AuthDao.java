@@ -2,6 +2,7 @@ package com.example.dataAccess;
 
 import com.example.model.Auth;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -22,13 +23,21 @@ public class AuthDao implements IAuthDao {
     @Override
     public Auth retrieveAuth(Integer userId) {
         String GET_AUTH = "SELECT * FROM auth WHERE user_id = ?";
-        return jdbc.queryForObject(GET_AUTH, new Object[]{userId}, new BeanPropertyRowMapper<>(Auth.class));
+        try {
+            return jdbc.queryForObject(GET_AUTH, new Object[]{userId}, new BeanPropertyRowMapper<>(Auth.class));
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public Auth retrieveAuth(String authToken) {
         String GET_AUTH = "SELECT * FROM auth WHERE auth_token = ?";
-        return jdbc.queryForObject(GET_AUTH, new Object[]{authToken}, new BeanPropertyRowMapper<>(Auth.class));
+        try {
+            return jdbc.queryForObject(GET_AUTH, new Object[]{authToken}, new BeanPropertyRowMapper<>(Auth.class));
+        } catch(EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

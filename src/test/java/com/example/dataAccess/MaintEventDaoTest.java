@@ -29,7 +29,7 @@ class MaintEventDaoTest {
   @Test
   void createMaintEvent() {
     //TODO: need to make sure this maint item exists in db
-    MaintEvent maintEvent = new MaintEvent(null, 1, new Date(), 38293, "Pocatello", "Pep Boys", "replaced my tires");
+    MaintEvent maintEvent = new MaintEvent(0, 1, new Date(), 38293, "Pocatello", "Pep Boys", "replaced my tires");
     int maintEventId = maintEventDao.createMaintEvent(maintEvent);
     log.info("MaintEvent id: " +  maintEventId);
   }

@@ -32,7 +32,7 @@ class VehicleDaoTest {
     private Integer userId;
 
     Vehicle generateVehicle() {
-        return new Vehicle(1, 1, "LadyBug", "http://google.com", "NOV",
+        return new Vehicle(1, userId, "LadyBug", "http://google.com", "NOV",
                 138473, "Hyundai", "Accent", 2007, "Maroon", "Automatic", "Gas");
     }
 
@@ -70,7 +70,7 @@ class VehicleDaoTest {
         assertThat(vehicle).isEqualTo(fetchedVehicle);
 
         this.vehicleDao.deleteVehicle(vehicleId);
-        assertThatExceptionOfType(EmptyResultDataAccessException.class).isThrownBy(() -> {this.vehicleDao.retrieveVehicle(vehicleId);});
+        assertThat(this.vehicleDao.retrieveVehicle(vehicleId)).isNull();
     }
 
     @Test

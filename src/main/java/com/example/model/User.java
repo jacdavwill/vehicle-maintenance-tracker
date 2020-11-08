@@ -27,6 +27,17 @@ public class User {
     this.phone = phone;
   }
 
+  public User(String email, String password, String displayName) {
+    this.email = email;
+    this.password = password;
+    this.displayName = displayName;
+  }
+
+  public User(String email, String password) {
+    this.email = email;
+    this.password = password;
+  }
+
   public void updatePassword(String salt, String password) {
     this.salt = salt;
     this.password = password;

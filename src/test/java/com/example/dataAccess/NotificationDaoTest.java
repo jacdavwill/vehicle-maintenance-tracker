@@ -55,7 +55,7 @@ class NotificationDaoTest {
 
   @Test
   void createNotification() {
-    Notification notification = new Notification(null, 1, true, "Waaay late");
+    Notification notification = new Notification(0, 1, true, "Waaay late");
     int notificationId = notificationDao.createNotification(notification);
     assertThat(notificationId).isEqualTo(3);
     Notification result = notificationDao.retrieveNotification(3);
@@ -65,14 +65,14 @@ class NotificationDaoTest {
 
   @Test
   void createNotification_InvalidMaintItemId() {
-    Notification notification = new Notification(null, 20, true, "Incomplete");
+    Notification notification = new Notification(0, 20, true, "Incomplete");
     assertThatThrownBy(()->notificationDao.createNotification(notification)).isInstanceOf(
         DataAccessException.class);
   }
 
   @Test
   void deleteNotification() {
-    Notification notification = new Notification(null, 1, false, "Completed");
+    Notification notification = new Notification(0, 1, false, "Completed");
     int notificationId = notificationDao.createNotification(notification);
     notificationDao.deleteNotification(notificationId);
     assertThatThrownBy(()->notificationDao.retrieveNotification(notificationId)).isInstanceOf(EmptyResultDataAccessException.class);

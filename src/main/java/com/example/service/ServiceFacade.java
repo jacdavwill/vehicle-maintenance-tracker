@@ -1,8 +1,10 @@
 package com.example.service;
 
+import com.example.exceptions.NotFoundException;
 import com.example.exceptions.AlreadyExistsException;
 import com.example.exceptions.InternalServiceException;
 import com.example.exceptions.UnauthorizedException;
+
 import com.example.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,27 +50,27 @@ public class ServiceFacade {
         user.getPhone());
   }
 
-  //---------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Vehicle Service
-  public List<Vehicle> getAllVehicles(String authToken) {
-
-    return this.vehicleService.getAllVehicles(null);
+  public List<Vehicle> getAllVehicles(String authToken) throws UnauthorizedException {
+    return this.vehicleService.getAllVehicles(authToken);
   }
 
-  public Vehicle getVehicle(String authToken, Integer vehicleId) {
-    return this.vehicleService.getVehicle(null, vehicleId);
+  public Vehicle getVehicle(String authToken, Integer vehicleId) throws UnauthorizedException, NotFoundException {
+    return this.vehicleService.getVehicle(authToken, vehicleId);
   }
 
-  public Integer addVehicle(String authToken, Vehicle vehicle) {
-    return this.vehicleService.addVehicle(null, vehicle);
+  public Integer addVehicle(String authToken, Vehicle vehicle) throws UnauthorizedException {
+    return this.vehicleService.addVehicle(authToken, vehicle);
   }
 
-  public void updateVehicle(String authToken, Vehicle vehicle) {
-    this.vehicleService.editVehicle(null, vehicle);
+  public void updateVehicle(String authToken, int vehicleId, Vehicle vehicle)
+      throws UnauthorizedException, NotFoundException {
+    this.vehicleService.updateVehicle(authToken, vehicleId, vehicle);
   }
 
-  public void deleteVehicle(String authToken, Integer vehicleId) {
-    this.vehicleService.deleteVehicle(null, vehicleId);
+  public void deleteVehicle(String authToken, Integer vehicleId) throws UnauthorizedException, NotFoundException {
+    this.vehicleService.deleteVehicle(authToken, vehicleId);
   }
 
   //---------------------------------------------------------------------------

@@ -21,8 +21,6 @@ public class UserAccountController {
 	@Autowired
 	ServiceFacade serviceFacade;
 
-	Auth authToken = new Auth(1, "80213a79-ba1a-4f8e-a2f8-968cb7972d19", Date.from(Instant.now()));
-
 	@PostMapping("/api/user/register")
 	public ResponseEntity<Map> register(@RequestBody User user) {
 		try {

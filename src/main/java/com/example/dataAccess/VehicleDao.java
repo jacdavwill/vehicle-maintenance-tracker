@@ -2,6 +2,7 @@ package com.example.dataAccess;
 
 import com.example.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -23,8 +24,13 @@ public class VehicleDao implements IVehicleDao {
 
     @Override
     public Vehicle retrieveVehicle(int vehicleId) {
+        try {
         String GET_VEHICLE = "SELECT * FROM vehicle WHERE vehicle_id = ?";
         return jdbc.queryForObject(GET_VEHICLE, new Object[]{vehicleId}, new BeanPropertyRowMapper<>(Vehicle.class));
+        
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

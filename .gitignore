@@ -1,9 +1,6 @@
 .idea/
 target/
 *.iml
-.idea/
-target/
-*.iml
 .vscode/
 .factorypath
 .project

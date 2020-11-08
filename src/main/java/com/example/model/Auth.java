@@ -18,11 +18,13 @@ public class Auth {
   public Date createTime;
 
   public Auth() {}
-
-  public Auth(Integer userId, String authToken) {
+  
+  public Auth(int userId, String authToken) {
     this.userId = userId;
     this.authToken = authToken;
     this.createTime = new Date(System.currentTimeMillis()); // TODO: Change to correct date format
   }
 
-}
+  public int getUserId() { // TODO: This shouldn't be neccessary. Not sure why lombok isn't working for me
+    return this.userId;
+  }

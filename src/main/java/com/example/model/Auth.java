@@ -17,8 +17,9 @@ public class Auth {
   public String authToken;
   public Date createTime;
 
-  public Auth() {}
-  
+  public Auth() {
+  }
+
   public Auth(int userId, String authToken) {
     this.userId = userId;
     this.authToken = authToken;
@@ -28,3 +29,4 @@ public class Auth {
   public int getUserId() { // TODO: This shouldn't be neccessary. Not sure why lombok isn't working for me
     return this.userId;
   }
+}

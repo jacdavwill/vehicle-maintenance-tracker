@@ -29,7 +29,7 @@ class MaintItemDaoTest {
   @Test
   void createMaintItem() {
     //TODO: need to make sure this maint item exists in db
-    MaintItem maintItem = new MaintItem(null, 1, 6, null, "Oil change every 6 months", new Date(), 135283);
+    MaintItem maintItem = new MaintItem(0, 1, 6, 0, "Oil change every 6 months", new Date(), 135283);
     int maintItemId = maintItemDao.createMaintItem(maintItem);
     log.info("MaintItem id: " +  maintItemId);
   }
@@ -41,7 +41,7 @@ class MaintItemDaoTest {
 
   @Test
   void updateMaintItem() {
-    MaintItem updatedMaintItem = new MaintItem(1, 1, 7, null, "Oil change every 7 months now", new Date(), 38293);
+    MaintItem updatedMaintItem = new MaintItem(1, 1, 7, 0, "Oil change every 7 months now", new Date(), 38293);
     maintItemDao.updateMaintItem(updatedMaintItem);
   }
 

@@ -3,7 +3,9 @@ package com.example.dataAccess;
 import java.io.File;
 import java.sql.Statement;
 import java.util.Scanner;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class DummyDataGenerator {
   private static String buildCreateStatementFromFile(String initialString, int numParams, String filename) throws Exception {
     StringBuilder createStatement = new StringBuilder(initialString);
@@ -73,22 +75,15 @@ public class DummyDataGenerator {
       String createMaintEvents = buildCreateMaintEventsStatementFromFile("src/main/resources/dummyMaintEvents.txt");
       String createNotifications = buildCreateNotificationsStatementFromFile("src/main/resources/dummyNotifications.txt");
 
-      System.out.println(createUsers);
-      System.out.println(createVehicles);
-      System.out.println(createAuths);
-      System.out.println(createMaintItems);
-      System.out.println(createMaintEvents);
-      System.out.println(createNotifications);
-
-//      Statement stmt = DbConnection.connect().createStatement();
-//      stmt.executeUpdate(createUsers);
-//      stmt.executeUpdate(createVehicles);
-//      stmt.executeUpdate(createAuths);
-//      stmt.executeUpdate(createMaintItems);
-//      stmt.executeUpdate(createMaintEvents);
-//      stmt.executeUpdate(createNotifications);
+      Statement stmt = DbConnection.connect().createStatement();
+      stmt.executeUpdate(createUsers);
+      stmt.executeUpdate(createVehicles);
+      stmt.executeUpdate(createAuths);
+      stmt.executeUpdate(createMaintItems);
+      stmt.executeUpdate(createMaintEvents);
+      stmt.executeUpdate(createNotifications);
     } catch (Exception e){
-      System.out.println("Problem! " + e.getMessage());
+      log.error("Problem!", e);
     }
   }
 }

@@ -31,7 +31,7 @@ public class NotificationController {
 
   @GetMapping("/api/notifications/{vehicleid}/{notificationid}")
   public ResponseEntity<Notification> getNotificationByID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID, @PathVariable("notificationid") Integer notificationID) {
-    serviceFacade.getNotification(authToken, vehicleID, notificationID);
+//    serviceFacade.getNotification(authToken, vehicleID, notificationID);
 
     return new ResponseEntity<Notification>(notification1, HttpStatus.OK);
   }

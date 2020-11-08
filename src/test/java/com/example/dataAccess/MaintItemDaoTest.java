@@ -6,11 +6,13 @@ import com.example.model.MaintItem;
 import com.example.vehiclemaintenancetracker.VehicleMaintenanceTrackerApplication;
 import java.util.Date;
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+@Log4j2
 @SpringBootTest
 @ContextConfiguration(classes= VehicleMaintenanceTrackerApplication.class)
 class MaintItemDaoTest {
@@ -21,7 +23,7 @@ class MaintItemDaoTest {
   @Test
   void retrieveMaintItem() {
     MaintItem maintItem = maintItemDao.retrieveMaintItem(1);
-    System.out.println("MaintItem description: " + maintItem.getDescription());
+    log.info("MaintItem description: " + maintItem.getDescription());
   }
 
   @Test
@@ -29,7 +31,7 @@ class MaintItemDaoTest {
     //TODO: need to make sure this maint item exists in db
     MaintItem maintItem = new MaintItem(null, 1, 6, null, "Oil change every 6 months", new Date(), 135283);
     int maintItemId = maintItemDao.createMaintItem(maintItem);
-    System.out.println("MaintItem id: " +  maintItemId);
+    log.info("MaintItem id: " +  maintItemId);
   }
 
   @Test
@@ -46,6 +48,6 @@ class MaintItemDaoTest {
   @Test
   void retrieveMaintItems() {
     List<MaintItem> maintItems = maintItemDao.retrieveMaintItems(1);
-    System.out.println("Number of maintItems: " + maintItems.size());
+    log.info("Number of maintItems: " + maintItems.size());
   }
 }

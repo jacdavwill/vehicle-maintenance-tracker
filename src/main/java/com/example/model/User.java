@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class User {
   public int userId;
   public String email;
@@ -16,8 +20,6 @@ public class User {
   public String salt;
   public String displayName;
   public String phone;
-
-  public User() {}
 
   public User(String email, String password, String salt, String displayName, String phone) {
     this.email = email;

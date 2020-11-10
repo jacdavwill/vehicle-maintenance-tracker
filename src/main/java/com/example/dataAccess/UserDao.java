@@ -22,8 +22,12 @@ public class UserDao implements IUserDao {
 
     @Override
     public User retrieveUser(Integer userId) {
-        String GET_USER = "SELECT * FROM users WHERE user_id = ?";
-        return jdbc.queryForObject(GET_USER, new Object[]{userId}, new BeanPropertyRowMapper<>(User.class));
+        try {
+            String GET_USER = "SELECT * FROM users WHERE user_id = ?";
+            return jdbc.queryForObject(GET_USER, new Object[]{userId}, new BeanPropertyRowMapper<>(User.class));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override

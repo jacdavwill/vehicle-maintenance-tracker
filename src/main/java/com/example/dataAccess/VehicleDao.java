@@ -25,9 +25,8 @@ public class VehicleDao implements IVehicleDao {
     @Override
     public Vehicle retrieveVehicle(int vehicleId) {
         try {
-        String GET_VEHICLE = "SELECT * FROM vehicle WHERE vehicle_id = ?";
-        return jdbc.queryForObject(GET_VEHICLE, new Object[]{vehicleId}, new BeanPropertyRowMapper<>(Vehicle.class));
-        
+            String GET_VEHICLE = "SELECT * FROM vehicle WHERE vehicle_id = ?";
+            return jdbc.queryForObject(GET_VEHICLE, new Object[]{vehicleId}, new BeanPropertyRowMapper<>(Vehicle.class));
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -28,5 +29,14 @@ public class Auth {
 
   public int getUserId() { // TODO: This shouldn't be neccessary. Not sure why lombok isn't working for me
     return this.userId;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Auth auth = (Auth) o;
+    return userId == auth.userId &&
+            Objects.equals(authToken, auth.authToken);
   }
 }

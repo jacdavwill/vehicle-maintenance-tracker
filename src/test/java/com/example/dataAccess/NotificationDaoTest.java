@@ -2,6 +2,8 @@ package com.example.dataAccess;
 
 import com.example.model.Notification;
 import com.example.vehiclemaintenancetracker.VehicleMaintenanceTrackerApplication;
+import java.util.Arrays;
+import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -9,19 +11,18 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
-
-// good resource: https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html
 
 @Log4j2
 @SpringBootTest
 @ContextConfiguration(classes=VehicleMaintenanceTrackerApplication.class)
-@ActiveProfiles(profiles = "testlocal")
+@ActiveProfiles(profiles = "test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 class NotificationDaoTest {
 
   @Autowired
@@ -49,20 +50,20 @@ class NotificationDaoTest {
 
   @Test
   void retrieveNotification_DoesntExist() {
-    assertThatThrownBy(()->notificationDao.retrieveNotification(3)).isInstanceOf(
-        EmptyResultDataAccessException.class);
+    assertThat(notificationDao.retrieveNotification(20)).isNull();
   }
 
   @Test
   void createNotification() {
     Notification notification = new Notification(0, 1, true, "Waaay late");
     int notificationId = notificationDao.createNotification(notification);
-    assertThat(notificationId).isEqualTo(3);
-    Notification result = notificationDao.retrieveNotification(3);
-    Notification expected = new Notification(3, 1, true, "Waaay late");
+    assertThat(notificationId).isEqualTo(5);
+    Notification result = notificationDao.retrieveNotification(5);
+    Notification expected = new Notification(5, 1, true, "Waaay late");
     assertThat(result).isEqualTo(expected);
   }
 
+  // TODO: maybe we should make some other data access exception that we throw
   @Test
   void createNotification_InvalidMaintItemId() {
     Notification notification = new Notification(0, 20, true, "Incomplete");
@@ -75,7 +76,7 @@ class NotificationDaoTest {
     Notification notification = new Notification(0, 1, false, "Completed");
     int notificationId = notificationDao.createNotification(notification);
     notificationDao.deleteNotification(notificationId);
-    assertThatThrownBy(()->notificationDao.retrieveNotification(notificationId)).isInstanceOf(EmptyResultDataAccessException.class);
+    assertThat(notificationDao.retrieveNotification(notificationId)).isNull();
   }
 
   @Test
@@ -95,17 +96,16 @@ class NotificationDaoTest {
   void updateNotification_InvalidNotificationId_JustDoesntDoAnything() {
     Notification updatedNotification = new Notification(20, 2, true, "never done");
     notificationDao.updateNotification(updatedNotification); // this does not throw an error - it just won't modify the db at all
-    assertThatThrownBy(()->notificationDao.retrieveNotification(20)).isInstanceOf(EmptyResultDataAccessException.class);
+    assertThat(notificationDao.retrieveNotification(20)).isNull();
   }
 
-  //TODO: finish this test!
   @Test
   void retrieveNotifications() {
     Notification not1 = new Notification(1, 1, false, "Incomplete");
     Notification not2 = new Notification(3, 3, true, "Complete");
     Notification not3 = new Notification(4, 1, true, "Incomplete");
 
-//    List<Notification> notifications = notificationDao.retrieveNotifications(1);
-//    assertThat(notifications).isEqualTo(Arrays.asList(not1, not2, not3));
+    List<Notification> notifications = notificationDao.retrieveNotifications(1);
+    assertThat(notifications).isEqualTo(Arrays.asList(not1, not2, not3));
   }
 }

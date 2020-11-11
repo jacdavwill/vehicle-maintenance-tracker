@@ -3,6 +3,7 @@ package com.example.api;
 import com.example.model.MaintEvent;
 import com.example.model.MaintItem;
 import com.example.service.ServiceFacade;
+import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,11 @@ public class MaintenanceController {
 	@Autowired
 	ServiceFacade serviceFacade;
 
-	Date currTime = Date.from(Instant.now());
-	MaintItem item1 = new MaintItem(1, 1, 6, 5000, "Oil change", currTime, 95000);
-	MaintItem item2 = new MaintItem(2, 1, 3, 2500, "Tires rotation", currTime, 95000);
-	MaintEvent event1 = new MaintEvent(1, 1, currTime, 95000, "Home", "none","Oil change");
-	MaintEvent event2 = new MaintEvent(2, 1, currTime, 95000, "Baker Street", "Les Schwab","Tires rotation");
+	LocalDate currDate = LocalDate.now();
+	MaintItem item1 = new MaintItem(1, 1, 6, 5000, "Oil change", currDate, 95000);
+	MaintItem item2 = new MaintItem(2, 1, 3, 2500, "Tires rotation", currDate, 95000);
+	MaintEvent event1 = new MaintEvent(1, 1, currDate, 95000, "Home", "none","Oil change");
+	MaintEvent event2 = new MaintEvent(2, 1, currDate, 95000, "Baker Street", "Les Schwab","Tires rotation");
 
 
 

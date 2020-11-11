@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,11 +15,11 @@ public class MaintItem {
   private int frequencyMonths;
   private int frequencyMiles;
   private String description;
-  private Date lastCompletedDate;
+  private LocalDate lastCompletedDate;
   private int lastCompletedMileage;
 
   public MaintItem(int maintItemId, int vehicleId, int freqMonths, 
-    int freqMiles, String description, Date lastCompletedDate, 
+    int freqMiles, String description, LocalDate lastCompletedDate,
     int lastCompletedMileage) {
       
       this.maintItemId = maintItemId;

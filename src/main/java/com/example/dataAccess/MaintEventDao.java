@@ -2,7 +2,9 @@ package com.example.dataAccess;
 
 import com.example.model.MaintEvent;
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class MaintEventDao implements IMaintEventDao {
 
@@ -21,8 +24,15 @@ public class MaintEventDao implements IMaintEventDao {
   @Override
   public MaintEvent retrieveMaintEvent(Integer maintEventId) {
     final String SQL = "SELECT * FROM maint_event WHERE maint_event_id = :maintEventId";
-    SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("maintEventId", maintEventId);
-    return namedJdbc.queryForObject(SQL, sqlParameterSource, new BeanPropertyRowMapper<>(MaintEvent.class));
+    SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+        .addValue("maintEventId", maintEventId);
+    try {
+      return namedJdbc
+          .queryForObject(SQL, sqlParameterSource, new BeanPropertyRowMapper<>(MaintEvent.class));
+    } catch(EmptyResultDataAccessException e){
+      log.warn("Could not retrieve maint item id {}", maintEventId);
+      return null;
+    }
   }
 
   @Override

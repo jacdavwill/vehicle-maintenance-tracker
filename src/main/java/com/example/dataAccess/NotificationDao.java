@@ -2,7 +2,9 @@ package com.example.dataAccess;
 
 import com.example.model.Notification;
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class NotificationDao implements INotificationDao {
 
@@ -22,7 +25,13 @@ public class NotificationDao implements INotificationDao {
   public Notification retrieveNotification(Integer notificationId) {
     final String SQL = "SELECT * FROM notification WHERE notification_id = :notificationId";
     SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("notificationId", notificationId);
-    return namedJdbc.queryForObject(SQL, sqlParameterSource, new BeanPropertyRowMapper<>(Notification.class));
+    try {
+      return namedJdbc
+          .queryForObject(SQL, sqlParameterSource, new BeanPropertyRowMapper<>(Notification.class));
+    } catch(EmptyResultDataAccessException e){
+      log.warn("Could not retrieve notification id {}", notificationId);
+      return null;
+    }
   }
 
   @Override

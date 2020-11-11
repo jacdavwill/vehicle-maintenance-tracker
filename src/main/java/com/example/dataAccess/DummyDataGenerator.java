@@ -7,31 +7,6 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class DummyDataGenerator {
-  private static String buildCreateStatementFromFile(String initialString, int numParams, String filename) throws Exception {
-    StringBuilder createStatement = new StringBuilder(initialString);
-    Scanner scanner = new Scanner(new File(filename));
-    while(scanner.hasNextLine()){
-      String line = scanner.nextLine();
-      String[] tokens = line.split("\\|");
-      if(tokens.length != numParams){
-        throw new Exception("Invalid number of parameters in file row!!!");
-      }
-      createStatement.append("(");
-      for(int i = 0; i < numParams; i++){
-        if(i == numParams - 1){
-          createStatement.append("'").append(tokens[i]).append("')");
-        }
-        else {
-          createStatement.append("'").append(tokens[i]).append("', ");
-        }
-      }
-      if(scanner.hasNextLine()) {
-        createStatement.append(",\n\t");
-      }
-    }
-    createStatement.append(";");
-    return createStatement.toString();
-  }
 
   private static String buildCreateAuthsStatementFromFile(String filename) throws Exception {
     String initialString = "INSERT INTO auth (user_id, auth_token, create_time) VALUES \n\t";
@@ -65,6 +40,33 @@ public class DummyDataGenerator {
         + "location, company, description) VALUES \n\t";
     return buildCreateStatementFromFile(initialString, 6, filename);
   }
+
+  private static String buildCreateStatementFromFile(String initialString, int numParams, String filename) throws Exception {
+    StringBuilder createStatement = new StringBuilder(initialString);
+    Scanner scanner = new Scanner(new File(filename));
+    while(scanner.hasNextLine()){
+      String line = scanner.nextLine();
+      String[] tokens = line.split("\\|");
+      if(tokens.length != numParams){
+        throw new Exception("Invalid number of parameters in file row!!!");
+      }
+      createStatement.append("(");
+      for(int i = 0; i < numParams; i++){
+        if(i == numParams - 1){
+          createStatement.append("'").append(tokens[i]).append("')");
+        }
+        else {
+          createStatement.append("'").append(tokens[i]).append("', ");
+        }
+      }
+      if(scanner.hasNextLine()) {
+        createStatement.append(",\n\t");
+      }
+    }
+    createStatement.append(";");
+    return createStatement.toString();
+  }
+
   public static void main(String[] args){
     try {
 //      DbTableManager.refreshDB();

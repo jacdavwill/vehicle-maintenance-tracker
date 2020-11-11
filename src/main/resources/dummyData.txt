@@ -15,10 +15,11 @@ maint_item(vehicle_id|frequency_months|frequency_miles|description|last_complete
 2|0|5000|Tire rotation every 5000 miles|2020-05-24|34253
 1|0|5000|Tire rotation every 5000 miles|2020-06-26|99382
 
-
 maint_event(maint_item_id|event_date|mileage|location|company|description)
 1|2020-10-18|101199|Orem, Utah|Jiffy Lube|Oil change by the fine people at Jiffy Lube
 2|2020-10-19|35632|St. George, Utah|Joes Pit Stop - Roll on in|Tires rotated by Joe himself
+3|2020-10-25|103230|Orem, Utah|Jiffy Lube|Tires rotated by the fine Jiffy Lubers
+1|2020-10-25|103230|Orem, Utah|Jiffy Lube|Oil change (1 week later) by the fine people at Jiffy Lube
 
 notification(maint_item_id|past_due|status)
 1|False|Incomplete

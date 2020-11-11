@@ -49,7 +49,6 @@ public class AuthDao implements IAuthDao {
             return (String) keyHolder.getKeys().get("auth_token");
         }
         return null;
-//        throw new Exception("Error creating vehicle");
     }
 
     @Override
@@ -66,7 +65,7 @@ public class AuthDao implements IAuthDao {
 
     @Override
     public void updateAuth(Auth updatedAuth) {
-        String UPDATE_AUTH = "UPDATE auth SET auth_token = :authToken, created_time = :createdTime" +
+        String UPDATE_AUTH = "UPDATE auth SET auth_token = :authToken " +
                 "WHERE user_id = :userId";
         parameterJdbc.update(UPDATE_AUTH, new BeanPropertySqlParameterSource(updatedAuth));
     }

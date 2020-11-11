@@ -3,12 +3,9 @@ package com.example.dataAccess;
 import com.example.model.User;
 import com.example.model.Vehicle;
 import com.example.vehiclemaintenancetracker.VehicleMaintenanceTrackerApplication;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -18,6 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @ContextConfiguration(classes= VehicleMaintenanceTrackerApplication.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VehicleDaoTest {
 
     @Autowired
@@ -36,12 +34,12 @@ class VehicleDaoTest {
                 138473, "Hyundai", "Accent", 2007, "Maroon", "Automatic", "Gas");
     }
 
-    @BeforeEach
+    @BeforeAll
     void setUp() {
         userId = userDao.createUser(new User(0, "email", "password", "salt", "displayName", "phone"));
     }
 
-    @AfterEach
+    @AfterAll
     void tearDown() {
         jdbc.update("DELETE FROM vehicle WHERE user_id = ?", userId);
         userDao.deleteUser(userId);

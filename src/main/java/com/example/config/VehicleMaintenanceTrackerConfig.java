@@ -12,8 +12,6 @@ import javax.sql.DataSource;
 @EnableScheduling
 public class VehicleMaintenanceTrackerConfig {
 
-
-
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);

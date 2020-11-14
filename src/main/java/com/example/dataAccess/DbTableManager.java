@@ -29,11 +29,11 @@ public class DbTableManager {
       "vehicle_id SERIAL PRIMARY KEY, " +
       "user_id INT REFERENCES users(user_id), " +
       "nickname VARCHAR(25), " +
-      "image_url VARCHAR(50), " +
+      "image_url VARCHAR(300), " +
       "registration_month VARCHAR(15), " +
       "mileage INT, " +
       "make VARCHAR(20), " +
-      "model VARCHAR(20), " +
+      "model VARCHAR(30), " +
       "year INT, " +
       "color VARCHAR(15), " +
       "transmission_type VARCHAR(15), " +

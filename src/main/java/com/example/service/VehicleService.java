@@ -124,10 +124,6 @@ public class VehicleService extends com.example.service.Service {
     vehicleDao.updateVehicle(oldVehicle);
   }
 
-  private boolean isFieldSet(String str) {
-    return (str != null && !str.equals(""));
-  }
-
   /**
    * Deletes entry in database with corresponding vehicleID
    * 

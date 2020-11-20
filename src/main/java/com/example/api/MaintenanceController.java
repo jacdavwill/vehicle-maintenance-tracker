@@ -1,5 +1,7 @@
 package com.example.api;
 
+import com.example.exceptions.NotFoundException;
+import com.example.exceptions.UnauthorizedException;
 import com.example.model.MaintEvent;
 import com.example.model.MaintItem;
 import com.example.service.ServiceFacade;
@@ -10,8 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 // TODO: Finish Setting Up API Endpoints
 @RestController
@@ -77,48 +78,71 @@ public class MaintenanceController {
 	//---------------------------------------------------------------------
 	//Maintenance Events
 	@GetMapping("/api/maintenance/events/{vehicleid}")
-	public ResponseEntity<ArrayList<MaintEvent>> getMaintenanceEventsForVehicle(@RequestHeader String authToken,
-																 @PathVariable("vehicleid") Integer vehicleID) {
-		serviceFacade.getAllEvents(authToken, vehicleID);
-
-		ArrayList<MaintEvent> maintEvents = new ArrayList<MaintEvent>();
-		maintEvents.add(event1);
-		maintEvents.add(event2);
-
-		return new ResponseEntity<ArrayList<MaintEvent>>(maintEvents, HttpStatus.OK);
+	public ResponseEntity<List<MaintEvent>> getMaintenanceEventsForVehicle(@RequestHeader String authToken,
+																		   @PathVariable("vehicleid") Integer vehicleID) {
+		try {
+			List<MaintEvent> maintEvents = serviceFacade.getAllEvents(authToken, vehicleID);
+			return new ResponseEntity<>(maintEvents, HttpStatus.OK);
+		} catch (UnauthorizedException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
 	// :vehicles == {vehicles} ???
 	@GetMapping("/api/maintenance/events/{vehicleid}/{eventid}")
 	public ResponseEntity<MaintEvent> getMaintenanceEventsForEventID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 																 @PathVariable("eventid") Integer eventID) {
-		serviceFacade.getEvent(authToken, vehicleID, eventID);
+		try {
+			MaintEvent maintEvent = serviceFacade.getEvent(authToken, vehicleID, eventID);
+			return new ResponseEntity<>(maintEvent, HttpStatus.OK);
+		} catch (UnauthorizedException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-		return new ResponseEntity<MaintEvent>(event1, HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
-	@PostMapping("/maintenance/events/{vehicleid}")
-	public ResponseEntity<MaintEvent> addMaintenanceEvent(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
-													  @RequestBody MaintEvent newEvent) {
-		serviceFacade.addEvent(authToken, vehicleID, newEvent);
-
-		return new ResponseEntity<MaintEvent>(event2, HttpStatus.OK);
+	@PostMapping("/api/maintenance/events/{vehicleid}")
+	public ResponseEntity<Map<String,Integer>> addMaintenanceEvent(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
+																	@RequestBody MaintEvent newEvent) {
+		try {
+			System.out.println("NewEvent:" + newEvent);
+			Integer maintEventId = serviceFacade.addEvent(authToken, vehicleID, newEvent);
+			Map<String, Integer> result = new HashMap<>();
+			result.put("maintEventId", maintEventId);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (UnauthorizedException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 	
 	@PutMapping("/api/maintenance/events/{vehicleid}/{eventid}")
 	public ResponseEntity<String> editMaintenanceEvent(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 													   @PathVariable("eventid") Integer eventID, @RequestBody MaintEvent newEvent) {
-		serviceFacade.updateEvent(authToken, vehicleID, eventID, newEvent);
+		try {
+			serviceFacade.updateEvent(authToken, vehicleID, eventID, newEvent);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (UnauthorizedException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-		return new ResponseEntity<String>("This was a PUT maintenance events API call", HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@DeleteMapping("/api/maintenance/events/{vehicleid}/{eventid}")
 	public ResponseEntity<String> deleteMaintenanceEvent(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 														 @PathVariable("eventid") Integer eventID) {
-		serviceFacade.deleteEvent(authToken, vehicleID, eventID);
+		try {
+			serviceFacade.deleteEvent(authToken, vehicleID, eventID);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (UnauthorizedException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-		return new ResponseEntity<String>("This was a DELETE maintenance events API call", HttpStatus.OK);
+		} catch (NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 }

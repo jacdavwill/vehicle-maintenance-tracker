@@ -27,6 +27,10 @@ public abstract class Service {
     }
   }
 
+  protected Boolean isFieldSet(String str) {
+    return (str != null && !str.equals(""));
+  }
+
   private boolean isExpired(Auth auth) {
     // TODO: update this to do time checking and expiry of authTokens
     return false;

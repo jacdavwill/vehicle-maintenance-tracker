@@ -97,24 +97,29 @@ public class ServiceFacade {
 
   //---------------------------------------------------------------------------
   // Event services
-  public List<MaintEvent> getAllEvents(String authToken, Integer vehicleID) {
-    return null;
+  public List<MaintEvent> getAllEvents(String authToken, Integer vehicleID)
+          throws UnauthorizedException {
+    return this.maintenanceEventService.getAllEvents(authToken, vehicleID);
   }
 
-  public MaintEvent getEvent(String authToken, Integer vehicleID, Integer eventID) {
-    return null;
+  public MaintEvent getEvent(String authToken, Integer vehicleID, Integer eventID)
+          throws UnauthorizedException, NotFoundException {
+    return this.maintenanceEventService.getEvent(authToken, vehicleID, eventID);
   }
 
-  public String addEvent(String authToken, Integer vehicleID, MaintEvent newEvent) {
-    return null;
+  public Integer addEvent(String authToken, Integer vehicleID, MaintEvent newEvent)
+          throws UnauthorizedException {
+    return this.maintenanceEventService.addEvent(authToken, vehicleID, newEvent);
   }
 
-  public String updateEvent(String authToken, Integer vehicleID, Integer eventID, MaintEvent newEvent) {
-    return null;
+  public void updateEvent(String authToken, Integer vehicleID, Integer eventID, MaintEvent newEvent)
+          throws UnauthorizedException, NotFoundException {
+    this.maintenanceEventService.updateEvent(authToken, vehicleID, eventID, newEvent);
   }
 
-  public String deleteEvent(String authToken, Integer vehicleID, Integer eventID) {
-    return null;
+  public void deleteEvent(String authToken, Integer vehicleID, Integer eventID)
+          throws UnauthorizedException, NotFoundException{
+    this.maintenanceEventService.deleteEvent(authToken, vehicleID, eventID);
   }
 
   //---------------------------------------------------------------------------

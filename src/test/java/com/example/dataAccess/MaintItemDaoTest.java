@@ -57,12 +57,11 @@ class MaintItemDaoTest {
 
   @Test
   void createMaintItem() {
-    MaintItem maintItem = new MaintItem(0, 2, 5, 0, "Oil change every 5 months", LocalDate.now(), 382953);
+    MaintItem maintItem = new MaintItem(4, 2, 5, 0, "Oil change every 5 months", LocalDate.now(), 382953);
     int maintItemId = maintItemDao.createMaintItem(maintItem);
     assertThat(maintItemId).isEqualTo(4);
     MaintItem result = maintItemDao.retrieveMaintItem(4);
-    MaintItem expected = new MaintItem(4, 2, 5, 0, "Oil change every 5 months", LocalDate.now(), 382953);
-    assertThat(result).isEqualTo(expected);
+    assertThat(result).isEqualTo(maintItem);
   }
 
   @Test
@@ -70,6 +69,15 @@ class MaintItemDaoTest {
     MaintItem maintItem = new MaintItem(0, 20, 5, 0, "Oil change every 5 months", LocalDate.now(), 382953);
     assertThatThrownBy(()->maintItemDao.createMaintItem(maintItem)).isInstanceOf(
         DataAccessException.class);
+  }
+
+  @Test
+  void createMaintItem_NullFields() {
+    MaintItem maintItem = new MaintItem(4, 2, null, null, null, null, null);
+    int maintItemId = maintItemDao.createMaintItem(maintItem);
+    assertThat(maintItemId).isEqualTo(4);
+    MaintItem result = maintItemDao.retrieveMaintItem(4);
+    assertThat(result).isEqualTo(maintItem);
   }
 
   @Test

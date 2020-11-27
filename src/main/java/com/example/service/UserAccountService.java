@@ -158,11 +158,9 @@ public class UserAccountService extends com.example.service.Service {
     Integer userId;
 
     if (resetToken != null && !resetToken.equals("")) {
-      this.checkValidAuthToken(resetToken);
-      userId = this.getUserFromAuthToken(resetToken);
+      userId = this.getUserIdFromAuthToken(resetToken);
     } else {
-      this.checkValidAuthToken(authToken);
-      userId = this.getUserFromAuthToken(authToken);
+      userId = this.getUserIdFromAuthToken(authToken);
       authTokenUsed = true;
     }
     

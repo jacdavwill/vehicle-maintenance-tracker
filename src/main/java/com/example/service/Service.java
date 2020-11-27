@@ -26,6 +26,14 @@ public abstract class Service {
     return authDao.retrieveAuth(authToken).getUserId();
   }
 
+  /**
+   * Helper function to search database for a vehicle and make sure that the vehicle found is
+   * associated with the userid provided.
+   * @param userId The userId that should be associated with the vehicle
+   * @param vehicleId The id of the vehicle being checked
+   * @throws UnauthorizedException Thrown if the userId is not associated with the vehicle
+   * @throws NotFoundException Thrown if the vehicle is not found
+   */
   protected void checkValidVehicle(Integer userId, Integer vehicleId) throws UnauthorizedException, NotFoundException {
     Vehicle vehicle = vehicleDao.retrieveVehicle(vehicleId);
     if (vehicle == null) {

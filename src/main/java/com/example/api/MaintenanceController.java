@@ -106,6 +106,8 @@ public class MaintenanceController {
 			return new ResponseEntity<>(maintEvents, HttpStatus.OK);
 		} catch (UnauthorizedException e) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch(NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -133,6 +135,8 @@ public class MaintenanceController {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (UnauthorizedException e) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch(NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	

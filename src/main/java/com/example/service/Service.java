@@ -5,6 +5,7 @@ import com.example.exceptions.NotFoundException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
 
+import com.example.model.MaintItem;
 import com.example.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +15,8 @@ public abstract class Service {
   private AuthDao authDao;
   @Autowired
   private VehicleDao vehicleDao;
+  @Autowired
+  private MaintItemDao maintItemDao;
   
     /**
    * Helper function to search the database for user_id based on authToken. Insures
@@ -44,7 +47,17 @@ public abstract class Service {
     }
   }
 
-  protected void checkValidAuthToken(String authToken) throws UnauthorizedException {
+  protected void checkValidItemId(Integer itemId, Integer vehicleId) throws UnauthorizedException, NotFoundException {
+    MaintItem maintItem = maintItemDao.retrieveMaintItem(itemId);
+    if (maintItem == null) {
+      throw new NotFoundException("maintItem not found");
+    }
+    if (maintItem.getVehicleId() != vehicleId) {
+      throw new UnauthorizedException();
+    }
+  }
+
+  private void checkValidAuthToken(String authToken) throws UnauthorizedException {
     Auth auth = authDao.retrieveAuth(authToken);
     if (auth == null || isExpired(auth)) {
       throw new UnauthorizedException("Invalid authToken");

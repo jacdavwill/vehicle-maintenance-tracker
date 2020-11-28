@@ -99,7 +99,7 @@ public class ServiceFacade {
   //---------------------------------------------------------------------------
   // Event services
   public List<MaintEvent> getAllEvents(String authToken, Integer vehicleID)
-          throws UnauthorizedException {
+          throws UnauthorizedException, NotFoundException {
     return this.maintEventService.getAllEvents(authToken, vehicleID);
   }
 
@@ -109,7 +109,7 @@ public class ServiceFacade {
   }
 
   public Integer addEvent(String authToken, Integer vehicleID, MaintEvent newEvent)
-          throws UnauthorizedException {
+          throws UnauthorizedException, NotFoundException {
     return this.maintEventService.addEvent(authToken, vehicleID, newEvent);
   }
 

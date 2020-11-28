@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 //TODO: Finish services
 @Service
-public class MaintenanceEventService extends com.example.service.Service {
+public class MaintEventService extends com.example.service.Service {
 
   @Autowired
   MaintEventDao maintEventDao;
@@ -27,7 +28,7 @@ public class MaintenanceEventService extends com.example.service.Service {
   public MaintEvent getEvent(String authToken, Integer vehicleID, Integer eventID)
           throws UnauthorizedException, NotFoundException {
     this.checkValidAuthToken(authToken);
-    MaintEvent maintEvent = maintEventDao.retrieveMaintEvent(eventID);
+    MaintEvent maintEvent=maintEventDao.retrieveMaintEvent(eventID);
     if (maintEvent == null) {
       throw new NotFoundException("MaintEvent not found");
     }
@@ -43,37 +44,31 @@ public class MaintenanceEventService extends com.example.service.Service {
 
   public void updateEvent(String authToken, Integer vehicleID, Integer eventID, MaintEvent updatedEvent)
           throws UnauthorizedException, NotFoundException {
-    MaintEvent oldEvent = this.getEvent(authToken, vehicleID, eventID);
-
-    // Not sure if we want to allow dates to be edited or rather set by database
-    LocalDate date = updatedEvent.getEventDate();
-    Integer mileage = updatedEvent.getMileage();
-    String location = updatedEvent.getLocation();
-    String description = updatedEvent.getDescription();
-    String company = updatedEvent.getCompany();
-    if (date != null) {
-      oldEvent.setEventDate(date);
+    MaintEvent oldEvent=this.getEvent(authToken, vehicleID, eventID);
+    updatedEvent.setMaintEventId(eventID);
+    if (Objects.isNull(updatedEvent.getEventDate())) {
+      updatedEvent.setEventDate(oldEvent.getEventDate());
     }
-    if (mileage != null) {
-      oldEvent.setMileage(mileage);
+    if (Objects.isNull(updatedEvent.getMileage())) {
+      updatedEvent.setMileage(oldEvent.getMileage());
     }
-    if (this.isFieldSet(location)) {
-      oldEvent.setLocation(location);
+    if (Objects.isNull(updatedEvent.getLocation())) {
+      updatedEvent.setLocation(oldEvent.getLocation());
     }
-    if (this.isFieldSet(description)) {
-      oldEvent.setDescription(description);
+    if (Objects.isNull(updatedEvent.getCompany())) {
+      updatedEvent.setCompany(oldEvent.getCompany());
     }
-    if (this.isFieldSet(company)) {
-      oldEvent.setCompany(company);
+    if (Objects.isNull(updatedEvent.getDescription())) {
+      updatedEvent.setDescription(oldEvent.getDescription());
     }
 
-    maintEventDao.updateMaintEvent(oldEvent);
+    maintEventDao.updateMaintEvent(updatedEvent);
 
   }
 
   public void deleteEvent(String authToken, Integer vehicleID, Integer eventID)
-          throws UnauthorizedException, NotFoundException{
-    MaintEvent maintEvent = this.getEvent(authToken, vehicleID, eventID);
+          throws UnauthorizedException, NotFoundException {
+    MaintEvent maintEvent=this.getEvent(authToken, vehicleID, eventID);
     maintEventDao.deleteMaintEvent(eventID);
   }
 

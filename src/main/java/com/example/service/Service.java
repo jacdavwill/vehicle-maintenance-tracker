@@ -44,7 +44,7 @@ public abstract class Service {
     }
   }
 
-  private void checkValidAuthToken(String authToken) throws UnauthorizedException {
+  protected void checkValidAuthToken(String authToken) throws UnauthorizedException {
     Auth auth = authDao.retrieveAuth(authToken);
     if (auth == null || isExpired(auth)) {
       throw new UnauthorizedException("Invalid authToken");

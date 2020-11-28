@@ -42,8 +42,7 @@ public class MaintenanceController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	// :vehicles == {vehicles} ???
+
 	@GetMapping("/api/maintenance/items/{vehicleid}/{itemid}")
 	public ResponseEntity<MaintItem> getMaintenanceItemsByItemID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 															  @PathVariable("itemid") Integer itemID) {
@@ -110,7 +109,6 @@ public class MaintenanceController {
 		}
 	}
 	
-	// :vehicles == {vehicles} ???
 	@GetMapping("/api/maintenance/events/{vehicleid}/{eventid}")
 	public ResponseEntity<MaintEvent> getMaintenanceEventsForEventID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 																 @PathVariable("eventid") Integer eventID) {
@@ -129,7 +127,6 @@ public class MaintenanceController {
 	public ResponseEntity<Map<String,Integer>> addMaintenanceEvent(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 																	@RequestBody MaintEvent newEvent) {
 		try {
-			System.out.println("NewEvent:" + newEvent);
 			Integer maintEventId = serviceFacade.addEvent(authToken, vehicleID, newEvent);
 			Map<String, Integer> result = new HashMap<>();
 			result.put("maintEventId", maintEventId);

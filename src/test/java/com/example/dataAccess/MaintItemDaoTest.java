@@ -12,6 +12,8 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ActiveProfiles(profiles = "test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
+@Execution(ExecutionMode.SAME_THREAD)
 class MaintItemDaoTest {
 
   @Autowired
@@ -59,10 +62,9 @@ class MaintItemDaoTest {
   void createMaintItem() {
     MaintItem maintItem = new MaintItem(0, 2, 5, 0, "Oil change every 5 months", LocalDate.now(), 382953);
     int maintItemId = maintItemDao.createMaintItem(maintItem);
-    assertThat(maintItemId).isEqualTo(4);
-    MaintItem result = maintItemDao.retrieveMaintItem(4);
-    MaintItem expected = new MaintItem(4, 2, 5, 0, "Oil change every 5 months", LocalDate.now(), 382953);
-    assertThat(result).isEqualTo(expected);
+    MaintItem result = maintItemDao.retrieveMaintItem(maintItemId);
+    maintItem.setMaintItemId(maintItemId); //Don't care what the id is, just want to check other fields
+    assertThat(result).isEqualTo(maintItem);
   }
 
   @Test
@@ -70,6 +72,15 @@ class MaintItemDaoTest {
     MaintItem maintItem = new MaintItem(0, 20, 5, 0, "Oil change every 5 months", LocalDate.now(), 382953);
     assertThatThrownBy(()->maintItemDao.createMaintItem(maintItem)).isInstanceOf(
         DataAccessException.class);
+  }
+
+  @Test
+  void createMaintItem_NullFields() {
+    MaintItem maintItem = new MaintItem(0, 2, null, null, null, null, null);
+    int maintItemId = maintItemDao.createMaintItem(maintItem);
+    MaintItem result = maintItemDao.retrieveMaintItem(maintItemId);
+    maintItem.setMaintItemId(maintItemId); //Don't really care what the id is, just want to make sure other fields are same
+    assertThat(result).isEqualTo(maintItem);
   }
 
   @Test

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.web.client.HttpClientErrorException.NotFound;
 
 //TODO: Implement facade to call and manage services
 @Service
@@ -20,9 +21,9 @@ public class ServiceFacade {
   @Autowired
   NotificationService notificationService;
   @Autowired
-  MaintenanceEventService maintenanceEventService;
+  MaintEventService maintEventService;
   @Autowired
-  MaintenanceItemService maintenanceItemService;
+  MaintItemService maintItemService;
   @Autowired
   UserAccountService userService;
 
@@ -75,24 +76,24 @@ public class ServiceFacade {
 
   //---------------------------------------------------------------------------
   // Item Services
-  public List<MaintItem> getAllItems(String authToken, Integer vehicleID) {
-    return null;
+  public List<MaintItem> getAllItems(String authToken, Integer vehicleID) throws UnauthorizedException, NotFoundException {
+    return this.maintItemService.getAllMaintItems(authToken, vehicleID);
   }
 
-  public MaintItem getItem(String authToken, Integer vehicleID, Integer itemID) {
-    return null;
+  public MaintItem getItem(String authToken, Integer vehicleID, Integer itemID) throws UnauthorizedException, NotFoundException {
+    return this.maintItemService.getMaintItem(authToken, vehicleID, itemID);
   }
 
-  public String addItem(String authToken, Integer vehicleID, MaintItem newItem) {
-    return null;
+  public Integer addItem(String authToken, Integer vehicleID, MaintItem newItem) throws UnauthorizedException, NotFoundException {
+    return this.maintItemService.addMaintItem(authToken, vehicleID, newItem);
   }
 
-  public String updateItem(String authToken, Integer vehicleID, Integer itemID, MaintItem newItem) {
-    return null;
+  public void updateItem(String authToken, Integer vehicleID, Integer itemID, MaintItem newItem) throws UnauthorizedException, NotFoundException {
+    this.maintItemService.updateMaintItem(authToken, vehicleID, itemID, newItem);
   }
 
-  public String deleteItem(String authToken, Integer vehicleID, Integer itemID) {
-    return null;
+  public void deleteItem(String authToken, Integer vehicleID, Integer itemID) throws UnauthorizedException, NotFoundException {
+    this.maintItemService.deleteMaintItem(authToken, vehicleID, itemID);
   }
 
   //---------------------------------------------------------------------------

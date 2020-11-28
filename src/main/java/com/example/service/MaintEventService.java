@@ -4,5 +4,5 @@ import org.springframework.stereotype.Service;
 
 //TODO: Finish services
 @Service
-public class MaintenanceEventService {
+public class MaintEventService {
 }

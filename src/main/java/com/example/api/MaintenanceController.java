@@ -6,6 +6,7 @@ import com.example.model.MaintEvent;
 import com.example.model.MaintItem;
 import com.example.service.ServiceFacade;
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,49 +31,70 @@ public class MaintenanceController {
 
 	//Maintenance Items
 	@GetMapping("/api/maintenance/items/{vehicleid}")
-	public ResponseEntity<ArrayList<MaintItem>> getMaintenanceItemsForVehicle(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID) {
+	public ResponseEntity<List<MaintItem>> getMaintenanceItemsForVehicle(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID) {
 
-		serviceFacade.getAllItems(authToken, vehicleID);
-
-		ArrayList<MaintItem> maintItems = new ArrayList<MaintItem>();
-		maintItems.add(item1);
-		maintItems.add(item2);
-
-
-		return new ResponseEntity<ArrayList<MaintItem>>(maintItems, HttpStatus.OK);
+		try {
+			List<MaintItem> maintItems =  serviceFacade.getAllItems(authToken, vehicleID);
+			return new ResponseEntity<>(maintItems, HttpStatus.OK);
+		} catch (UnauthorizedException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch (NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	// :vehicles == {vehicles} ???
 	@GetMapping("/api/maintenance/items/{vehicleid}/{itemid}")
 	public ResponseEntity<MaintItem> getMaintenanceItemsByItemID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 															  @PathVariable("itemid") Integer itemID) {
-		serviceFacade.getItem(authToken, vehicleID, itemID);
-
-		return new ResponseEntity<MaintItem>(item1, HttpStatus.OK);
+		try {
+			MaintItem maintItem = serviceFacade.getItem(authToken, vehicleID, itemID);
+			return new ResponseEntity<>(maintItem, HttpStatus.OK);
+		} catch(UnauthorizedException e){
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch(NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PostMapping("/api/maintenance/items/{vehicleid}")
 	public ResponseEntity<MaintItem> addMaintenanceItem(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 													 @RequestBody MaintItem newItem) {
-		serviceFacade.addItem(authToken, vehicleID, newItem);
-
-		return new ResponseEntity<MaintItem>(item2, HttpStatus.OK);
+		try {
+			Integer itemId = serviceFacade.addItem(authToken, vehicleID, newItem);
+			MaintItem maintItem = serviceFacade.getItem(authToken, vehicleID, itemId);
+			return new ResponseEntity<>(maintItem, HttpStatus.OK);
+		} catch(UnauthorizedException e){
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch(NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PutMapping("/api/maintenance/items/{vehicleid}/{itemid}")
 	public ResponseEntity<String> editMaintenanceItem(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 													  @PathVariable("itemid") Integer itemID, @RequestBody MaintItem newItem) {
-		serviceFacade.updateItem(authToken, vehicleID, itemID, newItem);
-
-		return new ResponseEntity<String>("This was a PUT maintenance items API call", HttpStatus.OK);
+		try {
+			serviceFacade.updateItem(authToken, vehicleID, itemID, newItem);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(UnauthorizedException e){
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch(NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@DeleteMapping("/api/maintenance/items/{vehicleid}/{itemid}")
 	public ResponseEntity<String> deleteMaintenanceItem(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 														@PathVariable("itemid") Integer itemID) {
-		serviceFacade.deleteItem(authToken, vehicleID, itemID);
-
-		return new ResponseEntity<String>("This was a DELETE maintenance items API call", HttpStatus.OK);
+		try {
+			serviceFacade.deleteItem(authToken, vehicleID, itemID);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(UnauthorizedException e){
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		} catch(NotFoundException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 	//---------------------------------------------------------------------

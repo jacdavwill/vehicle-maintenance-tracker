@@ -24,8 +24,7 @@ public class VehicleService extends com.example.service.Service {
    * @throws UnauthorizedException
    */
   public List<Vehicle> getAllVehicles(String authToken) throws UnauthorizedException {
-    this.checkValidAuthToken(authToken);
-    int userId = this.getUserFromAuthToken(authToken);
+    int userId = this.getUserIdFromAuthToken(authToken);
     return vehicleDao.retrieveVehicles(userId);
   }
 
@@ -39,8 +38,7 @@ public class VehicleService extends com.example.service.Service {
    * @throws NotFoundException
    */
   public Vehicle getVehicle(String authToken, int vehicleId) throws UnauthorizedException, NotFoundException {
-    this.checkValidAuthToken(authToken);
-    int userId = this.getUserFromAuthToken(authToken);
+    int userId = this.getUserIdFromAuthToken(authToken);
     Vehicle vehicle = vehicleDao.retrieveVehicle(vehicleId);
     if (vehicle == null) {
       throw new NotFoundException("Vehicle not found");
@@ -60,8 +58,7 @@ public class VehicleService extends com.example.service.Service {
    * @throws UnauthorizedException
    */
   public int addVehicle(String authToken, Vehicle newVehicle) throws UnauthorizedException {
-    this.checkValidAuthToken(authToken);
-    int userId = this.getUserFromAuthToken(authToken);
+    int userId = this.getUserIdFromAuthToken(authToken);
     newVehicle.setUserId(userId);
 
     return vehicleDao.createVehicle(newVehicle);

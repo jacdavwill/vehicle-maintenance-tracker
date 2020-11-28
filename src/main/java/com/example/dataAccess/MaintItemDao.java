@@ -45,6 +45,7 @@ public class MaintItemDao implements IMaintItemDao {
     return (Integer)keyHolder.getKeys().get("maint_item_id");
   }
 
+  //TODO: what to do when there are maintenance events tied to this maint item??  It can't be deleted
   @Override
   public void deleteMaintItem(Integer maintItemId) {
     final String SQL = "DELETE FROM maint_item WHERE maint_item_id = :maintItemId";

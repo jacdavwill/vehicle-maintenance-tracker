@@ -40,8 +40,8 @@ public class ServiceFacade {
     userService.deleteAuthToken(authToken);
   }
 
-  public String requestReset(String email) {
-    return userService.requestPasswordReset(email);
+  public void requestReset(String email) throws InternalServiceException, NotFoundException {
+    userService.requestPasswordReset(email);
   }
 
   public String updateUser(String resetToken, String authToken, User user)

@@ -11,6 +11,7 @@ import com.example.dataAccess.AuthDao;
 import com.example.dataAccess.UserDao;
 import com.example.exceptions.AlreadyExistsException;
 import com.example.exceptions.InternalServiceException;
+import com.example.exceptions.NotFoundException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
 import com.example.model.User;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAccountService extends com.example.service.Service {
 
+  @Autowired
+  private EmailService emailService;
   @Autowired
   private UserDao userDao;
   @Autowired
@@ -131,9 +134,16 @@ public class UserAccountService extends com.example.service.Service {
    * @param email
    * @return
    */
-  public String requestPasswordReset(String email) {
-    // TODO
-    return "";
+  public void requestPasswordReset(String email) throws NotFoundException, InternalServiceException {
+    User user = userDao.retrieveUser(email);
+    if (user == null) {
+      throw new NotFoundException("Email is not registered");
+    }
+    Auth resetToken = new Auth(user.getUserId(), this.getSalt());
+    String resetLink = "http://dsj82bv0v2l47.cloudfront.net/?resetToken=" + resetToken.getAuthToken();
+    authDao.deleteAuth(user.getUserId());
+    authDao.createAuth(resetToken);
+    emailService.sendEmail(email, "Password Reset Request", "Go to the following link in order to reset your password: " + resetLink);
   }
 
   /**

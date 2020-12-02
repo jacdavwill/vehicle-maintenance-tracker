@@ -2,6 +2,7 @@ package com.example.api;
 
 import com.example.exceptions.AlreadyExistsException;
 import com.example.exceptions.InternalServiceException;
+import com.example.exceptions.NotFoundException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.Auth;
 import com.example.model.User;
@@ -44,9 +45,6 @@ public class UserAccountController {
     		result.put("error", e.getMessage());
 			return new ResponseEntity<>(result, HttpStatus.UNAUTHORIZED);
 		}
-
-		
-
 	}
 	
 	@PostMapping("/api/user/login")
@@ -77,10 +75,19 @@ public class UserAccountController {
 	}
 	
 	@PostMapping("/api/user/reset")
-	public ResponseEntity<String> reset(@RequestHeader String email) {
-		serviceFacade.requestReset(email);
-
-		return new ResponseEntity<String>("This was a POST reset API call", HttpStatus.OK);
+	public ResponseEntity<Map> reset(@RequestHeader String email) {
+		try {
+			serviceFacade.requestReset(email);
+			return new ResponseEntity<>(null, HttpStatus.OK);
+		} catch (InternalServiceException e) {
+			HashMap<String, String> result = new HashMap<>();
+			result.put("error", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (NotFoundException e) {
+			HashMap<String, String> result = new HashMap<>();
+			result.put("error", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PutMapping("/api/user")

@@ -12,7 +12,7 @@ public class DbConnection {
 //  private static final String url = "jdbc:postgresql://localhost/vehicle-maintenance-tracker";
   private static final String user = "postgres";
 //  private static final String user = "tylerlarsen";
-  private static final String password = "password";
+  private static final String password = "jmcBudget452";
 
   public static Connection connect() throws SQLException {
     return connect("vehicle_maintenance");

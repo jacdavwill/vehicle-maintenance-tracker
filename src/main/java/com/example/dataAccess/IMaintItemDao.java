@@ -10,4 +10,5 @@ public interface IMaintItemDao {
   void updateMaintItem(MaintItem updatedMaintItem);
 
   List<MaintItem> retrieveMaintItems(Integer vehicleId);
+  List<MaintItem> retrieveMaintItemsDueForNotification();
 }

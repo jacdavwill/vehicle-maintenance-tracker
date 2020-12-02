@@ -44,7 +44,7 @@ class NotificationDaoTest {
   @Test
   void retrieveNotification() {
     Notification notification = notificationDao.retrieveNotification(1);
-    Notification expected = new Notification(1, 1, false, "Incomplete");
+    Notification expected = new Notification(1, 1, "Maint Item Due: Oil change every 6 months");
     assertThat(notification).isEqualTo(expected);
   }
 
@@ -54,26 +54,38 @@ class NotificationDaoTest {
   }
 
   @Test
+  void retrieveNotificationForMaintItemId() {
+    Notification notification = notificationDao.retrieveNotificationForMaintItemId(2);
+    Notification expected = new Notification(2, 2, "Maint Item Due: Tire rotation every 5000 miles");
+    assertThat(notification).isEqualTo(expected);
+  }
+
+  @Test
+  void retrieveNotificationForMaintItemId_DoesntExist() {
+    assertThat(notificationDao.retrieveNotificationForMaintItemId(20)).isNull();
+  }
+
+  @Test
   void createNotification() {
-    Notification notification = new Notification(0, 1, true, "Waaay late");
+    Notification notification = new Notification(0, 1, "Waaay late");
     int notificationId = notificationDao.createNotification(notification);
-    assertThat(notificationId).isEqualTo(5);
-    Notification result = notificationDao.retrieveNotification(5);
-    Notification expected = new Notification(5, 1, true, "Waaay late");
+    assertThat(notificationId).isEqualTo(6);
+    Notification result = notificationDao.retrieveNotification(6);
+    Notification expected = new Notification(6, 1, "Waaay late");
     assertThat(result).isEqualTo(expected);
   }
 
   // TODO: maybe we should make some other data access exception that we throw
   @Test
   void createNotification_InvalidMaintItemId() {
-    Notification notification = new Notification(0, 20, true, "Incomplete");
+    Notification notification = new Notification(0, 20, "Not good");
     assertThatThrownBy(()->notificationDao.createNotification(notification)).isInstanceOf(
         DataAccessException.class);
   }
 
   @Test
   void deleteNotification() {
-    Notification notification = new Notification(0, 1, false, "Completed");
+    Notification notification = new Notification(0, 1, "Some message");
     int notificationId = notificationDao.createNotification(notification);
     notificationDao.deleteNotification(notificationId);
     assertThat(notificationDao.retrieveNotification(notificationId)).isNull();
@@ -86,7 +98,7 @@ class NotificationDaoTest {
 
   @Test
   void updateNotification() {
-    Notification updatedNotification = new Notification(1, 2, true, "never done");
+    Notification updatedNotification = new Notification(1, 2, "updated message");
     notificationDao.updateNotification(updatedNotification);
     Notification result = notificationDao.retrieveNotification(1);
     assertThat(result).isEqualTo(updatedNotification);
@@ -94,18 +106,19 @@ class NotificationDaoTest {
 
   @Test
   void updateNotification_InvalidNotificationId_JustDoesntDoAnything() {
-    Notification updatedNotification = new Notification(20, 2, true, "never done");
+    Notification updatedNotification = new Notification(20, 2, "nothing done");
     notificationDao.updateNotification(updatedNotification); // this does not throw an error - it just won't modify the db at all
     assertThat(notificationDao.retrieveNotification(20)).isNull();
   }
 
   @Test
   void retrieveNotifications() {
-    Notification not1 = new Notification(1, 1, false, "Incomplete");
-    Notification not2 = new Notification(3, 3, true, "Complete");
-    Notification not3 = new Notification(4, 1, true, "Incomplete");
+    Notification not1 = new Notification(1, 1, "Maint Item Due: Oil change every 6 months");
+    Notification not2 = new Notification(3, 3, "Maint Item Due: Tire rotation every 5000 miles");
+    Notification not3 = new Notification(4, 1, "Maint Item Due: Oil change every 6 months");
+    Notification not4 = new Notification(5, 4, "Maint Item Due: Tire Change every 6 months");
 
     List<Notification> notifications = notificationDao.retrieveNotifications(1);
-    assertThat(notifications).isEqualTo(Arrays.asList(not1, not2, not3));
+    assertThat(notifications).isEqualTo(Arrays.asList(not1, not2, not3, not4));
   }
 }

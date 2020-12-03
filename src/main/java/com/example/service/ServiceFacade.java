@@ -125,16 +125,16 @@ public class ServiceFacade {
 
   //---------------------------------------------------------------------------
   // Notification services
-  public List<Notification> getAllNotifications(String authToken, Integer vehicleID) {
-    return null;
+  public List<Notification> getAllNotifications(String authToken) throws UnauthorizedException {
+    return this.notificationService.getAllNotifications(authToken);
   }
 
-  public Notification getNotification(String authToken, Integer vehicleID, Integer notificationID) throws UnauthorizedException, NotFoundException{
+  public Notification getNotification(String authToken, Integer notificationID) throws UnauthorizedException, NotFoundException {
     return this.notificationService.getNotification(authToken, notificationID);
   }
 
-  public String deleteNotification(String authToken, Integer vehicleID, Integer notificationID) {
-    return null;
+  public void deleteNotification(String authToken, Integer notificationID) throws UnauthorizedException, NotFoundException {
+    this.notificationService.deleteNotification(authToken, notificationID);
   }
 
 }

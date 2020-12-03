@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class Notification {
   private Integer notificationId;
   private Integer maintItemId;
-  private Boolean pastDue;
-  private String status;
+  private String displayMessage;
 }

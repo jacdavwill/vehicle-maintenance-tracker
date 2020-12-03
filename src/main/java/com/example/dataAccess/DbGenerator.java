@@ -6,7 +6,6 @@ import java.util.Scanner;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -15,9 +14,6 @@ public class DbGenerator {
 
   @Autowired
   JdbcTemplate jdbc;
-
-  @Autowired
-  NamedParameterJdbcTemplate namedJdbc;
 
   private static final String drop_tables = "DROP TABLE IF EXISTS auth, users, vehicle, maint_item, maint_event, notification CASCADE;";
 
@@ -74,8 +70,7 @@ public class DbGenerator {
   static final String create_notification = "CREATE TABLE IF NOT EXISTS notification (" +
       "notification_id SERIAL PRIMARY KEY, " +
       "maint_item_id INT REFERENCES maint_item(maint_item_id), " +
-      "past_due BOOLEAN, " +
-      "status VARCHAR(20)" +
+      "display_message VARCHAR(110)" +
       ");";
 
   public static void main(String[] args){

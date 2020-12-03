@@ -34,9 +34,22 @@ public class NotificationDao implements INotificationDao {
     }
   }
 
+  //Assuming for now that there is only one notification per maintItemId at a time
+  @Override
+  public Notification retrieveNotificationForMaintItemId(Integer maintItemId) {
+    final String SQL = "SELECT * FROM notification WHERE maint_item_id = :maintItemId";
+    SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("maintItemId", maintItemId);
+    try {
+      return namedJdbc
+          .queryForObject(SQL, sqlParameterSource, new BeanPropertyRowMapper<>(Notification.class));
+    } catch(EmptyResultDataAccessException e){
+      return null;
+    }
+  }
+
   @Override
   public Integer createNotification(Notification newNotification) {
-    final String SQL = "INSERT INTO notification (maint_item_id, past_due, status) VALUES (:maintItemId, :pastDue, :status)";
+    final String SQL = "INSERT INTO notification (maint_item_id, display_message) VALUES (:maintItemId, :displayMessage)";
     SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(newNotification);
     KeyHolder keyHolder = new GeneratedKeyHolder();
     namedJdbc.update(SQL, sqlParameterSource, keyHolder);
@@ -53,15 +66,15 @@ public class NotificationDao implements INotificationDao {
   // This expects the updatedNotification to have all Notification fields, not just the ones being updated
   @Override
   public void updateNotification(Notification updatedNotification) {
-    final String SQL = "UPDATE notification SET maint_item_id = :maintItemId, past_due = :pastDue, status = :status WHERE notification_id = :notificationId";
+    final String SQL = "UPDATE notification SET maint_item_id = :maintItemId, display_message = :displayMessage WHERE notification_id = :notificationId";
     SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(updatedNotification);
     namedJdbc.update(SQL, sqlParameterSource);
   }
 
   @Override
-  public List<Notification> retrieveNotifications(Integer vehicleId) {
-    final String SQL = "SELECT n.notification_id, n.maint_item_id, n.past_due, n.status FROM notification n JOIN maint_item m ON n.maint_item_id = m.maint_item_id WHERE vehicle_id = :vehicleId";
-    SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("vehicleId", vehicleId);
+  public List<Notification> retrieveNotifications(Integer userId) {
+    final String SQL = "SELECT n.notification_id, n.maint_item_id, n.display_message FROM notification n JOIN maint_item m ON n.maint_item_id = m.maint_item_id JOIN vehicle v ON m.vehicle_id = v.vehicle_id WHERE user_id = :userId";
+    SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("userId", userId);
     return namedJdbc.query(SQL, sqlParameterSource, new BeanPropertyRowMapper<>(Notification.class));
   }
 }

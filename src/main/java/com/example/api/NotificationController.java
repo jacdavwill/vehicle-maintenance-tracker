@@ -1,7 +1,10 @@
 package com.example.api;
 
+import com.example.exceptions.NotFoundException;
+import com.example.exceptions.UnauthorizedException;
 import com.example.model.Notification;
 import com.example.service.ServiceFacade;
+import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,40 +20,38 @@ public class NotificationController {
   @Autowired
   ServiceFacade serviceFacade;
 
-  Notification notification1 = new Notification(1, 1, false, "Finished");
-  Notification notification2 = new Notification(2, 2, true, "Not Done");
-
-
-  @GetMapping("/api/notifications/{vehicleid}")
-  public ResponseEntity<ArrayList<Notification>> getNotifications(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID) {
-    serviceFacade.getAllNotifications(authToken, vehicleID);
-
-    ArrayList<Notification> notifications = new ArrayList<>();
-    notifications.add(notification1);
-    notifications.add(notification2);
-
-    return new ResponseEntity<>(notifications, HttpStatus.OK);
-  }
-
-  @GetMapping("/api/notifications/{vehicleid}/{notificationid}")
-  public ResponseEntity<Notification> getNotificationByID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID, @PathVariable("notificationid") Integer notificationID) {
+  @GetMapping("/api/notifications")
+  public ResponseEntity<List<Notification>> getNotifications(@RequestHeader String authToken) {
     try {
-      serviceFacade.getNotification(authToken, vehicleID, notificationID);
-    } catch(EmptyResultDataAccessException e){
-      log.info("Notification {} does not exist!", notificationID);
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    } catch(Exception e){
-      log.error("Something unexpected occurred! Throwing 500...", e);
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      List<Notification> notifications = serviceFacade.getAllNotifications(authToken);
+      return new ResponseEntity<>(notifications, HttpStatus.OK);
+    } catch(UnauthorizedException e){
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    return new ResponseEntity<>(notification1, HttpStatus.OK);
   }
 
-  @DeleteMapping("/api/notifications/{vehicleid}/{notificationid}")
-  public ResponseEntity<String> deleteNotification(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID, @PathVariable("notificationid") Integer notificationID) {
-    serviceFacade.deleteNotification(authToken, vehicleID, notificationID);
+  @GetMapping("/api/notifications/{notificationid}")
+  public ResponseEntity<Notification> getNotificationByID(@RequestHeader String authToken, @PathVariable("notificationid") Integer notificationID) {
+    try {
+      Notification notification = serviceFacade.getNotification(authToken, notificationID);
+      return new ResponseEntity<>(notification, HttpStatus.OK);
+    } catch(UnauthorizedException e){
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    } catch(NotFoundException e){
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
 
-    return new ResponseEntity<String>("This was a DELETE notification by ID API call", HttpStatus.OK);
+  @DeleteMapping("/api/notifications/{notificationid}")
+  public ResponseEntity<String> deleteNotification(@RequestHeader String authToken, @PathVariable("notificationid") Integer notificationID) {
+    try {
+      serviceFacade.deleteNotification(authToken, notificationID);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch(UnauthorizedException e){
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    } catch(NotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
 }

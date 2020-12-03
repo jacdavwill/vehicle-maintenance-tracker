@@ -44,7 +44,7 @@ public class MaintenanceController {
 	}
 
 	@GetMapping("/api/maintenance/items/{vehicleid}/{itemid}")
-	public ResponseEntity<MaintItem> getMaintenanceItemsByItemID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
+	public ResponseEntity<MaintItem> getMaintenanceItemByItemID(@RequestHeader String authToken, @PathVariable("vehicleid") Integer vehicleID,
 															  @PathVariable("itemid") Integer itemID) {
 		try {
 			MaintItem maintItem = serviceFacade.getItem(authToken, vehicleID, itemID);

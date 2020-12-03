@@ -119,4 +119,24 @@ class MaintItemDaoTest {
     List<MaintItem> maintItems = maintItemDao.retrieveMaintItems(1);
     assertThat(maintItems).isEqualTo(Arrays.asList(item1, item2));
   }
+
+  @Test
+  void retrieveMaintItemsDueForNotification() {
+    MaintItem item1 = new MaintItem(2, 2, 0, 5000, "Tire rotation every 5000 miles", LocalDate.parse("2020-07-29"), 34253);
+    MaintItem item2 = new MaintItem(4, 3, 6, 0, "Tire Change every 6 months", LocalDate.parse("2020-05-29"), 29323);
+
+    List<MaintItem> maintItems = maintItemDao.retrieveMaintItemsDueForNotification();
+    assertThat(maintItems).isEqualTo(Arrays.asList(item1, item2));
+  }
+
+  @Test
+  void retrieveMaintItemsDueForNotification_WithZeroValues_DoesntReturn() {
+    MaintItem item1 = new MaintItem(0, 1, 0, 0, "Null fields", LocalDate.parse("2020-05-29"), 0);
+    MaintItem item2 = new MaintItem(0, 1, 0, 0, "Tire Change every 6 months", LocalDate.parse("2020-05-29"), 0);
+
+    maintItemDao.createMaintItem(item1);
+    maintItemDao.createMaintItem(item2);
+    List<MaintItem> maintItems = maintItemDao.retrieveMaintItemsDueForNotification();
+    assertThat(maintItems.size()).isEqualTo(2);
+  }
 }

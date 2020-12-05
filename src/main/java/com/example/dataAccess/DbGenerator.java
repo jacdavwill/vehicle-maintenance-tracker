@@ -18,7 +18,7 @@ public class DbGenerator {
   private static final String drop_tables = "DROP TABLE IF EXISTS auth, users, vehicle, maint_item, maint_event, notification CASCADE;";
 
   static final String create_auth = "CREATE TABLE IF NOT EXISTS auth (" +
-      "user_id INT PRIMARY KEY REFERENCES users(user_id), " +
+      "user_id INT PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE, " +
       "auth_token VARCHAR(25), " +
       "create_time DATE" +
       ");";
@@ -34,7 +34,7 @@ public class DbGenerator {
 
   static final String create_vehicle = "CREATE TABLE IF NOT EXISTS vehicle (" +
       "vehicle_id SERIAL PRIMARY KEY, " +
-      "user_id INT REFERENCES users(user_id), " +
+      "user_id INT REFERENCES users(user_id) ON DELETE CASCADE, " +
       "nickname VARCHAR(25), " +
       "image_url VARCHAR(300), " +
       "registration_month VARCHAR(15), " +
@@ -49,7 +49,7 @@ public class DbGenerator {
 
   static final String create_maint_item = "CREATE TABLE IF NOT EXISTS maint_item (" +
       "maint_item_id SERIAL PRIMARY KEY, " +
-      "vehicle_id INT REFERENCES vehicle(vehicle_id), " +
+      "vehicle_id INT REFERENCES vehicle(vehicle_id) ON DELETE CASCADE, " +
       "frequency_months INT, " +
       "frequency_miles INT, " +
       "description VARCHAR(100), " +
@@ -59,7 +59,7 @@ public class DbGenerator {
 
   static final String create_maint_event = "CREATE TABLE IF NOT EXISTS maint_event (" +
       "maint_event_id SERIAL PRIMARY KEY, " +
-      "maint_item_id INT REFERENCES maint_item(maint_item_id), " +
+      "maint_item_id INT REFERENCES maint_item(maint_item_id) ON DELETE CASCADE, " +
       "event_date DATE, " +
       "mileage INT, " +
       "location VARCHAR(50), " +
@@ -69,7 +69,7 @@ public class DbGenerator {
 
   static final String create_notification = "CREATE TABLE IF NOT EXISTS notification (" +
       "notification_id SERIAL PRIMARY KEY, " +
-      "maint_item_id INT REFERENCES maint_item(maint_item_id), " +
+      "maint_item_id INT REFERENCES maint_item(maint_item_id) ON DELETE CASCADE, " +
       "display_message VARCHAR(110)" +
       ");";
 

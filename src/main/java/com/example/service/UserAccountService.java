@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -140,7 +141,7 @@ public class UserAccountService extends com.example.service.Service {
       throw new NotFoundException("Email is not registered");
     }
     Auth resetToken = new Auth(user.getUserId(), this.getSalt());
-    String resetLink = "http://dsj82bv0v2l47.cloudfront.net/?resetToken=" + resetToken.getAuthToken();
+    String resetLink = "http://dsj82bv0v2l47.cloudfront.net/reset-password?resetToken=" + URLEncoder.encode(resetToken.getAuthToken(), StandardCharsets.UTF_8);
     authDao.deleteAuth(user.getUserId());
     authDao.createAuth(resetToken);
     emailService.sendEmail(email, "Password Reset Request", "Go to the following link in order to reset your password: " + resetLink);

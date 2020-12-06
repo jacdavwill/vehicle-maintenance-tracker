@@ -2,19 +2,19 @@ package com.example.service;
 
 import com.example.dataAccess.IMaintItemDao;
 import com.example.dataAccess.INotificationDao;
+import com.example.dataAccess.IUserDao;
 import com.example.dataAccess.IVehicleDao;
 import com.example.exceptions.NotFoundException;
 import com.example.exceptions.UnauthorizedException;
 import com.example.model.MaintItem;
 import com.example.model.Notification;
+import com.example.model.User;
 import com.example.model.Vehicle;
 import java.util.List;
-import java.util.Objects;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Log4j2
 @Service
@@ -24,13 +24,19 @@ public class NotificationService extends com.example.service.Service {
   INotificationDao notificationDao;
   @Autowired
   IMaintItemDao maintItemDao;
+  @Autowired
+  IVehicleDao vehicleDao;
+  @Autowired
+  IUserDao userDao;
+  @Autowired
+  EmailService emailService;
 
   /**
    * Executes once every minute
    * Sends an email to each registered user with a list of previous and upcoming maintenance dates for each
    * maintenance event type.
    * */
-  @Scheduled(fixedRate = 3600000) // runs once an hour
+  @Scheduled(fixedRate = 60000) // runs once a minute
   private void sendMaintenanceRemindersTask() {
     System.out.println("Checking for notifications to send!!");
     List<MaintItem> maintItemsDue = maintItemDao.retrieveMaintItemsDueForNotification();
@@ -38,9 +44,33 @@ public class NotificationService extends com.example.service.Service {
       Notification notification = notificationDao.retrieveNotificationForMaintItemId(maintItem.getMaintItemId());
       if(notification == null){ // if there is not yet a notification for this due maint item
         notificationDao.createNotification(new Notification(0, maintItem.getMaintItemId(), "Maint Item Due: " + maintItem.getDescription()));
+        sendEmailNotification(maintItem);
       }
     }
-    //Do email stuff...
+  }
+
+  private void sendEmailNotification(MaintItem maintItem) {
+    try {
+      Vehicle vehicle = vehicleDao.retrieveVehicle(maintItem.getVehicleId());
+      User user = userDao.retrieveUser(vehicle.getUserId());
+      log.info("Should be sending email to {}", user.email);
+      emailService.sendEmail(user.email, "Vehicle due for maintenance!", createEmailBody(maintItem, vehicle));
+    } catch (Exception e) {
+      log.error("Error sending email notification for maint item id {}", maintItem.getMaintItemId());
+    }
+  }
+
+  private String createEmailBody(MaintItem maintItem, Vehicle vehicle) {
+    StringBuilder emailBody = new StringBuilder();
+    emailBody.append("Your vehicle ");
+    if(vehicle.getNickname() != null){
+      emailBody.append(vehicle.getNickname()).append(" ");
+    }
+    emailBody.append("has the following maintenance item due: \n\n");
+    if(maintItem.getDescription() != null) {
+      emailBody.append(maintItem.getDescription());
+    }
+    return emailBody.toString();
   }
 
   /**

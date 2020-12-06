@@ -5,14 +5,12 @@ import com.example.exceptions.UnauthorizedException;
 import com.example.model.MaintEvent;
 import com.example.model.MaintItem;
 import com.example.service.ServiceFacade;
-import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.*;
 
 // TODO: Finish Setting Up API Endpoints
@@ -20,14 +18,6 @@ import java.util.*;
 public class MaintenanceController {
 	@Autowired
 	ServiceFacade serviceFacade;
-
-	LocalDate currDate = LocalDate.now();
-	MaintItem item1 = new MaintItem(1, 1, 6, 5000, "Oil change", currDate, 95000);
-	MaintItem item2 = new MaintItem(2, 1, 3, 2500, "Tires rotation", currDate, 95000);
-	MaintEvent event1 = new MaintEvent(1, 1, currDate, 95000, "Home", "none","Oil change");
-	MaintEvent event2 = new MaintEvent(2, 1, currDate, 95000, "Baker Street", "Les Schwab","Tires rotation");
-
-
 
 	//Maintenance Items
 	@GetMapping("/api/maintenance/items/{vehicleid}")

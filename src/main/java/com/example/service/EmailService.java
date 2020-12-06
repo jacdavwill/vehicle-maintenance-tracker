@@ -5,12 +5,14 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.*;
 import com.example.exceptions.InternalServiceException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Log4j2
 public class EmailService {
 
     public void sendEmail(String to, String subjectText, String bodyText) throws InternalServiceException {
@@ -27,9 +29,10 @@ public class EmailService {
             addresses.add(to);
             Destination destination = new Destination(addresses);
 
-            SendEmailRequest sendEmailRequest = new SendEmailRequest("support@vehiclemaintenancetracker.com", destination, message);
+            SendEmailRequest sendEmailRequest = new SendEmailRequest("jasonmcannon3@gmail.com", destination, message);
             emailService.sendEmail(sendEmailRequest);
         } catch (Exception e) {
+            log.error("Error sending reset link", e);
             throw new InternalServiceException("Error sending reset link");
         }
     }
